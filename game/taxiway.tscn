@@ -2,20 +2,22 @@
 
 [ext_resource type="Script" path="res://taxiway_node.gd" id="1_0gnd1"]
 
-[sub_resource type="Curve3D" id="Curve3D_qg0mt"]
+[sub_resource type="Curve3D" id="Curve3D_gjs0e"]
 _data = {
-"points": PackedVector3Array(0, 0, 0, 0, 0, 0, 2.97142, 0, 0.47236, 0, 0, 0, 0, 0, 0, 5.05871, 0, 2.85892, 0, 0, 0, 0, 0, 0, 2.65508, 0, 3.5767, 0, 0, 0, 0, 0, 0, -4.09473, 0, 0.512259, 0, 0, 0, 0, 0, 0, 1.25013, 0, -7.11384, 0, 0, 0, 0, 0, 0, 4.04804, 0, -2.94674, 0, 0, 0, 0, 0, 0, 9.28669, 0, -5.08982),
-"tilts": PackedFloat32Array(0, 0, 0, 0, 0, 0, 0)
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, 8.72208, 0, -2.15656, 0, 0, 0, 0, 0, 0, 0.95847, 0, -4.79235, 0, 0, 0, 0, 0, 0, -3, 0, 5, 0, 0, 0, 0, 0, 0, 8.72208, 0, -2.15656),
+"tilts": PackedFloat32Array(0, 0, 0, 0)
 }
-point_count = 7
+point_count = 4
 
 [node name="taxiway" type="Path3D"]
-curve = SubResource("Curve3D_qg0mt")
+curve = SubResource("Curve3D_gjs0e")
 script = ExtResource("1_0gnd1")
+polygon_shape = PackedVector2Array(-0.2, -0.2, -0.2, 0.2, 0.2, 0.2, -0.2, 0.2)
 
-[node name="CSGPolygon3D" type="CSGPolygon3D" parent="."]
+[node name="@CSGPolygon3D@38037" type="CSGPolygon3D" parent="."]
+polygon = PackedVector2Array(-0.2, -0.2, -0.2, 0.2, 0.2, 0.2, -0.2, 0.2)
 mode = 2
-path_node = NodePath("..")
+path_node = NodePath("/root/@EditorNode@17120/@Panel@13/@VBoxContainer@14/@HSplitContainer@17/@HSplitContainer@25/@HSplitContainer@33/@VBoxContainer@34/@VSplitContainer@36/@VSplitContainer@62/@VBoxContainer@63/@PanelContainer@110/MainScreen/@CanvasItemEditor@9462/@VSplitContainer@9281/@HSplitContainer@9283/@HSplitContainer@9285/@Control@9286/@SubViewportContainer@9287/@SubViewport@9288/taxiway")
 path_interval_type = 0
 path_interval = 1.0
 path_simplify_angle = 0.0
@@ -24,6 +26,5 @@ path_local = false
 path_continuous_u = true
 path_u_distance = 1.0
 path_joined = false
-metadata/_edit_lock_ = true
 
 [connection signal="curve_changed" from="." to="." method="_on_curve_changed"]
