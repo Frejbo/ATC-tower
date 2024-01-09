@@ -13,12 +13,12 @@ point_count = 3
 [sub_resource type="PlaneMesh" id="PlaneMesh_fbv8y"]
 size = Vector2(32, 0.45)
 
-[sub_resource type="Curve3D" id="Curve3D_xr4o6"]
+[sub_resource type="Curve3D" id="Curve3D_3aou6"]
 _data = {
-"points": PackedVector3Array(0, 0, 0, 0, 0, 0, 3.37026, 0.912656, 0.0308468, 0, 0, 0, 0, 0, 0, 3.75287, -0.637973, 1.19355, 0, 0, 0, 0, 0, 0, -3.34441, -1.50633, 0.390306, 0, 0, 0, 0, 0, 0, -1.52089, 1.86962, -1.61265),
-"tilts": PackedFloat32Array(0, 0, 0, 0)
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, -1.20238, 0, -11.3578, 0, 0, 0, 0, 0, 0, -13.0037, 0, 5.75161, 0, 0, 0, 0, 0, 0, 13.4858, 0, -0.941002),
+"tilts": PackedFloat32Array(0, 0, 0)
 }
-point_count = 4
+point_count = 3
 
 [node name="airport" type="Node3D"]
 
@@ -39,6 +39,6 @@ mesh = SubResource("PlaneMesh_fbv8y")
 [node name="taxiways" type="Node" parent="."]
 
 [node name="taxiway" type="Path3D" parent="taxiways"]
-curve = SubResource("Curve3D_xr4o6")
+curve = SubResource("Curve3D_3aou6")
 script = ExtResource("2_0itsb")
-polygon_shape = PackedVector2Array(-0.2, -0.2, 0.2, -0.2, 0.2, 0.2, -0.2, 0.2)
+polygon_shape = PackedVector2Array(-0.1, -0.1, 0.1, -0.1, 0.1, 0.1, -0.1, 0.1)

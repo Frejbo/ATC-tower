@@ -1,16 +1,22 @@
-[gd_scene load_steps=2 format=3 uid="uid://bcmktaqog5tb6"]
+[gd_scene load_steps=4 format=3 uid="uid://bcmktaqog5tb6"]
 
 [ext_resource type="Script" path="res://taxiway_node.gd" id="1_0gnd1"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_jjsxb"]
+size = Vector3(2, 2, 2)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_8b5vg"]
+size = Vector3(2, 2, 2)
 
 [node name="taxiway" type="Path3D"]
 script = ExtResource("1_0gnd1")
 polygon_shape = PackedVector2Array(-0.2, -0.2, 0.2, -0.2, 0.2, 0.2, -0.2, 0.2)
 
-[node name="@CSGPolygon3D@43444" type="CSGPolygon3D" parent="."]
+[node name="@CSGPolygon3D@75680" type="CSGPolygon3D" parent="."]
 transparency = 0.5
 polygon = PackedVector2Array(-0.2, -0.2, 0.2, -0.2, 0.2, 0.2, -0.2, 0.2)
 mode = 2
-path_node = NodePath("/root/@EditorNode@17120/@Panel@13/@VBoxContainer@14/@HSplitContainer@17/@HSplitContainer@25/@HSplitContainer@33/@VBoxContainer@34/@VSplitContainer@36/@VSplitContainer@62/@VBoxContainer@63/@PanelContainer@110/MainScreen/@CanvasItemEditor@9462/@VSplitContainer@9281/@HSplitContainer@9283/@HSplitContainer@9285/@Control@9286/@SubViewportContainer@9287/@SubViewport@9288/taxiway")
+path_node = NodePath("..")
 path_interval_type = 0
 path_interval = 1.0
 path_simplify_angle = 0.0
@@ -20,4 +26,14 @@ path_continuous_u = true
 path_u_distance = 1.0
 path_joined = false
 
-[connection signal="curve_changed" from="." to="." method="_on_curve_changed"]
+[node name="A" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.41983, 0, -2.58374)
+
+[node name="@CollisionShape3D@75681" type="CollisionShape3D" parent="A"]
+shape = SubResource("BoxShape3D_jjsxb")
+
+[node name="B" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.00632, 0, -3.64642)
+
+[node name="@CollisionShape3D@75682" type="CollisionShape3D" parent="B"]
+shape = SubResource("BoxShape3D_8b5vg")
