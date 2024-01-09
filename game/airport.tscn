@@ -1,0 +1,41 @@
+[gd_scene load_steps=6 format=3 uid="uid://bbdfih0weqhie"]
+
+[ext_resource type="Texture2D" uid="uid://cfrwgslp3pgbs" path="res://airport overview.png" id="1_yjken"]
+[ext_resource type="Script" path="res://taxiway_node.gd" id="2_0itsb"]
+
+[sub_resource type="Curve3D" id="Curve3D_w45r6"]
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, -15.915, 0, -3, 0, 0, 0, 0, 0, 0, 16.088, 0, -3, 0, 0, 0, 0, 0, 0, 16.104, 0, 2.454),
+"tilts": PackedFloat32Array(0, 0, 0)
+}
+point_count = 3
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_fbv8y"]
+size = Vector2(32, 0.45)
+
+[sub_resource type="Curve3D" id="Curve3D_nwek7"]
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, 2.12969, 0.858954, -0.318522, 0, 0, 0, 0, 0, 0, 2.14937, -0.336423, 0.570642, 0, 0, 0, 0, 0, 0, 0.457949, -0.472425, 0.418685),
+"tilts": PackedFloat32Array(0, 0, 0)
+}
+point_count = 3
+
+[node name="airport" type="Node3D"]
+
+[node name="Path3D" type="Path3D" parent="."]
+curve = SubResource("Curve3D_w45r6")
+
+[node name="Sprite3D" type="Sprite3D" parent="."]
+transform = Transform3D(3.05, 0, 0, 0, 3.05, 0, 0, 0, 3.05, 0, -1, 0)
+axis = 1
+texture = ExtResource("1_yjken")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -3.048)
+mesh = SubResource("PlaneMesh_fbv8y")
+
+[node name="taxiways" type="Node" parent="."]
+
+[node name="taxiway" type="Path3D" parent="taxiways"]
+curve = SubResource("Curve3D_nwek7")
+script = ExtResource("2_0itsb")
