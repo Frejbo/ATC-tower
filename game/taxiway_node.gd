@@ -5,12 +5,16 @@ class_name taxiway
 
 @export var taxiway_name: String :
 	set(text):
+		if text == "":
+			name = "taxiway"
+			taxiway_name = ""
+			return
 		name = text.to_upper()
 		taxiway_name = name
 @export var allow_y : bool = false
 
 @export_category("editor")
-@export var polygon_shape : PackedVector2Array
+@export var polygon_shape : PackedVector2Array = [Vector2(-.2, -.2), Vector2(.2, -.2), Vector2(.2, .2), Vector2(-.2, .2)]
 
 var csg_debug_shape : CSGPolygon3D
 
@@ -33,6 +37,7 @@ func _enter_tree():
 		csg_debug_shape = CSGPolygon3D.new()
 		csg_debug_shape.polygon = polygon_shape
 		csg_debug_shape.mode = CSGPolygon3D.MODE_PATH
+		csg_debug_shape.transparency = .5
 		add_child(csg_debug_shape)
-		csg_debug_shape.path_node = self.get_path()
 		csg_debug_shape.owner = self
+		csg_debug_shape.path_node = self.get_path()
