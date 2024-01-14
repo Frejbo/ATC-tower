@@ -1,7 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://bbdfih0weqhie"]
+[gd_scene load_steps=9 format=3 uid="uid://bbdfih0weqhie"]
 
 [ext_resource type="Texture2D" uid="uid://cfrwgslp3pgbs" path="res://airport overview.png" id="1_yjken"]
 [ext_resource type="Script" path="res://taxiway_node.gd" id="2_0itsb"]
+[ext_resource type="Texture2D" uid="uid://bfivfsj02ngju" path="res://Sprite-0001.png" id="2_1yv5v"]
 
 [sub_resource type="Curve3D" id="Curve3D_w45r6"]
 _data = {
@@ -10,15 +11,26 @@ _data = {
 }
 point_count = 3
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6kjol"]
+albedo_texture = ExtResource("2_1yv5v")
+
 [sub_resource type="PlaneMesh" id="PlaneMesh_fbv8y"]
+material = SubResource("StandardMaterial3D_6kjol")
 size = Vector2(50, 50)
 
-[sub_resource type="Curve3D" id="Curve3D_3aou6"]
+[sub_resource type="Curve3D" id="Curve3D_jnqia"]
 _data = {
-"points": PackedVector3Array(0, 0, 0, 0, 0, 0, -1.20238, 0, -11.3578, 0, 0, 0, 0, 0, 0, -13.0037, 0, 5.75161, 0, 0, 0, 0, 0, 0, 13.4858, 0, -0.941002),
-"tilts": PackedFloat32Array(0, 0, 0)
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, -9.43659, 0, -6.47857, 0, 0, 0, 0, 0, 0, 11.3369, 0, -6.51527),
+"tilts": PackedFloat32Array(0, 0)
 }
-point_count = 3
+point_count = 2
+
+[sub_resource type="Curve3D" id="Curve3D_mhxgj"]
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, -10.6845, 0, -5.4142, 0, 0, 0, 0, 0, 0, -10.6478, 0, 7.39489),
+"tilts": PackedFloat32Array(0, 0)
+}
+point_count = 2
 
 [node name="airport" type="Node3D"]
 
@@ -32,27 +44,17 @@ axis = 1
 texture = ExtResource("1_yjken")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -9.07864)
-visible = false
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
 mesh = SubResource("PlaneMesh_fbv8y")
 
 [node name="taxiways" type="Node" parent="."]
 
 [node name="taxiway" type="Path3D" parent="taxiways"]
-curve = SubResource("Curve3D_3aou6")
+curve = SubResource("Curve3D_jnqia")
 script = ExtResource("2_0itsb")
 polygon_shape = PackedVector2Array(-0.1, -0.1, 0.1, -0.1, 0.1, 0.1, -0.1, 0.1)
 
-[node name="CSGPolygon3D" type="CSGPolygon3D" parent="taxiways/taxiway"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.34428, 0)
-polygon = PackedVector2Array(2, 0.1, -2, 0, -2, -0.1, 2, -0.1)
-mode = 2
-path_node = NodePath("..")
-path_interval_type = 0
-path_interval = 1.0
-path_simplify_angle = 0.0
-path_rotation = 2
-path_local = false
-path_continuous_u = true
-path_u_distance = 1.0
-path_joined = false
+[node name="taxiway2" type="Path3D" parent="taxiways"]
+curve = SubResource("Curve3D_mhxgj")
+script = ExtResource("2_0itsb")
+polygon_shape = PackedVector2Array(-0.1, -0.1, 0.1, -0.1, 0.1, 0.1, -0.1, 0.1)

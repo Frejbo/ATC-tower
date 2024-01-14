@@ -15,15 +15,25 @@ class_name taxiway
 
 @export_category("Areas")
 var area_a : Area3D
-@export var A_size : Vector3 = Vector3(2, 2, 2):
+@export var A_size : float = 1:
 	set(val):
 		A_size = val
-		area_a.get_child(0).shape.size = val
+		area_a.get_child(0).shape.radius = val
 var area_b : Area3D
-@export var B_size : Vector3 = Vector3(2, 2, 2):
+@export var B_size : float = 1:
 	set(val):
 		B_size = val
-		area_b.get_child(0).shape.size = val
+		area_b.get_child(0).shape.radius = val
+
+#@export var connect_start : taxiway:
+
+	#set(connection):
+		#if not connection.curve:
+			#return
+		#
+		#connect_start = connection
+		#
+		#curve.add_point(curve.get_point_position(0), Vector3.ZERO, Vector3.ZERO, )
 
 
 @export_category("editor")
@@ -49,6 +59,7 @@ func _on_curve_changed() -> void:
 		update_area_position()
 
 func _enter_tree() -> void:
+	PhysicsServer3D.set_active(true)
 	for child in get_children():
 		child.free()
 	
@@ -75,8 +86,8 @@ func create_area(area_name, size) -> Area3D:
 	area.owner = self
 	
 	var coll := CollisionShape3D.new()
-	var shape := BoxShape3D.new()
-	shape.set_size(size)
+	var shape := SphereShape3D.new()
+	shape.set_radius(size)
 	coll.shape = shape
 	area.add_child(coll)
 	coll.owner = self
@@ -88,5 +99,6 @@ func update_area_position() -> void:
 	
 	if area_a:
 		area_a.position = curve.get_point_position(0)
+		await get_tree().physics_frame
 	if area_b:
 		area_b.position = curve.get_point_position(curve.point_count-1)
