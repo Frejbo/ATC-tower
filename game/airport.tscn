@@ -1,15 +1,11 @@
-[gd_scene load_steps=9 format=3 uid="uid://bbdfih0weqhie"]
+[gd_scene load_steps=13 format=3 uid="uid://bbdfih0weqhie"]
 
 [ext_resource type="Texture2D" uid="uid://cfrwgslp3pgbs" path="res://airport overview.png" id="1_yjken"]
 [ext_resource type="Script" path="res://taxiway_node.gd" id="2_0itsb"]
 [ext_resource type="Texture2D" uid="uid://bfivfsj02ngju" path="res://Sprite-0001.png" id="2_1yv5v"]
-
-[sub_resource type="Curve3D" id="Curve3D_w45r6"]
-_data = {
-"points": PackedVector3Array(0, 0, 0, 0, 0, 0, -15.915, 0, -3, 0, 0, 0, 0, 0, 0, 16.088, 0, -3, 0, 0, 0, 0, 0, 0, 16.104, 0, 2.454),
-"tilts": PackedFloat32Array(0, 0, 0)
-}
-point_count = 3
+[ext_resource type="Script" path="res://taxiways.gd" id="3_hn8jm"]
+[ext_resource type="Script" path="res://taxiway_connector.gd" id="4_vq1xj"]
+[ext_resource type="PackedScene" uid="uid://dooe7wxlpdhd5" path="res://aircraft.tscn" id="5_72elt"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6kjol"]
 albedo_texture = ExtResource("2_1yv5v")
@@ -25,6 +21,10 @@ _data = {
 }
 point_count = 2
 
+[sub_resource type="Resource" id="Resource_p4660"]
+script = ExtResource("4_vq1xj")
+point_idx = 0
+
 [sub_resource type="Curve3D" id="Curve3D_mhxgj"]
 _data = {
 "points": PackedVector3Array(0, 0, 0, 0, 0, 0, -10.6845, 0, -5.4142, 0, 0, 0, 0, 0, 0, -10.6478, 0, 7.39489),
@@ -32,10 +32,14 @@ _data = {
 }
 point_count = 2
 
-[node name="airport" type="Node3D"]
+[sub_resource type="Curve3D" id="Curve3D_45wuo"]
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, -12.0194, 0, 8.57139, 0, 0, 0, 0, 0, 0, -21.3925, 0, 8.59454, 0, 0, 0, 0, 0, 0, -22.4537, 0, 16.2348),
+"tilts": PackedFloat32Array(0, 0, 0)
+}
+point_count = 3
 
-[node name="Path3D" type="Path3D" parent="."]
-curve = SubResource("Curve3D_w45r6")
+[node name="airport" type="Node3D"]
 
 [node name="Sprite3D" type="Sprite3D" parent="."]
 transform = Transform3D(9.15, 0, 0, 0, 9.15, 0, 0, 0, 9.15, 0, -1, 0)
@@ -48,13 +52,32 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
 mesh = SubResource("PlaneMesh_fbv8y")
 
 [node name="taxiways" type="Node" parent="."]
+script = ExtResource("3_hn8jm")
 
-[node name="taxiway" type="Path3D" parent="taxiways"]
+[node name="A" type="Path3D" parent="taxiways"]
 curve = SubResource("Curve3D_jnqia")
 script = ExtResource("2_0itsb")
+taxiway_name = "A"
+connections = Array[ExtResource("4_vq1xj")]([SubResource("Resource_p4660")])
 polygon_shape = PackedVector2Array(-0.1, -0.1, 0.1, -0.1, 0.1, 0.1, -0.1, 0.1)
 
-[node name="taxiway2" type="Path3D" parent="taxiways"]
+[node name="B" type="Path3D" parent="taxiways"]
 curve = SubResource("Curve3D_mhxgj")
 script = ExtResource("2_0itsb")
+taxiway_name = "B"
 polygon_shape = PackedVector2Array(-0.1, -0.1, 0.1, -0.1, 0.1, 0.1, -0.1, 0.1)
+
+[node name="C" type="Path3D" parent="taxiways"]
+curve = SubResource("Curve3D_45wuo")
+script = ExtResource("2_0itsb")
+taxiway_name = "C"
+polygon_shape = PackedVector2Array(-0.1, -0.1, 0.1, -0.1, 0.1, 0.1, -0.1, 0.1)
+
+[node name="aircraft" parent="." instance=ExtResource("5_72elt")]
+transform = Transform3D(0.00176652, 0, -0.999998, 0, 1, 0, 0.999998, 0, 0.00176652, 8.29171, 0, -6.50989)
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -3.99855, 22.4258, 2.9093)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)

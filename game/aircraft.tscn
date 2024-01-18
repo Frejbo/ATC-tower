@@ -1,0 +1,15 @@
+[gd_scene load_steps=4 format=3 uid="uid://dooe7wxlpdhd5"]
+
+[ext_resource type="Script" path="res://aircraft.gd" id="1_68jn6"]
+[ext_resource type="PackedScene" uid="uid://dijyy0p8s3dt0" path="res://aircraft_mover.tscn" id="2_s6mbt"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_p22eb"]
+
+[node name="aircraft" type="Node3D"]
+script = ExtResource("1_68jn6")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_p22eb")
+
+[node name="aircraftMover" parent="." node_paths=PackedStringArray("body") instance=ExtResource("2_s6mbt")]
+body = NodePath("..")

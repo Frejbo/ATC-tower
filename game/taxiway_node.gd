@@ -35,6 +35,13 @@ var area_b : Area3D
 		#
 		#curve.add_point(curve.get_point_position(0), Vector3.ZERO, Vector3.ZERO, )
 
+@export var connections : Array[taxiway_connector]
+	#set(value):
+		#
+		#var added_taxiway : taxiway = value.filter(func(i): return connected_to.has(value[i]))[0]
+		#connected_to = value
+		#print(added_taxiway)
+		##curve.get_closest_point(value.curve.get_closest_point(self.global_position))
 
 @export_category("editor")
 var width := .1
@@ -61,7 +68,8 @@ func _on_curve_changed() -> void:
 func _enter_tree() -> void:
 	PhysicsServer3D.set_active(true)
 	for child in get_children():
-		child.free()
+		if child.owner == self:
+			child.free()
 	
 	add_to_group("taxiway")
 	
