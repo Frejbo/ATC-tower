@@ -25,6 +25,8 @@ var area_b : Area3D
 		B_size = val
 		area_b.get_child(0).shape.radius = val
 
+
+
 #@export var connect_start : taxiway:
 
 	#set(connection):

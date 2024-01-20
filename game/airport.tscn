@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://bbdfih0weqhie"]
+[gd_scene load_steps=15 format=3 uid="uid://bbdfih0weqhie"]
 
 [ext_resource type="Texture2D" uid="uid://cfrwgslp3pgbs" path="res://airport overview.png" id="1_yjken"]
 [ext_resource type="Script" path="res://taxiway_node.gd" id="2_0itsb"]
@@ -34,10 +34,24 @@ point_count = 2
 
 [sub_resource type="Curve3D" id="Curve3D_45wuo"]
 _data = {
-"points": PackedVector3Array(0, 0, 0, 0, 0, 0, -12.0194, 0, 8.57139, 0, 0, 0, 0, 0, 0, -21.3925, 0, 8.59454, 0, 0, 0, 0, 0, 0, -22.4537, 0, 16.2348),
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, -12.0194, 0, 8.57139, 0, 0, 0, 0, 0, 0, -23.7475, 0, 8.57604, 0, 0, 0, 0, 0, 0, -23.6975, 0, -16.9398),
 "tilts": PackedFloat32Array(0, 0, 0)
 }
 point_count = 3
+
+[sub_resource type="Curve3D" id="Curve3D_ll70r"]
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, -10.7579, 0, -17.1956, 0, 0, 0, 0, 0, 0, -10.6845, 0, -7.65304),
+"tilts": PackedFloat32Array(0, 0)
+}
+point_count = 2
+
+[sub_resource type="Curve3D" id="Curve3D_fkuea"]
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, -22.9798, 0, -18.26, 0, 0, 0, 0, 0, 0, 11.4103, 0, -18.1866),
+"tilts": PackedFloat32Array(0, 0)
+}
+point_count = 2
 
 [node name="airport" type="Node3D"]
 
@@ -73,11 +87,23 @@ script = ExtResource("2_0itsb")
 taxiway_name = "C"
 polygon_shape = PackedVector2Array(-0.1, -0.1, 0.1, -0.1, 0.1, 0.1, -0.1, 0.1)
 
+[node name="D" type="Path3D" parent="taxiways"]
+curve = SubResource("Curve3D_ll70r")
+script = ExtResource("2_0itsb")
+taxiway_name = "D"
+polygon_shape = PackedVector2Array(-0.1, -0.1, 0.1, -0.1, 0.1, 0.1, -0.1, 0.1)
+
+[node name="E" type="Path3D" parent="taxiways"]
+curve = SubResource("Curve3D_fkuea")
+script = ExtResource("2_0itsb")
+taxiway_name = "E"
+polygon_shape = PackedVector2Array(-0.1, -0.1, 0.1, -0.1, 0.1, 0.1, -0.1, 0.1)
+
 [node name="aircraft" parent="." instance=ExtResource("5_72elt")]
 transform = Transform3D(0.00176652, 0, -0.999998, 0, 1, 0, 0.999998, 0, 0.00176652, 8.29171, 0, -6.50989)
 
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -3.99855, 22.4258, 2.9093)
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -3.99855, 22.4258, -4.28271)
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)

@@ -2,18 +2,17 @@
 
 [ext_resource type="Script" path="res://taxiway_node.gd" id="1_0gnd1"]
 
-[sub_resource type="SphereShape3D" id="SphereShape3D_72vek"]
+[sub_resource type="SphereShape3D" id="SphereShape3D_rufso"]
 radius = 1.0
 
-[sub_resource type="SphereShape3D" id="SphereShape3D_3aiwj"]
+[sub_resource type="SphereShape3D" id="SphereShape3D_crekd"]
 radius = 1.0
 
 [node name="taxiway" type="Path3D"]
 script = ExtResource("1_0gnd1")
-connected_to = [null]
 polygon_shape = PackedVector2Array(-0.2, -0.2, 0.2, -0.2, 0.2, 0.2, -0.2, 0.2)
 
-[node name="@CSGPolygon3D@19067" type="CSGPolygon3D" parent="."]
+[node name="@CSGPolygon3D@17459" type="CSGPolygon3D" parent="."]
 transparency = 0.5
 polygon = PackedVector2Array(-0.2, -0.2, 0.2, -0.2, 0.2, 0.2, -0.2, 0.2)
 mode = 2
@@ -29,10 +28,10 @@ path_joined = false
 
 [node name="A" type="Area3D" parent="."]
 
-[node name="@CollisionShape3D@19068" type="CollisionShape3D" parent="A"]
-shape = SubResource("SphereShape3D_72vek")
+[node name="@CollisionShape3D@17460" type="CollisionShape3D" parent="A"]
+shape = SubResource("SphereShape3D_rufso")
 
 [node name="B" type="Area3D" parent="."]
 
-[node name="@CollisionShape3D@19069" type="CollisionShape3D" parent="B"]
-shape = SubResource("SphereShape3D_3aiwj")
+[node name="@CollisionShape3D@17461" type="CollisionShape3D" parent="B"]
+shape = SubResource("SphereShape3D_crekd")
