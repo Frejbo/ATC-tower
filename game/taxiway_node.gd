@@ -11,39 +11,19 @@ class_name taxiway
 			return
 		name = text.to_upper()
 		taxiway_name = name
+
 @export var allow_y : bool = false
 
-@export_category("Areas")
-var area_a : Area3D
-@export var A_size : float = 1:
+@export var default_connection_size : float = 2
+@export var connection_sizes : Array[float]:
 	set(val):
-		A_size = val
-		area_a.get_child(0).shape.radius = val
-var area_b : Area3D
-@export var B_size : float = 1:
-	set(val):
-		B_size = val
-		area_b.get_child(0).shape.radius = val
+		connection_sizes = val
+		for i in val.size():
+			if not has_node(str(i)): return
+			var area : Area3D = get_node(str(i))
+			var coll : SphereShape3D = area.get_child(0).shape
+			coll.radius = val[i]
 
-
-
-#@export var connect_start : taxiway:
-
-	#set(connection):
-		#if not connection.curve:
-			#return
-		#
-		#connect_start = connection
-		#
-		#curve.add_point(curve.get_point_position(0), Vector3.ZERO, Vector3.ZERO, )
-
-@export var connections : Array[taxiway_connector]
-	#set(value):
-		#
-		#var added_taxiway : taxiway = value.filter(func(i): return connected_to.has(value[i]))[0]
-		#connected_to = value
-		#print(added_taxiway)
-		##curve.get_closest_point(value.curve.get_closest_point(self.global_position))
 
 @export_category("editor")
 var width := .1
@@ -56,6 +36,7 @@ func _ready() -> void:
 
 func _on_curve_changed() -> void:
 	if !curve: return
+	if curve.point_count < 2: return
 	
 	# Force y of every point to 0
 	if not allow_y:
@@ -64,8 +45,8 @@ func _on_curve_changed() -> void:
 			if point.y != 0:
 				curve.set_point_position(i, Vector3(point.x, 0, point.z))
 	
-	if curve.point_count != 0:
-		update_area_position()
+	update_areas()
+
 
 func _enter_tree() -> void:
 	PhysicsServer3D.set_active(true)
@@ -84,31 +65,66 @@ func _enter_tree() -> void:
 		csg_debug_shape.owner = self
 		#return
 		csg_debug_shape.path_node = ".."
-	
-	area_a = create_area("A", A_size)
-	area_b = create_area("B", B_size)
-	update_area_position()
 
-func create_area(area_name, size) -> Area3D:
+func create_area(pos, area_name : String) -> Area3D:
 	var area := Area3D.new()
-	area.name = area_name
 	add_child(area)
 	area.owner = self
+	area.name = area_name
 	
 	var coll := CollisionShape3D.new()
 	var shape := SphereShape3D.new()
-	shape.set_radius(size)
+	if area.name.to_int() < connection_sizes.size():
+		shape.set_radius(connection_sizes[area.name.to_int()])
+	else:
+		shape.set_radius(default_connection_size)
 	coll.shape = shape
 	area.add_child(coll)
 	coll.owner = self
 	return area
 
-func update_area_position() -> void:
+
+func update_areas() -> void:
 	if !curve: return
-	if curve.point_count == 0: return
+	var curve_points : Array[int] = []
+	for i in curve.point_count:
+		curve_points.append(i)
 	
-	if area_a:
-		area_a.position = curve.get_point_position(0)
-		await get_tree().physics_frame
-	if area_b:
-		area_b.position = curve.get_point_position(curve.point_count-1)
+	for node in get_children():
+		if not node is Area3D: continue
+		
+		if node.name.to_int() > curve.point_count -1:
+			# Point on curve has been deleted, remove corresponding area.
+			node.queue_free()
+			continue
+		
+		if curve_points.has(node.name.to_int()):
+			# Area and curve point exists and correlate. In case their positions don't align, fix it.
+			node.position = curve.get_point_position(node.name.to_int())
+			curve_points.erase(node.name.to_int())
+			continue
+		
+		print("I don't think this should happen ", node.name)
+	
+	for point in curve_points:
+		# Point on curve exists but area wasn't found. Add area.
+		create_area(curve.get_point_position(point), str(point))
+		connection_sizes.append(default_connection_size)
+	
+	# set areas export array so we can change size
+	var area_count := 0
+	for area in get_children():
+		if not area is Area3D: continue
+		area_count += 1
+	while area_count > connection_sizes.size():
+		connection_sizes.append(default_connection_size)
+	while area_count < connection_sizes.size():
+		connection_sizes.pop_back()
+
+
+## Gets all of the placed points
+func get_points() -> Array[Vector3]:
+	var points : Array[Vector3] = []
+	for i in curve.point_count:
+		points.append(curve.get_point_position(i-1))
+	return points
