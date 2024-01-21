@@ -1,55 +1,23 @@
-[gd_scene load_steps=14 format=3 uid="uid://bcmktaqog5tb6"]
+[gd_scene load_steps=5 format=3 uid="uid://bcmktaqog5tb6"]
 
 [ext_resource type="Script" path="res://taxiway_node.gd" id="1_0gnd1"]
 
 [sub_resource type="Curve3D" id="Curve3D_ra0vl"]
-_data = {
-"points": PackedVector3Array(0, 0, 0, 0, 0, 0, 9.09426, 0, 15.5018, 0, 0, 0, 0, 0, 0, 4.88805, 0, 12.19, 0, 0, 0, 0, 0, 0, 10.39, 0, -34.7329, 0, 0, 0, 0, 0, 0, 14.3205, 0, -25.2094, 0, 0, 0, 0, 0, 0, 27.241, 0, -23.4442, 0, 0, 0, 0, 0, 0, 27.5959, 0, 7.78513, 0, 0, 0, 0, 0, 0, 21.5145, 0, 36.2295, 0, 0, 0, 0, 0, 0, 33.2583, 0, -10.7803, 0, 0, 0, 0, 0, 0, 13.3792, 0, 25.447, 0, 0, 0, 0, 0, 0, 22.0396, 0, 37.2512, 0, 0, 0, 0, 0, 0, 54.2875, 0, -41.8105),
-"tilts": PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
-}
-point_count = 11
 
-[sub_resource type="SphereShape3D" id="SphereShape3D_ri08c"]
+[sub_resource type="SphereShape3D" id="SphereShape3D_4hx53"]
 radius = 2.0
 
-[sub_resource type="SphereShape3D" id="SphereShape3D_jhhtw"]
-radius = 2.0
-
-[sub_resource type="SphereShape3D" id="SphereShape3D_jwyp0"]
-radius = 2.0
-
-[sub_resource type="SphereShape3D" id="SphereShape3D_wvu0o"]
-radius = 2.69
-
-[sub_resource type="SphereShape3D" id="SphereShape3D_l726e"]
-radius = 3.825
-
-[sub_resource type="SphereShape3D" id="SphereShape3D_xlpoi"]
-radius = 3.365
-
-[sub_resource type="SphereShape3D" id="SphereShape3D_krhu8"]
-radius = 2.0
-
-[sub_resource type="SphereShape3D" id="SphereShape3D_a7a8o"]
-radius = 2.0
-
-[sub_resource type="SphereShape3D" id="SphereShape3D_nrcxt"]
-radius = 2.0
-
-[sub_resource type="SphereShape3D" id="SphereShape3D_hovkg"]
-radius = 2.0
-
-[sub_resource type="SphereShape3D" id="SphereShape3D_3r8na"]
+[sub_resource type="SphereShape3D" id="SphereShape3D_crsyw"]
 radius = 2.0
 
 [node name="taxiway" type="Path3D"]
 curve = SubResource("Curve3D_ra0vl")
 script = ExtResource("1_0gnd1")
-connection_sizes = Array[float]([2.0, 2.0, 2.0, 2.69, 3.825, 3.365, 2.0, 2.0, 2.0, 2.0, 2.0])
+connection_sizes = Array[float]([2.0, 2.0, 2.0])
 polygon_shape = PackedVector2Array(-0.2, -0.2, 0.2, -0.2, 0.2, 0.2, -0.2, 0.2)
 metadata/_edit_group_ = true
 
-[node name="@CSGPolygon3D@17464" type="CSGPolygon3D" parent="."]
+[node name="@CSGPolygon3D@101822" type="CSGPolygon3D" parent="."]
 transparency = 0.5
 polygon = PackedVector2Array(-0.2, -0.2, 0.2, -0.2, 0.2, 0.2, -0.2, 0.2)
 mode = 2
@@ -66,65 +34,11 @@ path_joined = false
 [node name="0" type="Area3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.09426, 0, 15.5018)
 
-[node name="@CollisionShape3D@18425" type="CollisionShape3D" parent="0"]
-shape = SubResource("SphereShape3D_ri08c")
+[node name="@CollisionShape3D@101824" type="CollisionShape3D" parent="0"]
+shape = SubResource("SphereShape3D_4hx53")
 
 [node name="1" type="Area3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.88805, 0, 12.19)
 
-[node name="@CollisionShape3D@18427" type="CollisionShape3D" parent="1"]
-shape = SubResource("SphereShape3D_jhhtw")
-
-[node name="2" type="Area3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.39, 0, -34.7329)
-
-[node name="@CollisionShape3D@18429" type="CollisionShape3D" parent="2"]
-shape = SubResource("SphereShape3D_jwyp0")
-
-[node name="3" type="Area3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.3205, 0, -25.2094)
-
-[node name="@CollisionShape3D@18431" type="CollisionShape3D" parent="3"]
-shape = SubResource("SphereShape3D_wvu0o")
-
-[node name="4" type="Area3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 27.241, 0, -23.4442)
-
-[node name="@CollisionShape3D@20221" type="CollisionShape3D" parent="4"]
-shape = SubResource("SphereShape3D_l726e")
-
-[node name="5" type="Area3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 27.5959, 0, 7.78513)
-
-[node name="@CollisionShape3D@20223" type="CollisionShape3D" parent="5"]
-shape = SubResource("SphereShape3D_xlpoi")
-
-[node name="6" type="Area3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21.5145, 0, 36.2295)
-
-[node name="@CollisionShape3D@20286" type="CollisionShape3D" parent="6"]
-shape = SubResource("SphereShape3D_krhu8")
-
-[node name="7" type="Area3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 33.2583, 0, -10.7803)
-
-[node name="@CollisionShape3D@20288" type="CollisionShape3D" parent="7"]
-shape = SubResource("SphereShape3D_a7a8o")
-
-[node name="8" type="Area3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.3792, 0, 25.447)
-
-[node name="@CollisionShape3D@20295" type="CollisionShape3D" parent="8"]
-shape = SubResource("SphereShape3D_nrcxt")
-
-[node name="9" type="Area3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22.0396, 0, 37.2512)
-
-[node name="@CollisionShape3D@20297" type="CollisionShape3D" parent="9"]
-shape = SubResource("SphereShape3D_hovkg")
-
-[node name="10" type="Area3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 54.2875, 0, -41.8105)
-
-[node name="@CollisionShape3D@20299" type="CollisionShape3D" parent="10"]
-shape = SubResource("SphereShape3D_3r8na")
+[node name="@CollisionShape3D@101826" type="CollisionShape3D" parent="1"]
+shape = SubResource("SphereShape3D_crsyw")

@@ -12,7 +12,7 @@ var path : Curve3D = Curve3D.new()
 func _ready():
 	$Path3D/RemoteTransform3D.remote_path = body.get_path()
 	
-	var pos = body.global_position
+	#var pos = body.global_position
 	for taxiway_name in route:
 		var taxiway_curve : Curve3D = Game.taxiways.get_node(taxiway_name).curve
 		
