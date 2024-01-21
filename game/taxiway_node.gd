@@ -14,7 +14,7 @@ class_name taxiway
 
 @export var allow_y : bool = false
 
-@export var default_connection_size : float = 2
+@export var default_connection_size : float = 30
 @export var connection_sizes : Array[float]:
 	set(val):
 		connection_sizes = val
@@ -26,14 +26,19 @@ class_name taxiway
 
 
 @export_category("editor")
-var width := .1
-@export var polygon_shape : PackedVector2Array = [Vector2(-width, -width), Vector2(width, -width), Vector2(width, width), Vector2(-width, width)]
+@export var polygon_width := 1
+@export var polygon_shape : PackedVector2Array = [Vector2(-polygon_width, -polygon_width), Vector2(polygon_width, -polygon_width), Vector2(polygon_width, polygon_width), Vector2(-polygon_width, polygon_width)]:
+	set(val):
+		polygon_shape = val
+		if val.is_empty():
+			polygon_shape = [Vector2(-polygon_width, -polygon_width), Vector2(polygon_width, -polygon_width), Vector2(polygon_width, polygon_width), Vector2(-polygon_width, polygon_width)]
 
 var csg_debug_shape : CSGPolygon3D
 var ignore_areas : bool = false
 
 func _ready() -> void:
 	curve_changed.connect(_on_curve_changed)
+
 
 func _on_curve_changed() -> void:
 	if !curve: return
@@ -57,10 +62,19 @@ func _on_curve_changed() -> void:
 			if curve.get_point_tilt(i) != 0:
 				curve.set_point_tilt(i, 0)
 	
-	update_areas()
+	if area_update_cooldown_timer.is_stopped():
+		update_areas()
+		area_update_cooldown_timer.start()
 
-
+var area_update_cooldown_timer : Timer
 func _enter_tree() -> void:
+	area_update_cooldown_timer = Timer.new()
+	area_update_cooldown_timer.owner = self
+	add_child(area_update_cooldown_timer)
+	area_update_cooldown_timer.one_shot = true
+	area_update_cooldown_timer.wait_time = .25
+	area_update_cooldown_timer.timeout.connect(update_areas)
+	
 	PhysicsServer3D.set_active(true)
 	for child in get_children():
 		if child.owner == self:
@@ -73,6 +87,7 @@ func _enter_tree() -> void:
 		csg_debug_shape.polygon = polygon_shape
 		csg_debug_shape.mode = CSGPolygon3D.MODE_PATH
 		csg_debug_shape.transparency = .5
+		csg_debug_shape.path_simplify_angle = 1
 		add_child(csg_debug_shape)
 		csg_debug_shape.owner = self
 		#return
@@ -137,8 +152,6 @@ func update_areas() -> void:
 		create_area(curve.get_point_position(point), str(point))
 		connection_sizes.append(default_connection_size)
 	
-	connect_to_nearby()
-	
 	# set areas export array so we can change size
 	var area_count := 0
 	for area in get_children():
@@ -148,6 +161,8 @@ func update_areas() -> void:
 		connection_sizes.append(default_connection_size)
 	while area_count < connection_sizes.size():
 		connection_sizes.pop_back()
+	
+	connect_to_nearby()
 
 
 ## Gets all of the placed points
@@ -160,8 +175,8 @@ func get_points() -> Array[Vector3]:
 func _area_exited(_a, _b, _c, _d) -> void:
 	connect_to_nearby()
 
-func connect_to_nearby(exclude_taxiways : Array[taxiway] = []) -> void:
-	# Check all areas on this taxiway
+func connect_to_nearby(exclude_taxiways : Array[taxiway] = [], recursion : bool = false) -> void:
+# Check all areas on this taxiway
 	var valid_transitioning_taxiways : Array[taxiway]
 	var areas_to_check : Array[Area3D]
 	for node in get_children():
@@ -207,7 +222,9 @@ func connect_to_nearby(exclude_taxiways : Array[taxiway] = []) -> void:
 			# Update the other taxiway as well
 			if target_area.get_parent() in exclude_taxiways: continue
 			exclude_taxiways.append(self)
-			target_area.get_parent().connect_to_nearby(exclude_taxiways)
+			if not recursion:
+				target_area.get_parent().connect_to_nearby(exclude_taxiways, true)
+			
 	
 	# Check for taxiways which is not in the valid_transitioning_taxiways list and remove them
 	for transition_taxiway in get_children():

@@ -175,7 +175,5 @@ func get_transitions_from_to(from_taxiway : taxiway, from_point, target_taxiway_
 	return available_transitions
 
 func _process(delta):
-	print(.1 * delta)
-	$Path3D/PathFollow3D.progress += 20 * delta
+	$Path3D/PathFollow3D.progress += 200 * delta
 	body.position = $Path3D/PathFollow3D.position
-	print($Path3D/PathFollow3D.position)
