@@ -15,14 +15,14 @@ size = Vector2(50, 50)
 
 [sub_resource type="Curve3D" id="Curve3D_jnqia"]
 _data = {
-"points": PackedVector3Array(0, 0, 0, 0, 0, 0, 8.13471, 0, -6.89658, 0, 0, 0, 0, 0, 0, -8.60536, 0, -6.42458, 0, 0, 0, 0, 0, 0, -12.8848, 0, -6.36165, 0, 0, 0, 0, 0, 0, -22.1988, 0, -6.23579),
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, 10.0542, 0, -6.58192, 0, 0, 0, 0, 0, 0, -8.60536, 0, -6.42458, 0, 0, 0, 0, 0, 0, -12.8848, 0, -6.36165, 0, 0, 0, 0, 0, 0, -22.1988, 0, -6.23579),
 "tilts": PackedFloat32Array(0, 0, 0, 0)
 }
 point_count = 4
 
 [sub_resource type="Curve3D" id="Curve3D_mhxgj"]
 _data = {
-"points": PackedVector3Array(0, 0, 0, 0, 0, 0, 12.4771, 0, -4.22195, 0.670497, 0, -0.770047, -0.670497, 0, 0.770047, 12.3674, 0, 8.35426, 0, 0, 0, 0, 0, 0, -9.45494, 0, 8.75269, 0, 0, 0, 0, 0, 0, -12.1327, 0, 8.75269, 1.23119, 0, 1.14373, -1.23119, 0, -1.14373, -23.0215, 0, 7.96015, 0, 0, 0, 0, 0, 0, -23.6777, 0, -15.7071),
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, 12.4771, 0, -4.22195, 0.670497, 0, -0.770047, -0.670497, 0, 0.770047, 12.3197, 0, 7.86111, 0, 0, 0, 0, 0, 0, -9.42348, 0, 8.5219, 0, 0, 0, 0, 0, 0, -12.1327, 0, 8.75269, 1.23119, 0, 1.14373, -1.23119, 0, -1.14373, -23.0215, 0, 7.96015, 0, 0, 0, 0, 0, 0, -23.6777, 0, -15.7071),
 "tilts": PackedFloat32Array(0, 0, 0, 0, 0, 0)
 }
 point_count = 6
@@ -48,9 +48,9 @@ mesh = SubResource("PlaneMesh_fbv8y")
 
 [node name="taxiways" type="Node" parent="."]
 script = ExtResource("3_hn8jm")
-show_taxiways = true
 
 [node name="A" type="Path3D" parent="taxiways"]
+visible = false
 curve = SubResource("Curve3D_jnqia")
 script = ExtResource("2_0itsb")
 taxiway_name = "A"
@@ -58,13 +58,15 @@ connection_sizes = Array[float]([2.0, 2.0, 2.0, 2.0])
 polygon_shape = PackedVector2Array(-0.1, -0.1, 0.1, -0.1, 0.1, 0.1, -0.1, 0.1)
 
 [node name="B" type="Path3D" parent="taxiways"]
+visible = false
 curve = SubResource("Curve3D_mhxgj")
 script = ExtResource("2_0itsb")
 taxiway_name = "B"
-connection_sizes = Array[float]([2.0, 2.0, 2.0, 2.0, 2.0, 2.0])
+connection_sizes = Array[float]([2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0])
 polygon_shape = PackedVector2Array(-0.1, -0.1, 0.1, -0.1, 0.1, 0.1, -0.1, 0.1)
 
 [node name="C" type="Path3D" parent="taxiways"]
+visible = false
 curve = SubResource("Curve3D_6cqcx")
 script = ExtResource("2_0itsb")
 taxiway_name = "C"
@@ -80,4 +82,4 @@ transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 
 [node name="aircraft" parent="." instance=ExtResource("5_72elt")]
 
 [node name="Marker3D" type="Marker3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -26, 0, -10)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 0, -5)

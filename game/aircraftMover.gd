@@ -4,7 +4,7 @@ extends Node
 	set(val):
 		body = val
 		$Path3D/RemoteTransform3D.remote_path = val.get_path()
-@export var goal_position : Vector3 = Vector3(-26, 0, 5)
+@export var goal_position : Vector3 = Vector3(15, 0, -5)
 
 @export var route : Array[String] = ["A", "C", "B"]
 
@@ -15,14 +15,11 @@ func _ready():
 		await Game.taxiways.ready_to_be_read
 	$Path3D/RemoteTransform3D.remote_path = body.get_path()
 	
-	#print(closest_point(goal_position, Game.taxiways.get_node("B").curve))
-	#return
-	
-	var detailed_taxi_route := [
-		{"taxiway_name":"E", "start_point":3, "passing_points":[3, 4, 5, 6, 7, 8], "end_point":8},
-		{"taxiway_name":"D", "start_point":0, "passing_points":[0, 1, 2], "end_point":2},
-		{"taxiway_name":"A", "start_point":8, "passing_points":[8, 7, 6, 5, 4, 3], "end_point":3}
-	]
+	var detailed_taxi_route := {
+		#"E":{"start_point":3, "passing_points":[3, 4, 5, 6, 7, 8], "end_point":8},
+		#"D":{"start_point":0, "passing_points":[0, 1, 2], "end_point":2},
+		#"A":{"start_point":8, "passing_points":[8, 7, 6, 5, 4, 3], "end_point":3}
+	}
 	
 	# Calculates the destination point on each taxiway, meaning the last point they will pass on each taxiway before transitioning to next.
 	var current_point = closest_point(body.global_position, Game.taxiways.get_node(route[0]).curve)
@@ -36,12 +33,75 @@ func _ready():
 			
 		else:
 			# Find closest point to goal pos on latest taxiway. Arrival point.
-			# TODO I think this will require a tesselated or baked curve
+			# TODO I think this will require a tesselated or baked curve to work properly
 			var closest_point_to_goal : int = closest_point(goal_position, tw.curve)
 			taxiway_destinations.append({"taxiway":tw, "last_point":closest_point_to_goal})
 		current_point = taxiway_destinations.back()["last_point"]
 	
 	print("Taxiway destinations: ", taxiway_destinations)
+	
+	
+	# Loop through taxiway_destinations, convert and add them and everything neccesary to detailed_taxi_route
+	current_point = closest_point(body.global_position, taxiway_destinations[0]["taxiway"].curve)
+	for taxi : Dictionary in taxiway_destinations:
+		# fill from current point to last_point...
+		var details := {"start_point":current_point, "passing_points":[], "end_point":taxi["last_point"]}
+		path.add_point(
+			taxi["taxiway"].curve.get_point_position(current_point),
+			taxi["taxiway"].curve.get_point_in(current_point),
+			taxi["taxiway"].curve.get_point_out(current_point))
+		
+		while current_point != taxi["last_point"]:
+			if current_point > taxi["last_point"]:
+				current_point -= 1
+			elif current_point < taxi["last_point"]:
+				current_point += 1
+			
+			path.add_point(
+				taxi["taxiway"].curve.get_point_position(current_point),
+				taxi["taxiway"].curve.get_point_in(current_point),
+				taxi["taxiway"].curve.get_point_out(current_point))
+			details["passing_points"].append(current_point)
+		
+		detailed_taxi_route[taxi["taxiway"].name] = details
+		
+		# om det här är slutet, hitta inte en transition:
+		if taxi["taxiway"] == taxiway_destinations.back()["taxiway"]:
+			continue
+		
+		
+		var next_taxiway_destination : Dictionary = taxiway_destinations[taxiway_destinations.find(taxi)+1]
+		var available_transitions : Array[taxiway] = get_transitions_from_to(taxi["taxiway"], current_point, next_taxiway_destination["taxiway"].name)
+		
+		# find and fill transition
+		var transition : taxiway = choose_transition(available_transitions, next_taxiway_destination["taxiway"], next_taxiway_destination["last_point"])
+		for i in transition.curve.point_count:
+			path.add_point(
+				transition.curve.get_point_position(i),
+				transition.curve.get_point_in(i),
+				transition.curve.get_point_out(i))
+		
+		# set current_point to start_point of new taxiway
+		current_point = transition.get_meta("to_point")
+		#details = {"start_point":0, "end_point":1} # Transitions only have start & end points
+		
+		
+	print(detailed_taxi_route)
+	$Path3D.curve = path
+	print(path)
+	# repeat...
+
+
+func choose_transition(available_transitions : Array[taxiway], target_taxiway : taxiway, last_point_on_target_tw : int) -> taxiway:
+	var transition_end_points : Array[int]
+	for transition : taxiway in available_transitions:
+		transition_end_points.append(transition.get_meta("to_point"))
+	var closest_end_point : int = closest_number(last_point_on_target_tw, transition_end_points)
+	var chosen_transition : taxiway
+	for transition : taxiway in available_transitions:
+		if transition.get_meta("to_point") == closest_end_point:
+			chosen_transition = transition
+	return chosen_transition
 
 func set_path_from_positions(positions : Array[Vector3]) -> void:
 	for pos in positions:
@@ -104,28 +164,18 @@ func has_transition_to(start_taxiway : taxiway, from_point : int, end_taxiway_na
 		return true
 	return false
 
-#func get_transition_from_to()
+## Get all transitions going from point x on taxiway y towards taxiway named z
+func get_transitions_from_to(from_taxiway : taxiway, from_point, target_taxiway_name : String) -> Array[taxiway]:
+	var available_transitions : Array[taxiway]
+	for transition in from_taxiway.get_children():
+		if not transition.has_meta("from_point"): continue
+		if not transition.get_meta("from_point") == from_point: continue
+		if not transition.get_meta("to") == target_taxiway_name: continue
+		available_transitions.append(transition)
+	return available_transitions
 
-
-## Uses pathfinding to find the path on the given taxiway. From the point which is closest to "closest_start", to the point which is closest to "closest_end". The aircraft need to go via the returned points before going to "closest_end" point.
-#func find_required_points_on_curve(curve : Curve3D, closest_start : Vector3, goal_taxiway : taxiway) -> Array[Vector3]:
-	#var baked_curve : Curve3D
-	#for p in curve.get_baked_points():
-		#baked_curve.add_point(p)
-	#var start : int = baked_curve.get_closest_point(closest_start)
-	#var end : int = baked_curve.get_baked_points(closest_end)
-
-# om punkt har connection: hämta närmaste punkt på nya taxiway
-# räkna path från den taxiwayen
-# kolla får båda connections: om target punkten är inkluderad i nya pathen är det rätt håll
-
-# gå baklänges, om den hittar en transition som leder till "nästa"/den tidigare taxiwayen: spara punkten den är på och börja backa från den funna taxiwayen.
-# gå framlänges
-# du stöter på en connection med vägar till nästa taxiway: ta den transition som leder till punkten
-
-
-#func _process(delta):
-	#print(.1 * delta)
-	#$Path3D/PathFollow3D.progress += 20 * delta
-	#body.position = $Path3D/PathFollow3D.position
-	#print($Path3D/PathFollow3D.position)
+func _process(delta):
+	print(.1 * delta)
+	$Path3D/PathFollow3D.progress += 20 * delta
+	body.position = $Path3D/PathFollow3D.position
+	print($Path3D/PathFollow3D.position)
