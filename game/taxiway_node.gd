@@ -83,6 +83,7 @@ func _enter_tree() -> void:
 		await get_tree().physics_frame
 	connect_to_nearby()
 
+
 func create_area(pos : Vector3, area_name : String) -> Area3D:
 	if ignore_areas: return
 	
@@ -108,6 +109,8 @@ func create_area(pos : Vector3, area_name : String) -> Area3D:
 
 
 func update_areas() -> void:
+	position = Vector3.ZERO # position can fuck things up
+	
 	if !curve: return
 	var curve_points : Array[int] = []
 	for i in curve.point_count:
@@ -194,6 +197,10 @@ func connect_to_nearby(exclude_taxiways : Array[taxiway] = []) -> void:
 				transition_taxiway.ignore_areas = true
 				add_child(transition_taxiway)
 				transition_taxiway.owner = self
+				transition_taxiway.set_meta("from", name)
+				transition_taxiway.set_meta("to", target_area.get_parent().name)
+				transition_taxiway.set_meta("from_point", area.name.to_int())
+				transition_taxiway.set_meta("to_point", target_area.name.to_int())
 			transition_taxiway.curve = transition_curve
 			valid_transitioning_taxiways.append(transition_taxiway)
 			

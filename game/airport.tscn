@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://bbdfih0weqhie"]
+[gd_scene load_steps=11 format=3 uid="uid://bbdfih0weqhie"]
 
 [ext_resource type="Texture2D" uid="uid://cfrwgslp3pgbs" path="res://airport overview.png" id="1_yjken"]
 [ext_resource type="Script" path="res://taxiway_node.gd" id="2_0itsb"]
@@ -15,31 +15,24 @@ size = Vector2(50, 50)
 
 [sub_resource type="Curve3D" id="Curve3D_jnqia"]
 _data = {
-"points": PackedVector3Array(0, 0, 0, 0, 0, 0, -8.40142, 0, -6.47977, 0, 0, 0, 0, 0, 0, 10.5238, 0, -6.35525),
-"tilts": PackedFloat32Array(0, 0)
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, 8.13471, 0, -6.89658, 0, 0, 0, 0, 0, 0, -8.60536, 0, -6.42458, 0, 0, 0, 0, 0, 0, -12.8848, 0, -6.36165, 0, 0, 0, 0, 0, 0, -22.1988, 0, -6.23579),
+"tilts": PackedFloat32Array(0, 0, 0, 0)
 }
-point_count = 2
+point_count = 4
 
 [sub_resource type="Curve3D" id="Curve3D_mhxgj"]
 _data = {
-"points": PackedVector3Array(0, 0, 0, 0, 0, 0, 12.5724, 0, -4.36464, 0.670497, 0, -0.770047, -0.670497, 0, 0.770047, 12.3674, 0, 8.35426, 0, 0, 0, 0, 0, 0, -9.45494, 0, 8.75269, 0, 0, 0, 0, 0, 0, -12.1327, 0, 8.75269, 1.23119, 0, 1.14373, -1.23119, 0, -1.14373, -23.0215, 0, 7.96015, 0, 0, 0, 0, 0, 0, -23.721, 0, -16.304),
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, 12.4771, 0, -4.22195, 0.670497, 0, -0.770047, -0.670497, 0, 0.770047, 12.3674, 0, 8.35426, 0, 0, 0, 0, 0, 0, -9.45494, 0, 8.75269, 0, 0, 0, 0, 0, 0, -12.1327, 0, 8.75269, 1.23119, 0, 1.14373, -1.23119, 0, -1.14373, -23.0215, 0, 7.96015, 0, 0, 0, 0, 0, 0, -23.6777, 0, -15.7071),
 "tilts": PackedFloat32Array(0, 0, 0, 0, 0, 0)
 }
 point_count = 6
 
 [sub_resource type="Curve3D" id="Curve3D_6cqcx"]
 _data = {
-"points": PackedVector3Array(0, 0, 0, 0, 0, 0, -10.7719, 0, -15.2594, 0, 0, 0, 0, 0, 0, -10.7719, 0, -8.10413, 0, 0, 0, 0, 0, 0, -10.6841, 0, -5.47025, 0, 0, 0, 0, 0, 0, -10.6402, 0, 6.90898),
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, -10.7719, 0, -15.2594, 0, 0, 0, 0, 0, 0, -10.7451, 0, -8.65869, 0, 0, 0, 0, 0, 0, -10.7451, 0, -3.59262, 0, 0, 0, 0, 0, 0, -10.6402, 0, 6.90898),
 "tilts": PackedFloat32Array(0, 0, 0, 0)
 }
 point_count = 4
-
-[sub_resource type="Curve3D" id="Curve3D_fkuea"]
-_data = {
-"points": PackedVector3Array(0, 0, 0, 0, 0, 0, -22.6682, 0, -17.8934, 0, 0, 0, 0, 0, 0, -12.3765, 0, -17.8024, 0, 0, 0, 0, 0, 0, -9.55106, 0, -17.5883, 0, 0, 0, 0, 0, 0, 12.5291, 0, -18.2694, 0, 0, 0, 0, 0, 0, 12.658, 0, -7.14726),
-"tilts": PackedFloat32Array(0, 0, 0, 0, 0)
-}
-point_count = 5
 
 [node name="airport" type="Node3D"]
 
@@ -55,12 +48,13 @@ mesh = SubResource("PlaneMesh_fbv8y")
 
 [node name="taxiways" type="Node" parent="."]
 script = ExtResource("3_hn8jm")
+show_taxiways = true
 
 [node name="A" type="Path3D" parent="taxiways"]
 curve = SubResource("Curve3D_jnqia")
 script = ExtResource("2_0itsb")
 taxiway_name = "A"
-connection_sizes = Array[float]([2.0, 2.0])
+connection_sizes = Array[float]([2.0, 2.0, 2.0, 2.0])
 polygon_shape = PackedVector2Array(-0.1, -0.1, 0.1, -0.1, 0.1, 0.1, -0.1, 0.1)
 
 [node name="B" type="Path3D" parent="taxiways"]
@@ -77,18 +71,13 @@ taxiway_name = "C"
 connection_sizes = Array[float]([2.0, 2.0, 2.0, 2.0])
 polygon_shape = PackedVector2Array(-0.1, -0.1, 0.1, -0.1, 0.1, 0.1, -0.1, 0.1)
 
-[node name="E" type="Path3D" parent="taxiways"]
-curve = SubResource("Curve3D_fkuea")
-script = ExtResource("2_0itsb")
-taxiway_name = "E"
-connection_sizes = Array[float]([2.0, 2.0, 2.0, 2.0, 2.0])
-polygon_shape = PackedVector2Array(-0.1, -0.1, 0.1, -0.1, 0.1, 0.1, -0.1, 0.1)
-
-[node name="aircraft" parent="." instance=ExtResource("5_72elt")]
-transform = Transform3D(0.00176652, 0, -0.999998, 0, 1, 0, 0.999998, 0, 0.00176652, 8.29171, 0, -6.50989)
-
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -3.99855, 22.4258, -4.28271)
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
+
+[node name="aircraft" parent="." instance=ExtResource("5_72elt")]
+
+[node name="Marker3D" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -26, 0, -10)
