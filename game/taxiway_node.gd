@@ -182,7 +182,7 @@ func connect_to_nearby(exclude_taxiways : Array[taxiway] = []) -> void:
 			transition_curve.add_point(area.position)
 			transition_curve.add_point(target_area.position)
 			# define a name for the transition
-			var transition_name = name+"-"+target_area.get_parent().name
+			var transition_name = name+area.name+"-"+target_area.get_parent().name+target_area.name
 			
 			
 			var transition_taxiway := taxiway.new()
