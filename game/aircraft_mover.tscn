@@ -4,7 +4,7 @@
 
 [sub_resource type="Curve3D" id="Curve3D_umi0v"]
 
-[node name="aircraftMover" type="Node"]
+[node name="aircraftMover" type="Node3D"]
 script = ExtResource("1_534t1")
 
 [node name="Path3D" type="Path3D" parent="."]

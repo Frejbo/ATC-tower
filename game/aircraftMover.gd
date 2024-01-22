@@ -1,21 +1,35 @@
-extends Node
+extends Node3D
 
-@export var body : aircraft:
+@export var body : Node3D:
 	set(val):
 		body = val
 		if not val.is_inside_tree():
 			await val.tree_entered
 		$Path3D/RemoteTransform3D.remote_path = val.get_path()
-@export var goal_position : Vector3
 
+@export var goal_position : Vector3
 @export var route : Array[String]
+
+#func _init(target_position : Vector3, taxi_route : Array[String]) -> void:
+	#goal_position = target_position
+	#route = taxi_route
 
 var path : Curve3D = Curve3D.new()
 
-func _ready():
+func path_is_valid() -> bool:
+	if await calculate_path():
+		return true
+	else:
+		return false
+
+func _ready() -> void:
+	$Path3D.curve = await calculate_path()
+	$Path3D/RemoteTransform3D.remote_path = body.get_path()
+
+func calculate_path() -> Curve3D:
+	path.clear_points()
 	if not Game.taxiways.can_be_read:
 		await Game.taxiways.ready_to_be_read
-	$Path3D/RemoteTransform3D.remote_path = body.get_path()
 	
 	var detailed_taxi_route := {
 		#"E":{"start_point":3, "passing_points":[3, 4, 5, 6, 7, 8], "end_point":8},
@@ -24,7 +38,7 @@ func _ready():
 	}
 	
 	# Calculates the destination point on each taxiway, meaning the last point they will pass on each taxiway before transitioning to next.
-	var current_point = closest_point(body.global_position, Game.taxiways.get_node(route[0]).curve)
+	var current_point = closest_point(global_position, Game.taxiways.get_node(route[0]).curve)
 	var taxiway_destinations : Array = []
 	for taxiway_idx in range(route.size()):
 		var tw : taxiway = Game.taxiways.get_node(route[taxiway_idx])
@@ -45,7 +59,7 @@ func _ready():
 	
 	
 	# Loop through taxiway_destinations, convert and add them and everything neccesary to detailed_taxi_route
-	current_point = closest_point(body.global_position, taxiway_destinations[0]["taxiway"].curve)
+	current_point = closest_point(global_position, taxiway_destinations[0]["taxiway"].curve)
 	for taxi : Dictionary in taxiway_destinations:
 		# fill from current point to last_point...
 		var details := {"start_point":current_point, "passing_points":[], "end_point":taxi["last_point"]}
@@ -89,7 +103,7 @@ func _ready():
 	
 	
 	print(detailed_taxi_route)
-	$Path3D.curve = path
+	return path
 
 
 func choose_transition(available_transitions : Array[taxiway], last_point_on_target_tw : int) -> taxiway:

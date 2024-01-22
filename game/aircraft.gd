@@ -2,9 +2,17 @@ extends Node3D
 
 class_name aircraft
 
-@export var goal_marker : Marker3D
-@export var taxi_route : Array[String]
+@export var callsign : String:
+	set(val):
+		callsign = val.to_upper()
+		%callsign.text = callsign
+
 
 func _enter_tree() -> void:
-	$aircraftMover.route = taxi_route
-	$aircraftMover.goal_position = goal_marker.position
+	Controller.aircrafts.append(self)
+
+func _exit_tree() -> void:
+	Controller.aircrafts.erase(self)
+
+func _init(new_callsign : String) -> void:
+	callsign = new_callsign
