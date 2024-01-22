@@ -81,7 +81,7 @@ point_count = 4
 
 [node name="aircraft" parent="." node_paths=PackedStringArray("goal_marker") instance=ExtResource("5_72elt")]
 goal_marker = NodePath("Marker3D")
-taxi_route = Array[String](["D", "Y", "K", "Z", "J", "L"])
+taxi_route = Array[String](["D", "Y", "J", "L"])
 
 [node name="Marker3D" type="Marker3D" parent="aircraft"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1036.79, 0, 437.207)

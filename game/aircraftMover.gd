@@ -3,10 +3,12 @@ extends Node
 @export var body : aircraft:
 	set(val):
 		body = val
+		if not val.is_inside_tree():
+			await val.tree_entered
 		$Path3D/RemoteTransform3D.remote_path = val.get_path()
-@export var goal_position : Vector3 = Vector3(15, 0, -5)
+@export var goal_position : Vector3
 
-@export var route : Array[String] = ["A", "C", "B"]
+@export var route : Array[String]
 
 var path : Curve3D = Curve3D.new()
 
@@ -23,7 +25,7 @@ func _ready():
 	
 	# Calculates the destination point on each taxiway, meaning the last point they will pass on each taxiway before transitioning to next.
 	var current_point = closest_point(body.global_position, Game.taxiways.get_node(route[0]).curve)
-	var taxiway_destinations : Array
+	var taxiway_destinations : Array = []
 	for taxiway_idx in range(route.size()):
 		var tw : taxiway = Game.taxiways.get_node(route[taxiway_idx])
 		if route.size()-1 >= taxiway_idx+1: # Next destination is a taxiway
@@ -75,7 +77,7 @@ func _ready():
 		var available_transitions : Array[taxiway] = get_transitions_from_to(taxi["taxiway"], current_point, next_taxiway_destination["taxiway"].name)
 		
 		# find and fill transition
-		var transition : taxiway = choose_transition(available_transitions, next_taxiway_destination["taxiway"], next_taxiway_destination["last_point"])
+		var transition : taxiway = choose_transition(available_transitions, next_taxiway_destination["last_point"])
 		for i in transition.curve.point_count:
 			path.add_point(
 				transition.curve.get_point_position(i),
@@ -84,17 +86,14 @@ func _ready():
 		
 		# set current_point to start_point of new taxiway
 		current_point = transition.get_meta("to_point")
-		#details = {"start_point":0, "end_point":1} # Transitions only have start & end points
-		
-		
+	
+	
 	print(detailed_taxi_route)
 	$Path3D.curve = path
-	print(path)
-	# repeat...
 
 
-func choose_transition(available_transitions : Array[taxiway], target_taxiway : taxiway, last_point_on_target_tw : int) -> taxiway:
-	var transition_end_points : Array[int]
+func choose_transition(available_transitions : Array[taxiway], last_point_on_target_tw : int) -> taxiway:
+	var transition_end_points : Array[int] = []
 	for transition : taxiway in available_transitions:
 		transition_end_points.append(transition.get_meta("to_point"))
 	var closest_end_point : int = closest_number(last_point_on_target_tw, transition_end_points)
@@ -141,7 +140,7 @@ func closest_number(num : int, search : Array[int]) -> int:
 
 ## Returns the closest curve point index to position
 func closest_point(position : Vector3, curve : Curve3D) -> int:
-	var points : Array[Vector3]
+	var points : Array[Vector3] = []
 	for point : int in curve.point_count:
 		points.append(curve.get_point_position(point))
 	
@@ -168,7 +167,7 @@ func has_transition_to(start_taxiway : taxiway, from_point : int, end_taxiway_na
 
 ## Get all transitions going from point x on taxiway y towards taxiway named z
 func get_transitions_from_to(from_taxiway : taxiway, from_point, target_taxiway_name : String) -> Array[taxiway]:
-	var available_transitions : Array[taxiway]
+	var available_transitions : Array[taxiway] = []
 	for transition in from_taxiway.get_children():
 		if not transition.has_meta("from_point"): continue
 		if not transition.get_meta("from_point") == from_point: continue

@@ -176,13 +176,13 @@ func _area_exited(_a, _b, _c, _d) -> void:
 
 func connect_to_nearby(exclude_taxiways : Array[taxiway] = [], recursion : bool = false) -> void:
 # Check all areas on this taxiway
-	var valid_transitioning_taxiways : Array[taxiway]
-	var areas_to_check : Array[Area3D]
-	for node in get_children():
+	var valid_transitioning_taxiways : Array[taxiway] = []
+	var areas_to_check : Array[Area3D] = []
+	for node : Node in get_children():
 		if node is Area3D:
 			areas_to_check.append(node)
 	
-	for area in areas_to_check:
+	for area : Area3D in areas_to_check:
 		# Get overlapping areas, excluding areas belonging to this taxiway
 		var overlapping_areas : Array[Area3D] = area.get_overlapping_areas()
 		for overlapping in overlapping_areas:
