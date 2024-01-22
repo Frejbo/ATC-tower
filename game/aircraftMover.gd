@@ -31,12 +31,13 @@ func _ready():
 			var connection_point = find_closest_connecting_point(tw, current_point, route[taxiway_idx+1])
 			taxiway_destinations.append({"taxiway":tw, "last_point":connection_point})
 			
+			# Sätt current_point till punkten man startar på vid nästa taxiway
+			current_point = closest_point(tw.curve.get_point_position(taxiway_destinations.back()["last_point"]), Game.taxiways.get_node(route[taxiway_idx+1]).curve)
 		else:
 			# Find closest point to goal pos on latest taxiway. Arrival point.
 			# TODO I think this will require a tesselated or baked curve to work properly
 			var closest_point_to_goal : int = closest_point(goal_position, tw.curve)
 			taxiway_destinations.append({"taxiway":tw, "last_point":closest_point_to_goal})
-		current_point = taxiway_destinations.back()["last_point"]
 	
 	print("Taxiway destinations: ", taxiway_destinations)
 	
@@ -135,6 +136,7 @@ func closest_number(num : int, search : Array[int]) -> int:
 		if closest == -1 or abs(i - num) < closest_delta:
 			closest_delta = abs(i - num)
 			closest = i
+	print("Closest number to ", num, " in: ", search, " is ", closest)
 	return closest
 
 ## Returns the closest curve point index to position

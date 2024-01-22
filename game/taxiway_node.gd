@@ -69,11 +69,10 @@ func _on_curve_changed() -> void:
 var area_update_cooldown_timer : Timer
 func _enter_tree() -> void:
 	area_update_cooldown_timer = Timer.new()
-	area_update_cooldown_timer.owner = self
-	add_child(area_update_cooldown_timer)
-	area_update_cooldown_timer.one_shot = true
 	area_update_cooldown_timer.wait_time = .25
+	area_update_cooldown_timer.one_shot = true
 	area_update_cooldown_timer.timeout.connect(update_areas)
+	add_child(area_update_cooldown_timer)
 	
 	PhysicsServer3D.set_active(true)
 	for child in get_children():
@@ -212,10 +211,10 @@ func connect_to_nearby(exclude_taxiways : Array[taxiway] = [], recursion : bool 
 				transition_taxiway.ignore_areas = true
 				add_child(transition_taxiway)
 				transition_taxiway.owner = self
-				transition_taxiway.set_meta("from", name)
-				transition_taxiway.set_meta("to", target_area.get_parent().name)
-				transition_taxiway.set_meta("from_point", area.name.to_int())
-				transition_taxiway.set_meta("to_point", target_area.name.to_int())
+			transition_taxiway.set_meta("from", name)
+			transition_taxiway.set_meta("to", target_area.get_parent().name)
+			transition_taxiway.set_meta("from_point", area.name.to_int())
+			transition_taxiway.set_meta("to_point", target_area.name.to_int())
 			transition_taxiway.curve = transition_curve
 			valid_transitioning_taxiways.append(transition_taxiway)
 			
