@@ -1,12 +1,12 @@
-extends Node
+extends CanvasLayer
 
 class_name aircraft_communicator
 
 @onready var body : Node3D = get_parent()
 const mover := preload("res://aircraft_mover.tscn")
 
-func _ready() -> void:
-	print(await taxi_to_stand(Game.stands.get("20"), ["E", "Y", "F", "L"]))
+#func _ready() -> void:
+	#print(await taxi_to_stand(Game.stands.get("20"), ["E", "Y", "F", "L"]))
 
 func taxi_to_stand(stand, route : Array[String]) -> bool:
 	route.append(stand.taxiway_in.name)

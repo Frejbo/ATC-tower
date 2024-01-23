@@ -1,7 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://dooe7wxlpdhd5"]
+[gd_scene load_steps=7 format=3 uid="uid://dooe7wxlpdhd5"]
 
 [ext_resource type="Script" path="res://aircraft.gd" id="1_2eash"]
 [ext_resource type="Script" path="res://AircraftCommunicator.gd" id="2_pxkq3"]
+[ext_resource type="Script" path="res://routeEnterer.gd" id="3_2sjyg"]
+[ext_resource type="Script" path="res://taxi_to_stand.gd" id="3_cweu7"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3cvhq"]
 albedo_color = Color(1, 0, 0, 1)
@@ -10,11 +12,68 @@ albedo_color = Color(1, 0, 0, 1)
 material = SubResource("StandardMaterial3D_3cvhq")
 size = Vector3(50, 20, 50)
 
-[node name="aircraft" type="Node3D"]
+[node name="aircraft" type="Node3D" node_paths=PackedStringArray("communicator")]
 script = ExtResource("1_2eash")
+communicator = NodePath("aircraft_communicator")
 
-[node name="aircraft_communicator" type="Node" parent="."]
+[node name="aircraft_communicator" type="CanvasLayer" parent="."]
+visible = false
 script = ExtResource("2_pxkq3")
+
+[node name="taxi_to_stand" type="Button" parent="aircraft_communicator" node_paths=PackedStringArray("stand", "route")]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -147.0
+offset_top = -15.0
+offset_right = 147.0
+offset_bottom = 16.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("3_cweu7")
+stand = NodePath("HBoxContainer/stand")
+route = NodePath("HBoxContainer/route")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="aircraft_communicator/taxi_to_stand"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -139.5
+offset_top = -33.0
+offset_right = 139.5
+offset_bottom = 33.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="aircraft_communicator/taxi_to_stand/HBoxContainer"]
+layout_mode = 2
+text = "Taxi to stand"
+
+[node name="stand" type="LineEdit" parent="aircraft_communicator/taxi_to_stand/HBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+text = "20"
+placeholder_text = "stand"
+expand_to_text_length = true
+
+[node name="Label2" type="Label" parent="aircraft_communicator/taxi_to_stand/HBoxContainer"]
+layout_mode = 2
+text = "via"
+
+[node name="route" type="LineEdit" parent="aircraft_communicator/taxi_to_stand/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+placeholder_text = "taxiways"
+expand_to_text_length = true
+context_menu_enabled = false
+drag_and_drop_selection_enabled = false
+script = ExtResource("3_2sjyg")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 12, 0)
@@ -29,3 +88,7 @@ text = "AUA2JA"
 font_size = 2048
 outline_size = 127
 uppercase = true
+
+[connection signal="pressed" from="aircraft_communicator/taxi_to_stand" to="aircraft_communicator/taxi_to_stand" method="_on_pressed"]
+[connection signal="taxi_to_stand" from="aircraft_communicator/taxi_to_stand" to="aircraft_communicator" method="taxi_to_stand"]
+[connection signal="text_changed" from="aircraft_communicator/taxi_to_stand/HBoxContainer/route" to="aircraft_communicator/taxi_to_stand/HBoxContainer/route" method="_on_text_changed"]

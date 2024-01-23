@@ -72,3 +72,5 @@ unique_name_in_owner = true
 layout_mode = 2
 text = "Taxiing"
 horizontal_alignment = 2
+
+[connection signal="pressed" from="." to="." method="_on_pressed"]

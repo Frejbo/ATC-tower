@@ -13,7 +13,7 @@ class_name taxiway
 		taxiway_name = name
 
 func _get_configuration_warnings() -> PackedStringArray:
-	var warning : PackedStringArray
+	var warning : PackedStringArray = []
 	if Game.taxiways.get(name, self) != self:
 		warning.append("There is another taxiway with the same name as this one (" + name + ").")
 	return warning

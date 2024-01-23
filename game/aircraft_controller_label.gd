@@ -17,3 +17,7 @@ extends Button
 	set(val):
 		status = val
 		%status.text = val
+
+
+func _on_pressed() -> void:
+	Game.AircraftManager.get_node(callsign).communicator.visible = !Game.AircraftManager.get_node(callsign).communicator.visible
