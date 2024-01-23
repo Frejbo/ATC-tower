@@ -10,7 +10,7 @@ extends Node
 
 func _enter_tree():
 	if Engine.is_editor_hint(): return
-	Game.taxiways = self
+	Game.taxiwayManager = self
 	
 	for i in range(3):
 		await get_tree().physics_frame

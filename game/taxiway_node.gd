@@ -12,6 +12,12 @@ class_name taxiway
 		name = text.to_upper()
 		taxiway_name = name
 
+func _get_configuration_warnings() -> PackedStringArray:
+	var warning : PackedStringArray
+	if Game.taxiways.get(name, self) != self:
+		warning.append("There is another taxiway with the same name as this one (" + name + ").")
+	return warning
+
 @export var allow_y : bool = false
 
 @export var default_connection_size : float = 30
@@ -24,25 +30,18 @@ class_name taxiway
 			var coll : SphereShape3D = area.get_child(0).shape
 			coll.radius = val[i]
 
+@export var ignore_areas : bool = false
 
-@export_category("editor")
-@export var polygon_width := 1
-@export var polygon_shape : PackedVector2Array = [Vector2(-polygon_width, -polygon_width), Vector2(polygon_width, -polygon_width), Vector2(polygon_width, polygon_width), Vector2(-polygon_width, polygon_width)]:
-	set(val):
-		polygon_shape = val
-		if val.is_empty():
-			polygon_shape = [Vector2(-polygon_width, -polygon_width), Vector2(polygon_width, -polygon_width), Vector2(polygon_width, polygon_width), Vector2(-polygon_width, polygon_width)]
+@export_category("taxiline")
+@export var taxiline_material : StandardMaterial3D = preload("res://taxilines.tres")
+@export var taxiline_shape : PackedVector2Array = [Vector2(0, 0), Vector2(-.5, .01), Vector2(.5, .01)]
 
 var csg_debug_shape : CSGPolygon3D
-var ignore_areas : bool = false
-
-func _ready() -> void:
-	curve_changed.connect(_on_curve_changed)
 
 
 func _on_curve_changed() -> void:
 	if !curve: return
-	if curve.point_count < 2: return
+	if curve.point_count <= 1: return
 	
 	# Force y of every point to 0
 	if not allow_y:
@@ -62,40 +61,59 @@ func _on_curve_changed() -> void:
 			if curve.get_point_tilt(i) != 0:
 				curve.set_point_tilt(i, 0)
 	
-	if area_update_cooldown_timer.is_stopped():
-		update_areas()
-		area_update_cooldown_timer.start()
+	if not ignore_areas:
+		if area_update_cooldown_timer.is_stopped():
+			update_areas()
+			area_update_cooldown_timer.start()
+
+func _ready() -> void:
+	curve_changed.connect(_on_curve_changed)
+
+func clean_up() -> void:
+	for child in get_children():
+		if child.is_in_group("dynamic_taxiline"):
+			child.free()
+
+func _exit_tree() -> void:
+	clean_up()
 
 var area_update_cooldown_timer : Timer
 func _enter_tree() -> void:
-	area_update_cooldown_timer = Timer.new()
-	area_update_cooldown_timer.wait_time = .25
-	area_update_cooldown_timer.one_shot = true
-	area_update_cooldown_timer.timeout.connect(update_areas)
-	add_child(area_update_cooldown_timer)
+	Game.taxiways[taxiway_name] = self
+	clean_up()
 	
-	PhysicsServer3D.set_active(true)
-	for child in get_children():
-		if child.owner == self:
-			child.free()
+	if not ignore_areas:
+		area_update_cooldown_timer = Timer.new()
+		area_update_cooldown_timer.wait_time = .25
+		area_update_cooldown_timer.one_shot = true
+		area_update_cooldown_timer.timeout.connect(update_areas)
+		add_child(area_update_cooldown_timer)
+		area_update_cooldown_timer.owner = self
+		area_update_cooldown_timer.add_to_group("dynamic_taxiline")
+		
+		PhysicsServer3D.set_active(true)
+	
 	
 	add_to_group("taxiway")
 	
-	if Engine.is_editor_hint():
-		csg_debug_shape = CSGPolygon3D.new()
-		csg_debug_shape.polygon = polygon_shape
-		csg_debug_shape.mode = CSGPolygon3D.MODE_PATH
-		csg_debug_shape.transparency = .5
-		csg_debug_shape.path_simplify_angle = 1
-		add_child(csg_debug_shape)
-		csg_debug_shape.owner = self
-		#return
-		csg_debug_shape.path_node = ".."
+	# Add taxiline
+	csg_debug_shape = CSGPolygon3D.new()
+	csg_debug_shape.polygon = taxiline_shape
+	csg_debug_shape.mode = CSGPolygon3D.MODE_PATH
+	csg_debug_shape.path_simplify_angle = .1
+	csg_debug_shape.path_interval = 5
+	csg_debug_shape.material = taxiline_material
+	csg_debug_shape.add_to_group("dynamic_taxiline")
+	add_child(csg_debug_shape)
+	csg_debug_shape.owner = self
+	csg_debug_shape.path_node = ".."
+	csg_debug_shape.position = -position
 	
-	update_areas()
-	for i in range(2): # wait 2 physics frames to make sure areas has detected each other. (1 don't work)
-		await get_tree().physics_frame
-	connect_to_nearby()
+	if not ignore_areas:
+		update_areas()
+		for i in range(2): # wait 2 physics frames to make sure areas has detected each other. (1 don't work)
+			await Engine.get_main_loop().physics_frame
+		connect_to_nearby()
 
 
 func create_area(pos : Vector3, area_name : String) -> Area3D:
@@ -105,6 +123,7 @@ func create_area(pos : Vector3, area_name : String) -> Area3D:
 	area.position = pos
 	add_child(area)
 	area.owner = self
+	area.add_to_group("dynamic_taxiline")
 	area.name = area_name
 	
 	var coll := CollisionShape3D.new()
@@ -116,6 +135,7 @@ func create_area(pos : Vector3, area_name : String) -> Area3D:
 	coll.shape = shape
 	area.add_child(coll)
 	coll.owner = self
+	coll.add_to_group("dynamic_taxiline")
 	
 	area.area_shape_exited.connect(_area_exited)
 	
@@ -123,28 +143,28 @@ func create_area(pos : Vector3, area_name : String) -> Area3D:
 
 
 func update_areas() -> void:
-	position = Vector3.ZERO # position can fuck things up
+	#position = Vector3.ZERO # position can fuck things up
 	
 	if !curve: return
 	var curve_points : Array[int] = []
 	for i in curve.point_count:
 		curve_points.append(i)
 	
-	for node in get_children():
-		if not node is Area3D: continue
+	for area in get_children():
+		if not area is Area3D: continue
 		
-		if node.name.to_int() > curve.point_count -1:
+		if area.name.to_int() > curve.point_count -1:
 			# Point on curve has been deleted, remove corresponding area.
-			node.queue_free()
+			area.queue_free()
 			continue
 		
-		if curve_points.has(node.name.to_int()):
+		if curve_points.has(area.name.to_int()):
 			# Area and curve point exists and correlate. In case their positions don't align, fix it.
-			node.position = curve.get_point_position(node.name.to_int())
-			curve_points.erase(node.name.to_int())
+			area.position = curve.get_point_position(area.name.to_int())
+			curve_points.erase(area.name.to_int())
 			continue
 		
-		print("I don't think this should happen ", node.name)
+		print("I don't think this should happen ", area.name)
 	
 	for point in curve_points:
 		# Point on curve exists but area wasn't found. Add area.
@@ -209,6 +229,7 @@ func connect_to_nearby(exclude_taxiways : Array[taxiway] = [], recursion : bool 
 			else:
 				transition_taxiway.name = transition_name
 				transition_taxiway.ignore_areas = true
+				transition_taxiway.add_to_group("dynamic_taxiline")
 				add_child(transition_taxiway)
 				transition_taxiway.owner = self
 			transition_taxiway.set_meta("from", name)

@@ -2,10 +2,12 @@ extends VBoxContainer
 
 @export var scene : PackedScene
 
-func _enter_tree() -> void:
-	Controller.update_aircraft_list.connect(update_aircraft_list)
+func _ready() -> void:
+	Game.AircraftManager.list_updated.connect(update_aircraft_list)
+	print(Game.AircraftManager)
 
 func update_aircraft_list(list : Array[aircraft]) -> void:
+	print(list)
 	for airplane : aircraft in list:
 		var strip := scene.instantiate()
 		if has_node(airplane.callsign):

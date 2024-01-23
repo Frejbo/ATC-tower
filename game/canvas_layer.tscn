@@ -1,6 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://ctt41btfk0n4u"]
+[gd_scene load_steps=5 format=3 uid="uid://ctt41btfk0n4u"]
 
 [ext_resource type="Script" path="res://canvas_layer.gd" id="1_u5wm7"]
+[ext_resource type="Script" path="res://spawnButton.gd" id="2_v46yy"]
 [ext_resource type="Script" path="res://aircraft_list.gd" id="2_vlgkf"]
 [ext_resource type="PackedScene" uid="uid://dqkxk4q3gk26s" path="res://aircraft_controller_label.tscn" id="3_jq5jv"]
 
@@ -10,12 +11,14 @@ script = ExtResource("1_u5wm7")
 [node name="spawn" type="VBoxContainer" parent="."]
 offset_right = 115.0
 offset_bottom = 66.0
+script = ExtResource("2_v46yy")
 
 [node name="callsign_to_spawn" type="LineEdit" parent="spawn"]
 unique_name_in_owner = true
 layout_mode = 2
 placeholder_text = "callsign"
 alignment = 1
+max_length = 7
 
 [node name="Button" type="Button" parent="spawn"]
 layout_mode = 2
@@ -23,7 +26,17 @@ text = "SPAWN"
 
 [node name="aircraft_list" type="VBoxContainer" parent="."]
 unique_name_in_owner = true
-offset_right = 40.0
-offset_bottom = 40.0
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -40.0
+offset_top = -20.0
+offset_bottom = 20.0
+grow_horizontal = 0
+grow_vertical = 2
 script = ExtResource("2_vlgkf")
 scene = ExtResource("3_jq5jv")
+
+[connection signal="pressed" from="spawn/Button" to="spawn" method="_on_button_pressed"]

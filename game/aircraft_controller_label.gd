@@ -3,6 +3,7 @@ extends Button
 @export var callsign : String:
 	set(val):
 		callsign = val
+		print("setting")
 		%callsign.text = val
 @export var arriving_departing : String:
 	set(val):

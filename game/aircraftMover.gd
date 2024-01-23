@@ -28,8 +28,8 @@ func _ready() -> void:
 
 func calculate_path() -> Curve3D:
 	path.clear_points()
-	if not Game.taxiways.can_be_read:
-		await Game.taxiways.ready_to_be_read
+	if not Game.taxiwayManager.can_be_read:
+		await Game.taxiwayManager.ready_to_be_read
 	
 	var detailed_taxi_route := {
 		#"E":{"start_point":3, "passing_points":[3, 4, 5, 6, 7, 8], "end_point":8},
@@ -38,17 +38,17 @@ func calculate_path() -> Curve3D:
 	}
 	
 	# Calculates the destination point on each taxiway, meaning the last point they will pass on each taxiway before transitioning to next.
-	var current_point = closest_point(global_position, Game.taxiways.get_node(route[0]).curve)
+	var current_point = closest_point(global_position, Game.taxiways.get(route[0]).curve)
 	var taxiway_destinations : Array = []
 	for taxiway_idx in range(route.size()):
-		var tw : taxiway = Game.taxiways.get_node(route[taxiway_idx])
+		var tw : taxiway = Game.taxiways.get(route[taxiway_idx])
 		if route.size()-1 >= taxiway_idx+1: # Next destination is a taxiway
 			# Find next point which has connection to next taxiway
 			var connection_point = find_closest_connecting_point(tw, current_point, route[taxiway_idx+1])
 			taxiway_destinations.append({"taxiway":tw, "last_point":connection_point})
 			
 			# Sätt current_point till punkten man startar på vid nästa taxiway
-			current_point = closest_point(tw.curve.get_point_position(taxiway_destinations.back()["last_point"]), Game.taxiways.get_node(route[taxiway_idx+1]).curve)
+			current_point = closest_point(tw.curve.get_point_position(taxiway_destinations.back()["last_point"]), Game.taxiways.get(route[taxiway_idx+1]).curve)
 		else:
 			# Find closest point to goal pos on latest taxiway. Arrival point.
 			# TODO I think this will require a tesselated or baked curve to work properly
@@ -153,7 +153,7 @@ func closest_number(num : int, search : Array[int]) -> int:
 	return closest
 
 ## Returns the closest curve point index to position
-func closest_point(position : Vector3, curve : Curve3D) -> int:
+func closest_point(pos : Vector3, curve : Curve3D) -> int:
 	var points : Array[Vector3] = []
 	for point : int in curve.point_count:
 		points.append(curve.get_point_position(point))
@@ -161,7 +161,7 @@ func closest_point(position : Vector3, curve : Curve3D) -> int:
 	var closest_pos
 	var closest_distance : float
 	for p : Vector3 in points:
-		var current_distance := p.distance_to(position)
+		var current_distance := p.distance_to(pos)
 		if closest_pos == null or current_distance < closest_distance:
 			closest_pos = p
 			closest_distance = current_distance

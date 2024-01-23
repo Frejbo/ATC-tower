@@ -8,7 +8,7 @@ albedo_color = Color(1, 0, 0, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_p22eb"]
 material = SubResource("StandardMaterial3D_3cvhq")
-size = Vector3(20, 20, 20)
+size = Vector3(50, 20, 50)
 
 [node name="aircraft" type="Node3D"]
 script = ExtResource("1_2eash")
@@ -22,9 +22,10 @@ mesh = SubResource("BoxMesh_p22eb")
 
 [node name="callsign" type="Label3D" parent="."]
 unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 36, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 36, -48)
+pixel_size = 0.01
 billboard = 1
-text = "SAS001"
-font_size = 1280
+text = "AUA2JA"
+font_size = 2048
 outline_size = 127
 uppercase = true

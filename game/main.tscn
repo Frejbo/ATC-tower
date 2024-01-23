@@ -1,0 +1,19 @@
+[gd_scene load_steps=5 format=3 uid="uid://dyyjsxg1bijpa"]
+
+[ext_resource type="PackedScene" uid="uid://bbdfih0weqhie" path="res://airport.tscn" id="1_ubhcf"]
+[ext_resource type="Script" path="res://AircraftManager.gd" id="2_8bqv8"]
+[ext_resource type="PackedScene" uid="uid://dooe7wxlpdhd5" path="res://aircraft.tscn" id="3_0cmsq"]
+[ext_resource type="PackedScene" uid="uid://ctt41btfk0n4u" path="res://canvas_layer.tscn" id="4_xor5g"]
+
+[node name="main" type="Node3D"]
+
+[node name="airport" parent="." instance=ExtResource("1_ubhcf")]
+
+[node name="AircraftManager" type="Node" parent="."]
+script = ExtResource("2_8bqv8")
+aircraftScene = ExtResource("3_0cmsq")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 808.321, 691.623, 300)
+
+[node name="CanvasLayer" parent="Camera3D" instance=ExtResource("4_xor5g")]

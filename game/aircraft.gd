@@ -6,13 +6,3 @@ class_name aircraft
 	set(val):
 		callsign = val.to_upper()
 		%callsign.text = callsign
-
-
-func _enter_tree() -> void:
-	Controller.aircrafts.append(self)
-
-func _exit_tree() -> void:
-	Controller.aircrafts.erase(self)
-
-func _init(new_callsign : String) -> void:
-	callsign = new_callsign
