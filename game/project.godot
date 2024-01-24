@@ -24,3 +24,8 @@ Controller="*res://Controller.gd"
 
 window/size/viewport_width=1280
 window/size/viewport_height=720
+
+[editor]
+
+movie_writer/movie_file="C:/Users/Frej/Videos/ATC-tower.avi"
+movie_writer/fps=30

@@ -76,6 +76,7 @@ func clean_up() -> void:
 
 func _exit_tree() -> void:
 	clean_up()
+	PhysicsServer3D.set_active(false)
 
 var area_update_cooldown_timer : Timer
 func _enter_tree() -> void:

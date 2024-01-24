@@ -1,0 +1,33 @@
+[gd_scene load_steps=5 format=3 uid="uid://dnfau4rndt8gt"]
+
+[ext_resource type="PackedScene" uid="uid://jvgs6kd0ms2x" path="res://Cylinder 320 Neo.tscn" id="1_h0c31"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_h0g2t"]
+size = Vector3(100, 1, 100)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pjdj5"]
+albedo_color = Color(0, 0, 0, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_e6q3r"]
+material = SubResource("StandardMaterial3D_pjdj5")
+size = Vector3(100, 1, 100)
+
+[node name="Node3D" type="Node3D"]
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+shape = SubResource("BoxShape3D_h0g2t")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D"]
+mesh = SubResource("BoxMesh_e6q3r")
+skeleton = NodePath("../..")
+
+[node name="VehicleBody3D" parent="." instance=ExtResource("1_h0c31")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 11, 0)
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 37.4244, 6.4972, 0)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.704151, 0.479968, 0.523261, -0.71005, 0.47598, 0.518914, 0, -0.736935, 0.675963, 0, 0, 0)

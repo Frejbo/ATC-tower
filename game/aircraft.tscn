@@ -1,16 +1,10 @@
-[gd_scene load_steps=7 format=3 uid="uid://dooe7wxlpdhd5"]
+[gd_scene load_steps=6 format=3 uid="uid://dooe7wxlpdhd5"]
 
 [ext_resource type="Script" path="res://aircraft.gd" id="1_2eash"]
 [ext_resource type="Script" path="res://AircraftCommunicator.gd" id="2_pxkq3"]
 [ext_resource type="Script" path="res://routeEnterer.gd" id="3_2sjyg"]
 [ext_resource type="Script" path="res://taxi_to_stand.gd" id="3_cweu7"]
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3cvhq"]
-albedo_color = Color(1, 0, 0, 1)
-
-[sub_resource type="BoxMesh" id="BoxMesh_p22eb"]
-material = SubResource("StandardMaterial3D_3cvhq")
-size = Vector3(50, 20, 50)
+[ext_resource type="PackedScene" uid="uid://jvgs6kd0ms2x" path="res://Cylinder 320 Neo.tscn" id="5_q5amb"]
 
 [node name="aircraft" type="Node3D" node_paths=PackedStringArray("communicator")]
 script = ExtResource("1_2eash")
@@ -75,19 +69,17 @@ context_menu_enabled = false
 drag_and_drop_selection_enabled = false
 script = ExtResource("3_2sjyg")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 12, 0)
-mesh = SubResource("BoxMesh_p22eb")
-
 [node name="callsign" type="Label3D" parent="."]
 unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 36, -48)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 30, -48)
 pixel_size = 0.01
 billboard = 1
 text = "AUA2JA"
 font_size = 2048
 outline_size = 127
 uppercase = true
+
+[node name="Cylinder A320 Neo" parent="." instance=ExtResource("5_q5amb")]
 
 [connection signal="pressed" from="aircraft_communicator/taxi_to_stand" to="aircraft_communicator/taxi_to_stand" method="_on_pressed"]
 [connection signal="taxi_to_stand" from="aircraft_communicator/taxi_to_stand" to="aircraft_communicator" method="taxi_to_stand"]
