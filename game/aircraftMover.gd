@@ -1,4 +1,4 @@
-extends Node3D
+extends Node
 
 @export var body : Node3D:
 	set(val):
@@ -17,6 +17,10 @@ extends Node3D
 var path : Curve3D = Curve3D.new()
 
 func path_is_valid() -> bool:
+	for tw_name : String in route:
+		if not Game.taxiways.has(tw_name):
+			return false
+	
 	if await calculate_path():
 		return true
 	else:
@@ -38,7 +42,7 @@ func calculate_path() -> Curve3D:
 	}
 	
 	# Calculates the destination point on each taxiway, meaning the last point they will pass on each taxiway before transitioning to next.
-	var current_point = closest_point(global_position, Game.taxiways.get(route[0]).curve)
+	var current_point = closest_point(body.global_position, Game.taxiways.get(route[0]).curve)
 	var taxiway_destinations : Array = []
 	for taxiway_idx in range(route.size()):
 		var tw : taxiway = Game.taxiways.get(route[taxiway_idx])
@@ -59,7 +63,7 @@ func calculate_path() -> Curve3D:
 	
 	
 	# Loop through taxiway_destinations, convert and add them and everything neccesary to detailed_taxi_route
-	current_point = closest_point(global_position, taxiway_destinations[0]["taxiway"].curve)
+	current_point = closest_point(body.global_position, taxiway_destinations[0]["taxiway"].curve)
 	for taxi : Dictionary in taxiway_destinations:
 		# fill from current point to last_point...
 		var details := {"start_point":current_point, "passing_points":[], "end_point":taxi["last_point"]}

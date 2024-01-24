@@ -1,8 +1,15 @@
-[gd_scene load_steps=8 format=3 uid="uid://jvgs6kd0ms2x"]
+[gd_scene load_steps=10 format=3 uid="uid://jvgs6kd0ms2x"]
 
 [ext_resource type="Script" path="res://AircraftBody.gd" id="1_ksjms"]
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2bssf"]
+albedo_color = Color(1, 0.0784314, 0.0784314, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6ywbw"]
+next_pass = SubResource("StandardMaterial3D_2bssf")
+
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_bqyxn"]
+material = SubResource("StandardMaterial3D_6ywbw")
 radius = 3.6
 height = 40.0
 
