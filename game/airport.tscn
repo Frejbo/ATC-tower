@@ -1,8 +1,9 @@
-[gd_scene load_steps=21 format=3 uid="uid://bbdfih0weqhie"]
+[gd_scene load_steps=22 format=3 uid="uid://bbdfih0weqhie"]
 
 [ext_resource type="PackedScene" uid="uid://c3vpi5rklcc08" path="res://airport.blend" id="1_rkesj"]
 [ext_resource type="Texture2D" uid="uid://cfrwgslp3pgbs" path="res://airport overview.png" id="1_yjken"]
 [ext_resource type="Script" path="res://taxiway_node.gd" id="2_0itsb"]
+[ext_resource type="Material" uid="uid://brlxnwudwdynu" path="res://runway.tres" id="2_d47fi"]
 [ext_resource type="Script" path="res://taxiwayManager.gd" id="3_4yp6r"]
 [ext_resource type="PackedScene" uid="uid://dyunen1vglo8o" path="res://Gate.tscn" id="5_7ridq"]
 
@@ -113,6 +114,9 @@ size = Vector3(5000, 10, 5000)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1036.79, 0, 437.207)
 
 [node name="airport" parent="." instance=ExtResource("1_rkesj")]
+
+[node name="Runway 03-21" parent="airport" index="0"]
+surface_material_override/0 = ExtResource("2_d47fi")
 
 [node name="Sprite3D" type="Sprite3D" parent="."]
 transform = Transform3D(305, 0, 0, 0, 305, 0, 0, 0, 305, -4.825, -1, 307.515)
@@ -239,3 +243,5 @@ transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="ground collision"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -5, 0)
 shape = SubResource("BoxShape3D_vdifn")
+
+[editable path="airport"]

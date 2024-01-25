@@ -1,0 +1,26 @@
+[gd_resource type="ShaderMaterial" load_steps=5 format=3 uid="uid://brlxnwudwdynu"]
+
+[ext_resource type="Shader" path="res://paint.gdshader" id="1_5rlhm"]
+[ext_resource type="Texture2D" uid="uid://dicssvmyhgore" path="res://Assets/asphalt_02_diff_1k.jpg" id="2_demjj"]
+[ext_resource type="Texture2D" uid="uid://c4pxcrq1tbgom" path="res://Assets/runway-mask.svg" id="2_p6as6"]
+[ext_resource type="Texture2D" uid="uid://cr2e0qr5mg1wk" path="res://Assets/asphalt_02_nor_gl_1k.jpg" id="3_p7u1r"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_5rlhm")
+shader_parameter/albedo = Color(1, 1, 1, 1)
+shader_parameter/point_size = 1.0
+shader_parameter/roughness = 1.0
+shader_parameter/metallic_texture_channel = null
+shader_parameter/specular = 0.5
+shader_parameter/metallic = 0.0
+shader_parameter/normal_scale = 1.0
+shader_parameter/uv1_blend_sharpness = 1.0
+shader_parameter/uv1_scale = Vector3(0.1, 0.1, 0.1)
+shader_parameter/uv1_offset = Vector3(0, 0, 0)
+shader_parameter/uv2_scale = Vector3(1, 1, 1)
+shader_parameter/uv2_offset = Vector3(0, 0, 0)
+shader_parameter/white = Color(0.878431, 0.878431, 0.878431, 1)
+shader_parameter/texture_albedo = ExtResource("2_demjj")
+shader_parameter/texture_normal = ExtResource("3_p7u1r")
+shader_parameter/mask = ExtResource("2_p6as6")

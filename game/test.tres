@@ -1,6 +1,0 @@
-[gd_resource type="Resource" script_class="taxiway_connector" load_steps=2 format=3 uid="uid://l2elp2x2ly7x"]
-
-[ext_resource type="Script" path="res://taxiway_connector.gd" id="1_st0qk"]
-
-[resource]
-script = ExtResource("1_st0qk")
