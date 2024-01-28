@@ -2,8 +2,8 @@ extends CanvasLayer
 
 class_name aircraft_communicator
 
-@onready var body : Node3D = get_parent()
-@onready var pathfinder_resource := pathfinder.new()
+@export var aircraft : aircraft
+@onready var taxi_pathfind : pathfinder
 
 #func _ready() -> void:
 	#print(await taxi_to_stand(Game.stands.get("20"), ["E", "Y", "F", "L"]))
@@ -14,10 +14,9 @@ func taxi_to_stand(stand, route : Array[String]) -> bool:
 
 signal taxi_instruction_recieved
 func taxi_to(position : Vector3, route : Array[String]) -> bool:
-	pathfinder_resource.route = route
-	pathfinder_resource.goal_position = position
-	if await pathfinder_resource.path_is_valid():
-		taxi_instruction_recieved.emit(await pathfinder_resource.calculate_path())
+	taxi_pathfind = pathfinder.new(aircraft.aircraft_body.nosewheel.global_position, position, route, false)
+	if await taxi_pathfind.path_is_valid():
+		taxi_instruction_recieved.emit(await taxi_pathfind.calculate_path())
 		return true
 	else:
 		return false

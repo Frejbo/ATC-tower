@@ -3,10 +3,9 @@
 shader_type spatial;
 render_mode blend_mix,depth_draw_opaque,cull_back,diffuse_burley,specular_schlick_ggx;
 uniform vec4 albedo : source_color;
-uniform vec4 albedo_second : source_color;
 uniform sampler2D texture_albedo : source_color,filter_linear_mipmap,repeat_enable;
 uniform sampler2D texture_albedo_second : source_color,filter_linear_mipmap,repeat_enable;
-uniform float point_size : hint_range(0,128);
+//uniform float point_size : hint_range(0,128);
 uniform float roughness : hint_range(0,1);
 uniform sampler2D texture_metallic : hint_default_white,filter_linear_mipmap,repeat_enable;
 uniform vec4 metallic_texture_channel;
@@ -20,13 +19,13 @@ uniform float uv1_blend_sharpness;
 varying vec3 uv1_power_normal;
 uniform vec3 uv1_scale;
 uniform vec3 uv1_offset;
-uniform vec3 uv2_scale;
-uniform vec3 uv2_offset;
+//uniform vec3 uv2_scale;
+//uniform vec3 uv2_offset;
 
-uniform sampler2D mask;
+uniform sampler2D mask: source_color;
 uniform vec3 white : source_color;
 
-uniform sampler2D blend_noise;
+uniform sampler2D blend_noise: source_color,filter_linear_mipmap,repeat_enable;
 
 void vertex() {
 	vec3 normal = NORMAL;
@@ -55,20 +54,21 @@ vec4 triplanar_texture(sampler2D p_sampler,vec3 p_weights,vec3 p_triplanar_pos) 
 	return samp;
 }
 
+vec3 scale_texture(sampler2D tex, vec2 uv) {
+	return texture(tex, uv * vec2(50.0*uv1_scale.x, 1.0*uv1_scale.z)).rgb;
+}
+
 
 void fragment() {
-	vec3 noise_mask = texture(blend_noise, UV).rgb;
-	vec3 a = albedo.rgb * texture(texture_albedo, UV).rgb;
-	vec3 b = albedo_second.rgb * texture(texture_albedo_second, UV).rgb;
+	vec3 noise_mask = scale_texture(blend_noise, UV * .5);
+	vec3 a = scale_texture(texture_albedo, UV);
+	vec3 b = scale_texture(texture_albedo_second, UV);
 	vec3 color = mix(a, b, noise_mask);
 	
-	
-	vec4 albedo_tex = triplanar_texture(texture_albedo,uv1_power_normal,uv1_triplanar_pos);
-	
 	//vec4 other_texture = triplanar_texture(texture_albedo,uv1_power_normal,uv1_triplanar_pos);
-	float mix_val = clamp(5.0*texture(mask,UV).r * albedo_tex.r, 0.0, 1.0);
-	albedo_tex.rgb = albedo_tex.rgb * (1.0 - mix_val) + white * mix_val; // change "white" to other_texture.rgb 
-	ALBEDO = albedo.rgb * albedo_tex.rgb;
+	float mix_val = clamp(5.0*texture(mask,UV).r * color.r, 0.0, 1.0);
+	color.rgb = color.rgb * (1.0 - mix_val) + white * mix_val; // change "white" to other_texture.rgb 
+	ALBEDO = albedo.rgb * color;
 	
 	vec4 roughness_texture_channel = vec4(1.0,0.0,0.0,0.0);
 	float roughness_tex = dot(triplanar_texture(texture_roughness,uv1_power_normal,uv1_triplanar_pos),roughness_texture_channel);

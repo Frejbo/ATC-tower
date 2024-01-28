@@ -12,9 +12,11 @@ class_name pathfinder
 
 var path : Curve3D = Curve3D.new()
 
-#func _init(target_position : Vector3, taxi_route : Array[String]) -> void:
-	#goal_position = target_position
-	#route = taxi_route
+func _init(from_pos : Vector3, to_position : Vector3, taxi_route : Array[String], start_from_closest_point : bool = true) -> void:
+	start_position = from_pos
+	goal_position = to_position
+	route = taxi_route
+	start_from_closest = start_from_closest_point
 
 
 func path_is_valid() -> bool:
@@ -57,8 +59,6 @@ func calculate_path() -> Curve3D:
 			# TODO I think this will require a tesselated or baked curve to work properly
 			var closest_point_to_goal : int = closest_point(goal_position, tw.curve)
 			taxiway_destinations.append({"taxiway":tw, "last_point":closest_point_to_goal})
-	
-	print("Taxiway destinations: ", taxiway_destinations)
 	
 	
 	# Loop through taxiway_destinations, convert and add them and everything neccesary to detailed_taxi_route
@@ -133,11 +133,9 @@ func find_closest_connecting_point(tw : taxiway, origin_point : int, destination
 	var connecting_points : Array[int] = []
 	# Search every point in the taxiway
 	for point in tw.curve.point_count:
-		print("Checking point ", point, " on taxiway ", tw.name)
 		# If point has transition to destination_taxiway, add to connecting_points.
 		if has_transition_to(tw, point, destination_taxiway_name):
 			connecting_points.append(point)
-			print("Transition found!")
 	
 	if connecting_points.is_empty():
 		printerr("Couldn't go from ", tw.name, " to ", destination_taxiway_name)
@@ -149,14 +147,13 @@ func find_closest_connecting_point(tw : taxiway, origin_point : int, destination
 func closest_number(num : int, search : Array[int]) -> int:
 	var closest : int = -1
 	if search.is_empty():
-		return closest
 		printerr("Search input was empty, it has to be something. (in closest_numer(), pathfinder.gd)")
+		return closest
 	var closest_delta : int = abs(search[0]-num)
 	for i in search:
 		if closest == -1 or abs(i - num) < closest_delta:
 			closest_delta = abs(i - num)
 			closest = i
-	print("Closest number to ", num, " in: ", search, " is ", closest)
 	return closest
 
 ## Returns the closest curve point index to position
@@ -172,7 +169,6 @@ func closest_point(pos : Vector3, curve : Curve3D) -> int:
 		if closest_pos == null or current_distance < closest_distance:
 			closest_pos = p
 			closest_distance = current_distance
-	print(closest_distance)
 	return points.find(closest_pos)
 
 ## Checks the given taxiway and returns true if the given point has a transition to the "to_point".

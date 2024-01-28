@@ -28,17 +28,22 @@ func hide_communication_window() -> void:
 
 
 func _physics_process(delta: float) -> void:
+	#print("point", travel_curve.point_count)
 	if travel_curve.point_count > 0:
 		taxi_aircraft(delta)
 
-func taxi_aircraft(delta : float) -> void:
-	var closest_distance : float = 1
-	while travel_curve.get_point_position(0).distance_to(aircraft_body.nosewheel.global_position) < closest_distance:
+func taxi_aircraft(_delta : float) -> void:
+	print()
+	var closest_distance : float = 5
+	while aircraft_body.nosewheel.global_position.distance_to(travel_curve.get_point_position(0)) < closest_distance:
+		print("Removing point, total: ", travel_curve.point_count)
 		travel_curve.remove_point(0)
-		print("Removing point")
 	
-	var direction : float = aircraft_body.nosewheel.global_position.angle_to(travel_curve.get_point_position(0))
-	print(angle_difference(direction, aircraft_body.global_rotation.y))
-	aircraft_body.nosewheel.steering = angle_difference(direction, aircraft_body.nosewheel.rotation.y)
-	
-	travel_curve.clear_points()
+	var target = travel_curve.get_point_position(0) - aircraft_body.nosewheel.global_position
+	print(target)
+	var direction : float = aircraft_body.global_position.angle_to(travel_curve.get_point_position(0))
+	print(rad_to_deg(direction))
+	direction = clamp(direction, -deg_to_rad(aircraft_body.max_nosewheel_steering_degrees), deg_to_rad(aircraft_body.max_nosewheel_steering_degrees))
+	print("clamped: ", rad_to_deg(direction))
+	#aircraft_body.nosewheel.steering = direction
+	$"Cylinder A320 Neo/arrow".rotation_degrees.y = rad_to_deg(direction) - 90

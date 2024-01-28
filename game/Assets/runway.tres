@@ -1,21 +1,37 @@
-[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://brlxnwudwdynu"]
+[gd_resource type="ShaderMaterial" load_steps=8 format=3 uid="uid://rc5hmaanq1vr"]
 
 [ext_resource type="Shader" path="res://Assets/paint.gdshader" id="1_78u8u"]
+[ext_resource type="Texture2D" uid="uid://c4pxcrq1tbgom" path="res://Assets/runway-mask.svg" id="2_d1ed1"]
+[ext_resource type="Texture2D" uid="uid://bfb7ofdmnrssy" path="res://Assets/asphalt_road.jpg" id="3_tdqdr"]
+[ext_resource type="Texture2D" uid="uid://dcxomessbb47n" path="res://Assets/asphalt_road_1.jpg" id="4_i2cxb"]
+
+[sub_resource type="Gradient" id="Gradient_dhufq"]
+offsets = PackedFloat32Array(0, 0.732877)
+colors = PackedColorArray(0.241156, 0.241156, 0.241156, 1, 0.745581, 0.74558, 0.745579, 1)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_3rrpy"]
+noise_type = 3
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_oifgs"]
+seamless = true
+seamless_blend_skirt = 0.6
+color_ramp = SubResource("Gradient_dhufq")
+noise = SubResource("FastNoiseLite_3rrpy")
 
 [resource]
 render_priority = 0
 shader = ExtResource("1_78u8u")
-shader_parameter/albedo = null
-shader_parameter/albedo_second = null
-shader_parameter/point_size = null
+shader_parameter/albedo = Color(1, 1, 1, 1)
 shader_parameter/roughness = null
 shader_parameter/metallic_texture_channel = null
 shader_parameter/specular = null
 shader_parameter/metallic = null
 shader_parameter/normal_scale = null
 shader_parameter/uv1_blend_sharpness = null
-shader_parameter/uv1_scale = null
+shader_parameter/uv1_scale = Vector3(5, 5, 5)
 shader_parameter/uv1_offset = null
-shader_parameter/uv2_scale = null
-shader_parameter/uv2_offset = null
-shader_parameter/white = null
+shader_parameter/white = Color(1, 1, 1, 1)
+shader_parameter/texture_albedo = ExtResource("3_tdqdr")
+shader_parameter/texture_albedo_second = ExtResource("4_i2cxb")
+shader_parameter/mask = ExtResource("2_d1ed1")
+shader_parameter/blend_noise = SubResource("NoiseTexture2D_oifgs")

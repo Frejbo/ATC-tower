@@ -16,7 +16,7 @@ func _physics_process(delta: float) -> void:
 	thrust_lever_percentage = $CanvasLayer/thrust.value
 	
 	current_thrust_force = lerp(current_thrust_force, max_thrust_N * thrust_lever_percentage, engine_spool_up_speed * delta)
-	#steer_wheel(delta)
+	steer_wheel(delta)
 
 var velocity := Vector3.ZERO
 func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
