@@ -1,0 +1,21 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://brlxnwudwdynu"]
+
+[ext_resource type="Shader" path="res://Assets/paint.gdshader" id="1_78u8u"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_78u8u")
+shader_parameter/albedo = null
+shader_parameter/albedo_second = null
+shader_parameter/point_size = null
+shader_parameter/roughness = null
+shader_parameter/metallic_texture_channel = null
+shader_parameter/specular = null
+shader_parameter/metallic = null
+shader_parameter/normal_scale = null
+shader_parameter/uv1_blend_sharpness = null
+shader_parameter/uv1_scale = null
+shader_parameter/uv1_offset = null
+shader_parameter/uv2_scale = null
+shader_parameter/uv2_offset = null
+shader_parameter/white = null

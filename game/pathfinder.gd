@@ -1,20 +1,21 @@
-extends Node
+extends Resource
 
-@export var body : Node3D:
-	set(val):
-		body = val
-		if not val.is_inside_tree():
-			await val.tree_entered
-		$Path3D/RemoteTransform3D.remote_path = val.get_path()
+class_name pathfinder
 
+@export_category("Start")
+@export var start_from_closest : bool = true
+@export var start_position : Vector3
+@export_category("End")
 @export var goal_position : Vector3
 @export var route : Array[String]
+
+
+var path : Curve3D = Curve3D.new()
 
 #func _init(target_position : Vector3, taxi_route : Array[String]) -> void:
 	#goal_position = target_position
 	#route = taxi_route
 
-var path : Curve3D = Curve3D.new()
 
 func path_is_valid() -> bool:
 	for tw_name : String in route:
@@ -26,9 +27,6 @@ func path_is_valid() -> bool:
 	else:
 		return false
 
-func _ready() -> void:
-	$Path3D.curve = await calculate_path()
-	$Path3D/RemoteTransform3D.remote_path = body.get_path()
 
 func calculate_path() -> Curve3D:
 	path.clear_points()
@@ -41,8 +39,9 @@ func calculate_path() -> Curve3D:
 		#"A":{"start_point":8, "passing_points":[8, 7, 6, 5, 4, 3], "end_point":3}
 	}
 	
+	
 	# Calculates the destination point on each taxiway, meaning the last point they will pass on each taxiway before transitioning to next.
-	var current_point = closest_point(body.global_position, Game.taxiways.get(route[0]).curve)
+	var current_point = closest_point(start_position, Game.taxiways.get(route[0]).curve)
 	var taxiway_destinations : Array = []
 	for taxiway_idx in range(route.size()):
 		var tw : taxiway = Game.taxiways.get(route[taxiway_idx])
@@ -63,7 +62,7 @@ func calculate_path() -> Curve3D:
 	
 	
 	# Loop through taxiway_destinations, convert and add them and everything neccesary to detailed_taxi_route
-	current_point = closest_point(body.global_position, taxiway_destinations[0]["taxiway"].curve)
+	current_point = closest_point(start_position, taxiway_destinations[0]["taxiway"].curve) # start only
 	for taxi : Dictionary in taxiway_destinations:
 		# fill from current point to last_point...
 		var details := {"start_point":current_point, "passing_points":[], "end_point":taxi["last_point"]}
@@ -93,7 +92,9 @@ func calculate_path() -> Curve3D:
 		
 		var next_taxiway_destination : Dictionary = taxiway_destinations[taxiway_destinations.find(taxi)+1]
 		var available_transitions : Array[taxiway] = get_transitions_from_to(taxi["taxiway"], current_point, next_taxiway_destination["taxiway"].name)
-		
+		if available_transitions.is_empty():
+			print("No path was found for ", route)
+			return null
 		# find and fill transition
 		var transition : taxiway = choose_transition(available_transitions, next_taxiway_destination["last_point"])
 		for i in transition.curve.point_count:
@@ -122,9 +123,10 @@ func choose_transition(available_transitions : Array[taxiway], last_point_on_tar
 	return chosen_transition
 
 func set_path_from_positions(positions : Array[Vector3]) -> void:
+	if not start_from_closest:
+		path.add_point(start_position)
 	for pos in positions:
 		path.add_point(pos)
-	$Path3D.curve = path
 
 ## Returning closest available point with a transition to the given destination taxiway.
 func find_closest_connecting_point(tw : taxiway, origin_point : int, destination_taxiway_name : String) -> int:
@@ -145,9 +147,10 @@ func find_closest_connecting_point(tw : taxiway, origin_point : int, destination
 
 ## Finding the number that is closest to "num" in an array of ints. If the array contains 2 points which area exactly the same distance, it will return the point which is first in the array.
 func closest_number(num : int, search : Array[int]) -> int:
-	if search.is_empty():
-		printerr("Search input was ", search, ", it has to be something. (in closest_numer(), aircraftMover.gd)")
 	var closest : int = -1
+	if search.is_empty():
+		return closest
+		printerr("Search input was empty, it has to be something. (in closest_numer(), pathfinder.gd)")
 	var closest_delta : int = abs(search[0]-num)
 	for i in search:
 		if closest == -1 or abs(i - num) < closest_delta:
@@ -192,7 +195,3 @@ func get_transitions_from_to(from_taxiway : taxiway, from_point, target_taxiway_
 		if not transition.get_meta("to") == target_taxiway_name: continue
 		available_transitions.append(transition)
 	return available_transitions
-
-func _process(delta):
-	$Path3D/PathFollow3D.progress += 200 * delta
-	body.position = $Path3D/PathFollow3D.position

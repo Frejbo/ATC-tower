@@ -3,7 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://c3vpi5rklcc08" path="res://airport.blend" id="1_rkesj"]
 [ext_resource type="Texture2D" uid="uid://cfrwgslp3pgbs" path="res://airport overview.png" id="1_yjken"]
 [ext_resource type="Script" path="res://taxiway_node.gd" id="2_0itsb"]
-[ext_resource type="Material" uid="uid://brlxnwudwdynu" path="res://runway.tres" id="2_d47fi"]
+[ext_resource type="Material" uid="uid://brlxnwudwdynu" path="res://Assets/runway.tres" id="2_d47fi"]
 [ext_resource type="Script" path="res://taxiwayManager.gd" id="3_4yp6r"]
 [ext_resource type="PackedScene" uid="uid://dyunen1vglo8o" path="res://Gate.tscn" id="5_7ridq"]
 

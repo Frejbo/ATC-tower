@@ -41,6 +41,7 @@ radius = 3.6
 height = 40.0
 
 [node name="Cylinder A320 Neo" type="VehicleBody3D" node_paths=PackedStringArray("nosewheel")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7.5194, 0)
 mass = 55000.0
 center_of_mass_mode = 1
 center_of_mass = Vector3(0, 0, 5)
@@ -49,7 +50,7 @@ nosewheel = NodePath("Front")
 max_nosewheel_steering_degrees = 80
 max_thrust_N = 311375
 engine_spool_up_speed = 50
-Coefficient_of_lift = 0.5
+Coefficient_of_lift = 1.75
 wing_area = 123
 
 [node name="body" type="MeshInstance3D" parent="."]

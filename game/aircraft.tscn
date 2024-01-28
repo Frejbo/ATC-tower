@@ -6,9 +6,10 @@
 [ext_resource type="Script" path="res://taxi_to_stand.gd" id="3_cweu7"]
 [ext_resource type="PackedScene" uid="uid://jvgs6kd0ms2x" path="res://Cylinder 320 Neo.tscn" id="5_q5amb"]
 
-[node name="aircraft" type="Node3D" node_paths=PackedStringArray("communicator")]
+[node name="aircraft" type="Node3D" node_paths=PackedStringArray("communicator", "aircraft_body")]
 script = ExtResource("1_2eash")
 communicator = NodePath("aircraft_communicator")
+aircraft_body = NodePath("Cylinder A320 Neo")
 
 [node name="aircraft_communicator" type="CanvasLayer" parent="."]
 visible = false
