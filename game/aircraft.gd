@@ -39,11 +39,10 @@ func taxi_aircraft(_delta : float) -> void:
 		print("Removing point, total: ", travel_curve.point_count)
 		travel_curve.remove_point(0)
 	
-	var target = travel_curve.get_point_position(0) - aircraft_body.nosewheel.global_position
-	print(target)
-	var direction : float = aircraft_body.global_position.angle_to(travel_curve.get_point_position(0))
-	print(rad_to_deg(direction))
-	direction = clamp(direction, -deg_to_rad(aircraft_body.max_nosewheel_steering_degrees), deg_to_rad(aircraft_body.max_nosewheel_steering_degrees))
-	print("clamped: ", rad_to_deg(direction))
-	#aircraft_body.nosewheel.steering = direction
-	$"Cylinder A320 Neo/arrow".rotation_degrees.y = rad_to_deg(direction) - 90
+	
+	var direction = (travel_curve.get_point_position(0) - aircraft_body.nosewheel.global_position).normalized()
+	var target_rotation = atan2(direction.x, direction.z) - aircraft_body.rotation.y
+	target_rotation = clamp(target_rotation, -deg_to_rad(aircraft_body.max_nosewheel_steering_degrees), deg_to_rad(aircraft_body.max_nosewheel_steering_degrees))
+	aircraft_body.steering = target_rotation
+	print(target_rotation)
+	$"Cylinder A320 Neo/arrow".rotation_degrees.y = rad_to_deg(target_rotation) - 90

@@ -11,8 +11,11 @@ colors = PackedColorArray(0.241156, 0.241156, 0.241156, 1, 0.745581, 0.74558, 0.
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_3rrpy"]
 noise_type = 3
+frequency = 0.024
 
 [sub_resource type="NoiseTexture2D" id="NoiseTexture2D_oifgs"]
+width = 1024
+height = 1024
 seamless = true
 seamless_blend_skirt = 0.6
 color_ramp = SubResource("Gradient_dhufq")
@@ -28,7 +31,7 @@ shader_parameter/specular = null
 shader_parameter/metallic = null
 shader_parameter/normal_scale = null
 shader_parameter/uv1_blend_sharpness = null
-shader_parameter/uv1_scale = Vector3(5, 5, 5)
+shader_parameter/uv1_scale = Vector3(10, 10, 10)
 shader_parameter/uv1_offset = null
 shader_parameter/white = Color(1, 1, 1, 1)
 shader_parameter/texture_albedo = ExtResource("3_tdqdr")
