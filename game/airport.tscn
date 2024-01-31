@@ -1,10 +1,11 @@
-[gd_scene load_steps=22 format=3 uid="uid://bbdfih0weqhie"]
+[gd_scene load_steps=23 format=3 uid="uid://bbdfih0weqhie"]
 
 [ext_resource type="PackedScene" uid="uid://c3vpi5rklcc08" path="res://airport.blend" id="1_rkesj"]
 [ext_resource type="Texture2D" uid="uid://cfrwgslp3pgbs" path="res://airport overview.png" id="1_yjken"]
 [ext_resource type="Script" path="res://taxiway_node.gd" id="2_0itsb"]
 [ext_resource type="Material" uid="uid://rc5hmaanq1vr" path="res://Assets/runway.tres" id="2_ve8vh"]
 [ext_resource type="Script" path="res://taxiwayManager.gd" id="3_4yp6r"]
+[ext_resource type="FontFile" uid="uid://bcj0k12k1cxkl" path="res://fonts/OpenRunwayNumbers.ttf" id="3_6fwq0"]
 [ext_resource type="PackedScene" uid="uid://dyunen1vglo8o" path="res://Gate.tscn" id="5_7ridq"]
 
 [sub_resource type="Curve3D" id="Curve3D_naxno"]
@@ -35,9 +36,9 @@ _data = {
 }
 point_count = 2
 
-[sub_resource type="Curve3D" id="Curve3D_kgx5b"]
+[sub_resource type="Curve3D" id="Curve3D_u284r"]
 _data = {
-"points": PackedVector3Array(40, 0, 0, -40, 0, 0, 725, 0, 185, 0, 0, 0, 0, 0, 0, 440, 0, 30, 0, 0, 0, 0, 0, 0, 244.567, 0, -17.9258),
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, 305, 0, 0, -85, 0, -55, 85, 0, 55, 492.756, 0, 55.6282, -60, 0, 0, 60, 0, 0, 735, 0, 185),
 "tilts": PackedFloat32Array(0, 0, 0)
 }
 point_count = 3
@@ -118,6 +119,28 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1036.79, 0, 437.207)
 [node name="Runway 03-21" parent="airport" index="0"]
 surface_material_override/0 = ExtResource("2_ve8vh")
 
+[node name="Designation marking 1" type="Label3D" parent="airport/Runway 03-21" index="0"]
+transform = Transform3D(1.91069e-15, -1, -4.37114e-08, -4.37114e-08, -4.37114e-08, 1, -1, 0, -4.37114e-08, 1608, 0.01, 0)
+transparency = 0.9
+shaded = true
+double_sided = false
+text = "21"
+font = ExtResource("3_6fwq0")
+font_size = 2500
+outline_size = 0
+vertical_alignment = 2
+
+[node name="Designation marking 2" type="Label3D" parent="airport/Runway 03-21" index="1"]
+transform = Transform3D(8.74228e-08, 1, 4.37114e-08, -4.37114e-08, -4.37114e-08, 1, 1, -8.74228e-08, 4.37114e-08, -1608, 0.01, 0)
+transparency = 0.9
+shaded = true
+double_sided = false
+text = "03"
+font = ExtResource("3_6fwq0")
+font_size = 2500
+outline_size = 0
+vertical_alignment = 2
+
 [node name="Sprite3D" type="Sprite3D" parent="."]
 transform = Transform3D(305, 0, 0, 0, 305, 0, 0, 0, 305, -4.825, -1, 307.515)
 visible = false
@@ -160,11 +183,11 @@ connection_sizes = Array[float]([30.0, 30.0])
 taxiline_shape = PackedVector2Array(0, 0, -0.5, 0.1, 0.5, 0.1)
 
 [node name="E" type="Path3D" parent="taxiways"]
-curve = SubResource("Curve3D_kgx5b")
+curve = SubResource("Curve3D_u284r")
 script = ExtResource("2_0itsb")
 taxiway_name = "E"
 connection_sizes = Array[float]([30.0, 30.0, 30.0])
-taxiline_shape = PackedVector2Array(0, 0, -0.5, 0.1, 0.5, 0.1)
+taxiline_shape = PackedVector2Array(0, 0, -0.5, 0.01, 0.5, 0.01)
 
 [node name="F" type="Path3D" parent="taxiways"]
 curve = SubResource("Curve3D_ylsry")

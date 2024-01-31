@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://jvgs6kd0ms2x"]
+[gd_scene load_steps=12 format=3 uid="uid://jvgs6kd0ms2x"]
 
 [ext_resource type="Script" path="res://AircraftController.gd" id="1_714t6"]
 
@@ -40,6 +40,13 @@ height = 0.8
 radius = 3.6
 height = 40.0
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_udjg8"]
+albedo_color = Color(0, 1, 0, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_f2hnc"]
+material = SubResource("StandardMaterial3D_udjg8")
+radius = 5.0
+
 [node name="Cylinder A320 Neo" type="VehicleBody3D" node_paths=PackedStringArray("nosewheel")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7.5194, 0)
 mass = 55000.0
@@ -47,7 +54,6 @@ center_of_mass_mode = 1
 center_of_mass = Vector3(0, 0, 5)
 script = ExtResource("1_714t6")
 nosewheel = NodePath("Front")
-max_nosewheel_steering_degrees = 80
 max_thrust_N = 311375
 engine_spool_up_speed = 50
 Coefficient_of_lift = 1.75
@@ -139,3 +145,8 @@ offset_bottom = 286.0
 grow_vertical = 2
 max_value = 1.0
 step = 0.01
+
+[node name="Node" type="Node" parent="."]
+
+[node name="current navigation aid" type="MeshInstance3D" parent="Node"]
+mesh = SubResource("SphereMesh_f2hnc")

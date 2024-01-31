@@ -6,10 +6,10 @@
 [node name="Node3D" type="Node3D"]
 
 [node name="VehicleBody3D" parent="." instance=ExtResource("1_h0c31")]
-transform = Transform3D(3.75146e-07, -0.00425683, -0.999991, -6.29777e-08, 0.999991, -0.00425683, 1, 6.4574e-08, 3.74874e-07, 1579.86, 6.86124, -0.00258097)
+transform = Transform3D(3.79694e-07, -0.00425588, -0.999991, -6.97109e-08, 0.999991, -0.00425588, 1, 7.13262e-08, 3.79394e-07, 1579.86, 6.86124, 0.00266483)
 sleeping = true
-linear_velocity = Vector3(4.88253e-13, -9.46224e-06, 1.30152e-06)
-angular_velocity = Vector3(1.89354e-07, -9.02293e-12, -7.79008e-06)
+linear_velocity = Vector3(-3.72219e-12, -1.02967e-05, -9.80222e-06)
+angular_velocity = Vector3(-1.42999e-06, 3.90786e-10, 3.13751e-06)
 Coefficient_of_lift = 0.03
 
 [node name="Camera3D" type="Camera3D" parent="VehicleBody3D"]

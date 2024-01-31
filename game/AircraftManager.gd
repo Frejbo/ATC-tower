@@ -1,4 +1,4 @@
-extends Node
+extends Node3D
 
 @export var aircraftScene : PackedScene
 
@@ -18,8 +18,8 @@ func _enter_tree() -> void:
 		aircrafts.erase(child)
 		aircrafts = aircrafts)
 
-func spawn(callsign : String, position : Vector3 = Vector3.ZERO) -> void:
+func spawn(callsign : String, spawn_position : Vector3 = Vector3.ZERO) -> void:
 	var plane = aircraftScene.instantiate()
-	plane.position = position
+	plane.position = spawn_position
 	plane.callsign = callsign
 	add_child(plane)

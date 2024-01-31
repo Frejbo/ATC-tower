@@ -5,12 +5,14 @@ class_name taxiway
 
 @export var taxiway_name : String:
 	set(text):
+		Game.taxiways.erase(name)
 		if text == "":
 			name = "taxiway"
 			taxiway_name = ""
 			return
 		name = text.to_upper()
 		taxiway_name = name
+		Game.taxiways[name] = self
 
 func _get_configuration_warnings() -> PackedStringArray:
 	var warning : PackedStringArray = []
@@ -69,19 +71,20 @@ func _on_curve_changed() -> void:
 func _ready() -> void:
 	curve_changed.connect(_on_curve_changed)
 
-func clean_up() -> void:
+func clean_up_nodes() -> void:
 	for child in get_children():
 		if child.is_in_group("dynamic_taxiline"):
 			child.free()
 
 func _exit_tree() -> void:
-	clean_up()
+	clean_up_nodes()
+	Game.taxiways.erase(name)
 	PhysicsServer3D.set_active(false)
 
 var area_update_cooldown_timer : Timer
 func _enter_tree() -> void:
-	Game.taxiways[taxiway_name] = self
-	clean_up()
+	Game.taxiways[name] = self
+	clean_up_nodes()
 	
 	if not ignore_areas:
 		area_update_cooldown_timer = Timer.new()

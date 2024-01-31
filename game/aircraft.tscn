@@ -1,29 +1,25 @@
-[gd_scene load_steps=8 format=3 uid="uid://dooe7wxlpdhd5"]
+[gd_scene load_steps=7 format=3 uid="uid://dooe7wxlpdhd5"]
 
 [ext_resource type="Script" path="res://aircraft.gd" id="1_2eash"]
+[ext_resource type="Script" path="res://taxi.gd" id="2_46e1v"]
 [ext_resource type="Script" path="res://AircraftCommunicator.gd" id="2_pxkq3"]
 [ext_resource type="Script" path="res://routeEnterer.gd" id="3_2sjyg"]
 [ext_resource type="Script" path="res://taxi_to_stand.gd" id="3_cweu7"]
 [ext_resource type="PackedScene" uid="uid://jvgs6kd0ms2x" path="res://Cylinder 320 Neo.tscn" id="5_q5amb"]
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cfmr8"]
-albedo_color = Color(1, 0, 0, 1)
-
-[sub_resource type="TextMesh" id="TextMesh_wnfxa"]
-material = SubResource("StandardMaterial3D_cfmr8")
-text = ">"
-font_size = 127
-pixel_size = 0.1
 
 [node name="aircraft" type="Node3D" node_paths=PackedStringArray("communicator", "aircraft_body")]
 script = ExtResource("1_2eash")
 communicator = NodePath("aircraft_communicator")
 aircraft_body = NodePath("Cylinder A320 Neo")
 
-[node name="aircraft_communicator" type="CanvasLayer" parent="." node_paths=PackedStringArray("aircraft")]
+[node name="taxi" type="Node" parent="." node_paths=PackedStringArray("aircraft_body")]
+script = ExtResource("2_46e1v")
+aircraft_body = NodePath("..")
+
+[node name="aircraft_communicator" type="CanvasLayer" parent="." node_paths=PackedStringArray("assigned_aircraft")]
 visible = false
 script = ExtResource("2_pxkq3")
-aircraft = NodePath("..")
+assigned_aircraft = NodePath("..")
 
 [node name="taxi_to_stand" type="Button" parent="aircraft_communicator" node_paths=PackedStringArray("stand", "route")]
 anchors_preset = 8
@@ -92,10 +88,7 @@ uppercase = true
 
 [node name="Cylinder A320 Neo" parent="." instance=ExtResource("5_q5amb")]
 
-[node name="arrow" type="MeshInstance3D" parent="Cylinder A320 Neo"]
-transform = Transform3D(-8.74228e-08, 2, 8.74228e-08, 0, -8.74228e-08, 2, 2, 8.74228e-08, 3.82137e-15, 0, 4.189, 16)
-mesh = SubResource("TextMesh_wnfxa")
-
+[connection signal="taxi_instruction_recieved" from="aircraft_communicator" to="taxi" method="taxi"]
 [connection signal="pressed" from="aircraft_communicator/taxi_to_stand" to="aircraft_communicator/taxi_to_stand" method="_on_pressed"]
 [connection signal="taxi_to_stand" from="aircraft_communicator/taxi_to_stand" to="aircraft_communicator" method="taxi_to_stand"]
 [connection signal="text_changed" from="aircraft_communicator/taxi_to_stand/HBoxContainer/route" to="aircraft_communicator/taxi_to_stand/HBoxContainer/route" method="_on_text_changed"]

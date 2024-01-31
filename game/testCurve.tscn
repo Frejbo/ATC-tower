@@ -1,0 +1,24 @@
+[gd_scene load_steps=4 format=3 uid="uid://bl7d2rrisxnu3"]
+
+[ext_resource type="Script" path="res://taxiway_node.gd" id="1_ieess"]
+[ext_resource type="Script" path="res://testCurve.gd" id="1_u3fgp"]
+
+[sub_resource type="Curve3D" id="Curve3D_kwi0s"]
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, -8.4827, 0, 0.806796, -61.3138, 0, -26.5086, 61.3138, 0, 26.5086, 49.9698, 0, -12.6638, 35.6334, 0, -53.1171, -35.6334, 0, 53.1171, 74.5858, 0, 76.4774),
+"tilts": PackedFloat32Array(0, 0, 0)
+}
+point_count = 3
+
+[node name="Node3D" type="Node3D"]
+script = ExtResource("1_u3fgp")
+
+[node name="taxiway" type="Path3D" parent="."]
+curve = SubResource("Curve3D_kwi0s")
+script = ExtResource("1_ieess")
+connection_sizes = Array[float]([30.0, 30.0, 30.0])
+taxiline_shape = PackedVector2Array(0, 0, -0.5, 0.01, 0.5, 0.01)
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 20, 120, 15)
+fov = 60.0
