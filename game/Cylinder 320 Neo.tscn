@@ -1,6 +1,6 @@
 [gd_scene load_steps=12 format=3 uid="uid://jvgs6kd0ms2x"]
 
-[ext_resource type="Script" path="res://AircraftController.gd" id="1_714t6"]
+[ext_resource type="Script" path="res://Airplanes/AircraftController.gd" id="1_rnah7"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2bssf"]
 albedo_color = Color(1, 0.0784314, 0.0784314, 1)
@@ -40,11 +40,11 @@ height = 0.8
 radius = 3.6
 height = 40.0
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_udjg8"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tdmgq"]
 albedo_color = Color(0, 1, 0, 1)
 
 [sub_resource type="SphereMesh" id="SphereMesh_f2hnc"]
-material = SubResource("StandardMaterial3D_udjg8")
+material = SubResource("StandardMaterial3D_tdmgq")
 radius = 5.0
 
 [node name="Cylinder A320 Neo" type="VehicleBody3D" node_paths=PackedStringArray("nosewheel")]
@@ -52,7 +52,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7.5194, 0)
 mass = 55000.0
 center_of_mass_mode = 1
 center_of_mass = Vector3(0, 0, 5)
-script = ExtResource("1_714t6")
+script = ExtResource("1_rnah7")
 nosewheel = NodePath("Front")
 max_thrust_N = 311375
 engine_spool_up_speed = 50

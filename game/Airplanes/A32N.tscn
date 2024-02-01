@@ -1,0 +1,70 @@
+[gd_scene load_steps=6 format=3 uid="uid://cpyj4w3k7b2br"]
+
+[ext_resource type="PackedScene" uid="uid://duepbpob8vkad" path="res://Airplanes/A320 Neo.blend" id="1_cmfso"]
+[ext_resource type="Script" path="res://Airplanes/AircraftController.gd" id="2_d16p7"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_bqab2"]
+radius = 2.0
+height = 35.035
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_udjg8"]
+albedo_color = Color(0, 1, 0, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_3c0oo"]
+material = SubResource("StandardMaterial3D_udjg8")
+radius = 5.0
+
+[node name="A320neo" node_paths=PackedStringArray("nosewheel") instance=ExtResource("1_cmfso")]
+mass = 55000.0
+center_of_mass_mode = 1
+center_of_mass = Vector3(0, 0, 5)
+script = ExtResource("2_d16p7")
+nosewheel = NodePath("front ")
+max_thrust_N = 311375
+engine_spool_up_speed = 50
+Coefficient_of_lift = 1.75
+wing_area = 123
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." index="0"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 2.17726, 0)
+shape = SubResource("CapsuleShape3D_bqab2")
+
+[node name="front " parent="." index="9"]
+use_as_steering = true
+wheel_roll_influence = 0.0
+wheel_radius = 0.42
+wheel_friction_slip = 20.0
+suspension_stiffness = 20.0
+suspension_max_force = 1e+06
+
+[node name="left main " parent="." index="11"]
+wheel_roll_influence = 0.0
+wheel_radius = 0.615
+wheel_friction_slip = 20.0
+suspension_stiffness = 20.0
+suspension_max_force = 1e+06
+
+[node name="right main " parent="." index="14"]
+wheel_roll_influence = 0.0
+wheel_radius = 0.615
+wheel_friction_slip = 20.0
+suspension_stiffness = 20.0
+suspension_max_force = 1e+06
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." index="17"]
+
+[node name="thrust" type="VSlider" parent="CanvasLayer" index="0"]
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -286.0
+offset_right = 92.0
+offset_bottom = 286.0
+grow_vertical = 2
+max_value = 1.0
+step = 0.01
+
+[node name="Node" type="Node" parent="." index="18"]
+
+[node name="current navigation aid" type="MeshInstance3D" parent="Node" index="0"]
+mesh = SubResource("SphereMesh_3c0oo")

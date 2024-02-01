@@ -1,24 +1,26 @@
 [gd_scene load_steps=7 format=3 uid="uid://dooe7wxlpdhd5"]
 
-[ext_resource type="Script" path="res://aircraft.gd" id="1_2eash"]
-[ext_resource type="Script" path="res://taxi.gd" id="2_46e1v"]
-[ext_resource type="Script" path="res://AircraftCommunicator.gd" id="2_pxkq3"]
-[ext_resource type="Script" path="res://routeEnterer.gd" id="3_2sjyg"]
-[ext_resource type="Script" path="res://taxi_to_stand.gd" id="3_cweu7"]
-[ext_resource type="PackedScene" uid="uid://jvgs6kd0ms2x" path="res://Cylinder 320 Neo.tscn" id="5_q5amb"]
+[ext_resource type="Script" path="res://GeneralAircraftHolder.gd" id="1_mqs0q"]
+[ext_resource type="PackedScene" uid="uid://cpyj4w3k7b2br" path="res://Airplanes/A32N.tscn" id="2_xiskt"]
+[ext_resource type="Script" path="res://taxi.gd" id="3_ty30f"]
+[ext_resource type="Script" path="res://Airplanes/AircraftCommunicator.gd" id="4_xkhip"]
+[ext_resource type="Script" path="res://taxi_to_stand.gd" id="5_7v62y"]
+[ext_resource type="Script" path="res://routeEnterer.gd" id="6_03386"]
 
-[node name="aircraft" type="Node3D" node_paths=PackedStringArray("communicator", "aircraft_body")]
-script = ExtResource("1_2eash")
+[node name="aircraft" type="Node3D" node_paths=PackedStringArray("communicator", "body")]
+script = ExtResource("1_mqs0q")
 communicator = NodePath("aircraft_communicator")
-aircraft_body = NodePath("Cylinder A320 Neo")
+body = NodePath("A320neo")
 
-[node name="taxi" type="Node" parent="." node_paths=PackedStringArray("aircraft_body")]
-script = ExtResource("2_46e1v")
-aircraft_body = NodePath("..")
+[node name="A320neo" parent="." instance=ExtResource("2_xiskt")]
+
+[node name="taxi" type="Node" parent="." node_paths=PackedStringArray("body")]
+script = ExtResource("3_ty30f")
+body = NodePath("../A320neo")
 
 [node name="aircraft_communicator" type="CanvasLayer" parent="." node_paths=PackedStringArray("assigned_aircraft")]
 visible = false
-script = ExtResource("2_pxkq3")
+script = ExtResource("4_xkhip")
 assigned_aircraft = NodePath("..")
 
 [node name="taxi_to_stand" type="Button" parent="aircraft_communicator" node_paths=PackedStringArray("stand", "route")]
@@ -33,7 +35,7 @@ offset_right = 147.0
 offset_bottom = 16.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("3_cweu7")
+script = ExtResource("5_7v62y")
 stand = NodePath("HBoxContainer/stand")
 route = NodePath("HBoxContainer/route")
 
@@ -74,7 +76,7 @@ placeholder_text = "taxiways"
 expand_to_text_length = true
 context_menu_enabled = false
 drag_and_drop_selection_enabled = false
-script = ExtResource("3_2sjyg")
+script = ExtResource("6_03386")
 
 [node name="callsign" type="Label3D" parent="."]
 unique_name_in_owner = true
@@ -85,8 +87,6 @@ text = "AUA2JA"
 font_size = 2048
 outline_size = 127
 uppercase = true
-
-[node name="Cylinder A320 Neo" parent="." instance=ExtResource("5_q5amb")]
 
 [connection signal="taxi_instruction_recieved" from="aircraft_communicator" to="taxi" method="taxi"]
 [connection signal="pressed" from="aircraft_communicator/taxi_to_stand" to="aircraft_communicator/taxi_to_stand" method="_on_pressed"]

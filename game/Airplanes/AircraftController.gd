@@ -1,5 +1,6 @@
 extends VehicleBody3D
 
+class_name aircraft_body
 
 @export var nosewheel : VehicleWheel3D
 @export var max_thrust_N : int
@@ -31,7 +32,6 @@ var velocity := Vector3.ZERO
 func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
 	velocity.z += current_thrust_force / ProjectSettings.get_setting("physics/common/physics_ticks_per_second")
 	velocity.y = get_lift()
-	#print(velocity)
 	state.set_constant_force(velocity.rotated(Vector3(0, 1, 0), rotation.y))
 
 func get_velocity() -> float:
@@ -45,8 +45,3 @@ func get_lift() -> float:
 	var gravity_force : float = mass * ProjectSettings.get_setting("physics/3d/default_gravity") * gravity_scale
 	#print("lift: ", lift, " gravity force: ", gravity_force, " sum: ", lift - gravity_force)
 	return lift - gravity_force
-
-func steer_wheel(delta : float) -> void:
-	var axis := Input.get_axis("ui_right", "ui_left")
-	steering = lerp(steering, deg_to_rad(80) * axis, 5 * delta)
-	steering = lerp(steering, deg_to_rad(20) * axis, 5 * delta)

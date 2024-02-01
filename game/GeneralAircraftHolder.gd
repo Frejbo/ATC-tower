@@ -9,10 +9,10 @@ class_name aircraft
 		%callsign.text = callsign
 
 @export var communicator : aircraft_communicator
-@export var aircraft_body : VehicleBody3D
+@export var body : aircraft_body
 
 func _enter_tree() -> void:
-	aircraft_body.thrust_lever_percentage = 1
+	body.thrust_lever_percentage = 1
 
 func show_communication_window() -> void:
 	communicator.show()
