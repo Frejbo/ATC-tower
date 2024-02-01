@@ -55,12 +55,12 @@ vec4 triplanar_texture(sampler2D p_sampler,vec3 p_weights,vec3 p_triplanar_pos) 
 }
 
 vec3 scale_texture(sampler2D tex, vec2 uv) {
-	return texture(tex, uv * vec2(50.0*uv1_scale.x, 1.0*uv1_scale.z)).rgb;
+	return texture(tex, uv * vec2(uv1_scale.x, uv1_scale.z)).rgb;
 }
 
 
 void fragment() {
-	vec3 noise_mask = scale_texture(blend_noise, UV * .5);
+	vec3 noise_mask = scale_texture(blend_noise, UV * .1);
 	vec3 a = scale_texture(texture_albedo, UV);
 	vec3 b = scale_texture(texture_albedo_second, UV);
 	vec3 color = mix(a, b, noise_mask);
