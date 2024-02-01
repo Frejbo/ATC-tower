@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://bbdfih0weqhie" path="res://airport.tscn" id="1_ubhcf"]
 [ext_resource type="Script" path="res://AircraftManager.gd" id="2_8bqv8"]
-[ext_resource type="PackedScene" uid="uid://dooe7wxlpdhd5" path="res://GeneralAircraftHolder.tscn" id="3_q2orl"]
+[ext_resource type="PackedScene" uid="uid://dooe7wxlpdhd5" path="res://Aircraft.tscn" id="3_q2orl"]
 [ext_resource type="PackedScene" uid="uid://ctt41btfk0n4u" path="res://ÜI.tscn" id="4_xor5g"]
 
 [node name="main" type="Node3D"]

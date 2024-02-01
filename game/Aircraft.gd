@@ -1,6 +1,6 @@
 extends Node3D
 
-class_name aircraft
+class_name Aircraft
 
 @export var callsign : String:
 	set(val):
@@ -9,10 +9,6 @@ class_name aircraft
 		%callsign.text = callsign
 
 @export var communicator : aircraft_communicator
-@export var body : aircraft_body
-
-func _enter_tree() -> void:
-	body.thrust_lever_percentage = 1
 
 func show_communication_window() -> void:
 	communicator.show()

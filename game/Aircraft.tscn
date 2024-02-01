@@ -1,27 +1,26 @@
 [gd_scene load_steps=7 format=3 uid="uid://dooe7wxlpdhd5"]
 
-[ext_resource type="Script" path="res://GeneralAircraftHolder.gd" id="1_mqs0q"]
-[ext_resource type="PackedScene" uid="uid://cpyj4w3k7b2br" path="res://Airplanes/A32N.tscn" id="2_xiskt"]
+[ext_resource type="Script" path="res://Aircraft.gd" id="1_7vn2h"]
+[ext_resource type="PackedScene" uid="uid://cpyj4w3k7b2br" path="res://Airplanes/A20N.tscn" id="2_bslt8"]
 [ext_resource type="Script" path="res://taxi.gd" id="3_ty30f"]
 [ext_resource type="Script" path="res://Airplanes/AircraftCommunicator.gd" id="4_xkhip"]
 [ext_resource type="Script" path="res://taxi_to_stand.gd" id="5_7v62y"]
 [ext_resource type="Script" path="res://routeEnterer.gd" id="6_03386"]
 
-[node name="aircraft" type="Node3D" node_paths=PackedStringArray("communicator", "body")]
-script = ExtResource("1_mqs0q")
+[node name="Aircraft" type="Node3D" node_paths=PackedStringArray("communicator")]
+script = ExtResource("1_7vn2h")
 communicator = NodePath("aircraft_communicator")
-body = NodePath("A320neo")
 
-[node name="A320neo" parent="." instance=ExtResource("2_xiskt")]
+[node name="A320neo" parent="." instance=ExtResource("2_bslt8")]
 
 [node name="taxi" type="Node" parent="." node_paths=PackedStringArray("body")]
 script = ExtResource("3_ty30f")
 body = NodePath("../A320neo")
 
-[node name="aircraft_communicator" type="CanvasLayer" parent="." node_paths=PackedStringArray("assigned_aircraft")]
+[node name="aircraft_communicator" type="CanvasLayer" parent="." node_paths=PackedStringArray("body")]
 visible = false
 script = ExtResource("4_xkhip")
-assigned_aircraft = NodePath("..")
+body = NodePath("../A320neo")
 
 [node name="taxi_to_stand" type="Button" parent="aircraft_communicator" node_paths=PackedStringArray("stand", "route")]
 anchors_preset = 8

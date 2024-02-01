@@ -3,7 +3,7 @@ extends Button
 @export var stand : LineEdit
 @export var route : LineEdit
 
-signal taxi_to_stand
+signal taxi_to_stand(stand, route : Array[String])
 
 func _on_pressed() -> void:
 	if not Game.stands.has(stand.text): return

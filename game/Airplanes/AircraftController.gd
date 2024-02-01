@@ -1,47 +1,19 @@
 extends VehicleBody3D
 
-class_name aircraft_body
-
-@export var nosewheel : VehicleWheel3D
-@export var max_thrust_N : int
-@export var engine_spool_up_speed : int
-@export_category("Lift")
-@export var Coefficient_of_lift : float
-@export var wing_area : int
-@export_category("Taxi speeds")
-@export var max_turn_speed_kts : int = 10
-@export var max_straight_taxi_speed_kts : int = 28
-
-var thrust_lever_percentage := 0.0
-var current_thrust_force := 0.0
+class_name AircraftController
 var target_speed := 0.0
 
-func kts_to_ms(kts : float) -> float:
-	return kts * 0.514444444
-func ms_to_kts(meter_per_second : float) -> float:
-	return meter_per_second * 1.94384449
+@export var physics := FlightPhysics.new()
 
+func get_steering_wheel() -> VehicleWheel3D:
+	for child : Node in get_children():
+		if child is VehicleWheel3D and child.use_as_steering:
+			return child
+	return null
 
-func _physics_process(delta: float) -> void:
-	thrust_lever_percentage = $CanvasLayer/thrust.value
-	
-	current_thrust_force = lerp(current_thrust_force, max_thrust_N * thrust_lever_percentage, engine_spool_up_speed * delta)
+func _process(_delta: float) -> void:
+	physics.thrust_lever = $CanvasLayer/thrust.value
 
-
-var velocity := Vector3.ZERO
 func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
-	velocity.z += current_thrust_force / ProjectSettings.get_setting("physics/common/physics_ticks_per_second")
-	velocity.y = get_lift()
-	state.set_constant_force(velocity.rotated(Vector3(0, 1, 0), rotation.y))
-
-func get_velocity() -> float:
-	return linear_velocity.z
-
-func get_lift() -> float:
-	var air_density := 0.0752
-	var velocity_squared = abs(get_velocity() * get_velocity())
-	#print(get_velocity())
-	var lift : float = Coefficient_of_lift * air_density * (velocity_squared / 2.0) * wing_area
-	var gravity_force : float = mass * ProjectSettings.get_setting("physics/3d/default_gravity") * gravity_scale
-	#print("lift: ", lift, " gravity force: ", gravity_force, " sum: ", lift - gravity_force)
-	return lift - gravity_force
+	state.set_constant_force(physics.get_forces(linear_velocity, rotation))
+	print(physics.get_forces(linear_velocity, rotation))

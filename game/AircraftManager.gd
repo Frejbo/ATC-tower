@@ -3,7 +3,7 @@ extends Node3D
 @export var aircraftScene : PackedScene
 
 signal list_updated
-var aircrafts : Array[aircraft]:
+var aircrafts : Array[Aircraft]:
 	set(val):
 		aircrafts = val
 		print("emitting")

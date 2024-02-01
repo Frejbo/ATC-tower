@@ -1,7 +1,19 @@
-[gd_scene load_steps=6 format=3 uid="uid://cpyj4w3k7b2br"]
+[gd_scene load_steps=8 format=3 uid="uid://cpyj4w3k7b2br"]
 
 [ext_resource type="PackedScene" uid="uid://duepbpob8vkad" path="res://Airplanes/A320 Neo.blend" id="1_cmfso"]
 [ext_resource type="Script" path="res://Airplanes/AircraftController.gd" id="2_d16p7"]
+[ext_resource type="Script" path="res://FlightPhysics.gd" id="3_d04pw"]
+
+[sub_resource type="Resource" id="Resource_ugyds"]
+script = ExtResource("3_d04pw")
+mass = 50000.0
+max_thrust_N = 200000
+engine_spool_up_speed = 50
+thrust_lever = 0.0
+Coefficient_of_lift = 1.75
+wing_area = 100
+turn_speed_kts = 8
+max_straight_taxi_speed_kts = 28
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_bqab2"]
 radius = 2.0
@@ -14,16 +26,12 @@ albedo_color = Color(0, 1, 0, 1)
 material = SubResource("StandardMaterial3D_udjg8")
 radius = 5.0
 
-[node name="A320neo" node_paths=PackedStringArray("nosewheel") instance=ExtResource("1_cmfso")]
+[node name="A320neo" instance=ExtResource("1_cmfso")]
 mass = 55000.0
 center_of_mass_mode = 1
 center_of_mass = Vector3(0, 0, 5)
 script = ExtResource("2_d16p7")
-nosewheel = NodePath("front ")
-max_thrust_N = 311375
-engine_spool_up_speed = 50
-Coefficient_of_lift = 1.75
-wing_area = 123
+physics = SubResource("Resource_ugyds")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." index="0"]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 2.17726, 0)

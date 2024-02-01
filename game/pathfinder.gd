@@ -3,7 +3,6 @@ extends Resource
 class_name pathfinder
 
 @export_category("Start")
-@export var start_from_closest : bool = true
 @export var start_position : Vector3
 @export_category("End")
 @export var goal_position : Vector3
@@ -12,11 +11,10 @@ class_name pathfinder
 
 var path : Curve3D = Curve3D.new()
 
-func _init(from_pos : Vector3, to_position : Vector3, taxi_route : Array[String], start_from_closest_point : bool = true) -> void:
+func _init(from_pos : Vector3, to_position : Vector3, taxi_route : Array[String]) -> void:
 	start_position = from_pos
 	goal_position = to_position
 	route = taxi_route
-	start_from_closest = start_from_closest_point
 
 
 func path_is_valid() -> bool:
@@ -123,8 +121,6 @@ func choose_transition(available_transitions : Array[taxiway], last_point_on_tar
 	return chosen_transition
 
 func set_path_from_positions(positions : Array[Vector3]) -> void:
-	if not start_from_closest:
-		path.add_point(start_position)
 	for pos in positions:
 		path.add_point(pos)
 

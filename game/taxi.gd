@@ -1,6 +1,6 @@
 extends Node
 
-@export var body : aircraft_body
+@export var body : AircraftController
 
 func taxi(route : Curve3D):
 	taxi_path = route
@@ -26,7 +26,7 @@ func _physics_process(delta: float) -> void:
 
 func move(delta : float) -> void:
 	var closest_distance : float = 10
-	while body.nosewheel.global_position.distance_to(taxi_path.get_point_position(0)) < closest_distance:
+	while body.get_steering_wheel().global_position.distance_to(taxi_path.get_point_position(0)) < closest_distance:
 		taxi_path.remove_point(0)
 		if taxi_path.point_count == 0:
 			set_physics_process(false)
@@ -38,6 +38,6 @@ func move(delta : float) -> void:
 
 func steer_nosewheel(target : Vector3, delta : float):
 	var fwd : Vector3 = body.linear_velocity.normalized()
-	var target_vector : Vector3 = (target - body.nosewheel.global_position)
+	var target_vector : Vector3 = (target - body.get_steering_wheel().global_position)
 	var steer_degrees : float = lerp(body.steering, fwd.cross(target_vector.normalized()).y, 50 * delta) 
 	body.steering = steer_degrees
