@@ -1,7 +1,13 @@
-[gd_scene load_steps=6 format=3 uid="uid://cpyj4w3k7b2br"]
+[gd_scene load_steps=7 format=3 uid="uid://cpyj4w3k7b2br"]
 
 [ext_resource type="PackedScene" uid="uid://duepbpob8vkad" path="res://Airplanes/A320 Neo.blend" id="1_cmfso"]
 [ext_resource type="Script" path="res://Airplanes/AircraftController.gd" id="2_d16p7"]
+
+[sub_resource type="Curve" id="Curve_0aihi"]
+min_value = -1.0
+max_value = 2.0
+_data = [Vector2(0, -1), 0.0, 4.2, 0, 0, Vector2(0.787879, 1.74675), 0.0, 0.0, 0, 0, Vector2(1, 0.923701), -3.8801, 0.0, 1, 0]
+point_count = 3
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_bqab2"]
 radius = 2.0
@@ -20,6 +26,8 @@ center_of_mass_mode = 1
 center_of_mass = Vector3(0, 0, 5)
 custom_integrator = true
 script = ExtResource("2_d16p7")
+wing_area = 123
+Cl_v_Alpha = SubResource("Curve_0aihi")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." index="0"]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 4.14758, 0)
@@ -60,11 +68,45 @@ grow_vertical = 2
 max_value = 1.0
 step = 0.01
 
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer" index="1"]
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 23.0
+grow_horizontal = 2
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="Speed" type="Label" parent="CanvasLayer/HBoxContainer" index="0"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Speed"
+
+[node name="LiftForce" type="Label" parent="CanvasLayer/HBoxContainer" index="1"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="LiftAccel" type="Label" parent="CanvasLayer/HBoxContainer" index="2"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="TotalLift" type="Label" parent="CanvasLayer/HBoxContainer" index="3"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="TotalLiftAccel" type="Label" parent="CanvasLayer/HBoxContainer" index="4"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
 [node name="Node" type="Node" parent="." index="18"]
 
 [node name="current navigation aid" type="MeshInstance3D" parent="Node" index="0"]
 mesh = SubResource("SphereMesh_3c0oo")
 
 [node name="Camera3D" type="Camera3D" parent="." index="19"]
-transform = Transform3D(-0.5, 0, 0.866025, 0, 1, 0, -0.866025, 0, -0.5, 25, 5, -5)
+transform = Transform3D(-0.833886, 0.133526, -0.535542, 0, 0.970296, 0.241922, 0.551937, 0.201735, -0.809116, -28.2, 15.19, -24.845)
 current = true
