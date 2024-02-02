@@ -5,8 +5,6 @@ class_name aircraft_communicator
 @export var body : AircraftController
 @onready var taxi_pathfind : pathfinder
 
-#func _ready() -> void:
-	#print(await taxi_to_stand(Game.stands.get("20"), ["E", "Y", "F", "L"]))
 
 func taxi_to_stand(stand, route : Array[String]) -> bool:
 	route.append(stand.taxiway_in.name)

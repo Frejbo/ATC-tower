@@ -6,7 +6,6 @@ signal list_updated
 var aircrafts : Array[Aircraft]:
 	set(val):
 		aircrafts = val
-		print("emitting")
 		list_updated.emit(aircrafts)
 
 func _enter_tree() -> void:

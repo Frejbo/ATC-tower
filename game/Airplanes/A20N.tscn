@@ -1,19 +1,7 @@
-[gd_scene load_steps=8 format=3 uid="uid://cpyj4w3k7b2br"]
+[gd_scene load_steps=6 format=3 uid="uid://cpyj4w3k7b2br"]
 
 [ext_resource type="PackedScene" uid="uid://duepbpob8vkad" path="res://Airplanes/A320 Neo.blend" id="1_cmfso"]
 [ext_resource type="Script" path="res://Airplanes/AircraftController.gd" id="2_d16p7"]
-[ext_resource type="Script" path="res://FlightPhysics.gd" id="3_d04pw"]
-
-[sub_resource type="Resource" id="Resource_ugyds"]
-script = ExtResource("3_d04pw")
-mass = 50000.0
-max_thrust_N = 200000
-engine_spool_up_speed = 50
-thrust_lever = 0.0
-Coefficient_of_lift = 1.75
-wing_area = 100
-turn_speed_kts = 8
-max_straight_taxi_speed_kts = 28
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_bqab2"]
 radius = 2.0
@@ -30,34 +18,34 @@ radius = 5.0
 mass = 55000.0
 center_of_mass_mode = 1
 center_of_mass = Vector3(0, 0, 5)
+custom_integrator = true
 script = ExtResource("2_d16p7")
-physics = SubResource("Resource_ugyds")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." index="0"]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 2.17726, 0)
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 4.14758, 0)
 shape = SubResource("CapsuleShape3D_bqab2")
 
 [node name="front " parent="." index="9"]
 use_as_steering = true
 wheel_roll_influence = 0.0
 wheel_radius = 0.42
-wheel_friction_slip = 20.0
+suspension_travel = 0.75
 suspension_stiffness = 20.0
-suspension_max_force = 1e+06
+suspension_max_force = 4.13685e+06
 
 [node name="left main " parent="." index="11"]
 wheel_roll_influence = 0.0
 wheel_radius = 0.615
-wheel_friction_slip = 20.0
+suspension_travel = 0.75
 suspension_stiffness = 20.0
-suspension_max_force = 1e+06
+suspension_max_force = 1.37895e+06
 
 [node name="right main " parent="." index="14"]
 wheel_roll_influence = 0.0
 wheel_radius = 0.615
-wheel_friction_slip = 20.0
+suspension_travel = 0.75
 suspension_stiffness = 20.0
-suspension_max_force = 1e+06
+suspension_max_force = 1.37895e+06
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." index="17"]
 
@@ -76,3 +64,7 @@ step = 0.01
 
 [node name="current navigation aid" type="MeshInstance3D" parent="Node" index="0"]
 mesh = SubResource("SphereMesh_3c0oo")
+
+[node name="Camera3D" type="Camera3D" parent="." index="19"]
+transform = Transform3D(-0.5, 0, 0.866025, 0, 1, 0, -0.866025, 0, -0.5, 25, 5, -5)
+current = true
