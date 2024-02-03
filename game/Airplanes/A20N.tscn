@@ -109,4 +109,3 @@ mesh = SubResource("SphereMesh_3c0oo")
 
 [node name="Camera3D" type="Camera3D" parent="." index="19"]
 transform = Transform3D(-0.833886, 0.133526, -0.535542, 0, 0.970296, 0.241922, 0.551937, 0.201735, -0.809116, -28.2, 15.19, -24.845)
-current = true

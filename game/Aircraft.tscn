@@ -12,6 +12,7 @@ script = ExtResource("1_7vn2h")
 communicator = NodePath("aircraft_communicator")
 
 [node name="A320neo" parent="." instance=ExtResource("2_bslt8")]
+max_thrust_N = 311375
 
 [node name="taxi" type="Node" parent="." node_paths=PackedStringArray("body")]
 script = ExtResource("3_ty30f")

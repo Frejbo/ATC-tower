@@ -34,12 +34,13 @@ func _physics_process(delta: float) -> void:
 
 var total_time : float = Time.get_ticks_msec() * 0.001
 func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
-	%Speed.text = "Speed: " + str(round(ms_to_kts(linear_velocity.length()))) + " kts"
+	%Speed.text = "Speed: " + str(round(ms_to_kts(Vector2(state.linear_velocity.x, state.linear_velocity.z).length()))) + " kts"
 	var delta : float = (Time.get_ticks_msec() * 0.001) - total_time
 	total_time = Time.get_ticks_msec() * 0.001
 	
 	var gravity_force : float = ProjectSettings.get_setting("physics/3d/default_gravity") * delta
 	state.linear_velocity.y -= gravity_force
+	print(state.linear_velocity.y)
 	
 	var lift_accel = (get_lift_force() / mass) * delta
 	state.linear_velocity.y += lift_accel
@@ -62,7 +63,7 @@ func get_lift_force() -> float:
 	var air_density := 0.5 # not simulating this nuh uh
 	var velocity_squared = abs(Vector2(linear_velocity.x, linear_velocity.z).length() * Vector2(linear_velocity.x, linear_velocity.z).length())
 	
-	var lift : float = Cl * (air_density / 2) * velocity_squared * wing_area
+	var lift : float = Cl * air_density * velocity_squared * wing_area
 	%LiftForce.text = "Lift force: " + str(lift) + " N"
 	
 	#print("lift: ", lift, " gravity force: ", gravity_force, " sum: ", lift - gravity_force)
@@ -72,4 +73,5 @@ func manual_pitch_input() -> void:
 	if Input.is_action_pressed("ui_up"):
 		rotation_degrees += Vector3(0, 0, -.5).rotated(Vector3(0, 1, 0), global_rotation.y)
 	if Input.is_action_pressed("ui_accept"):
-		rotation_degrees += Vector3(0, 0, .5).rotated(Vector3(0, 1, 0), global_rotation.y)
+		rotation_degrees = lerp(rotation_degrees, Vector3(0, 0, 20).rotated(Vector3(0, 1, 0), global_rotation.y), .015)
+		#rotation_degrees += Vector3(0, 0, .5).rotated(Vector3(0, 1, 0), global_rotation.y)
