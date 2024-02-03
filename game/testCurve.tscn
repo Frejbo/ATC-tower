@@ -4,6 +4,7 @@
 [ext_resource type="Script" path="res://testCurve.gd" id="1_u3fgp"]
 
 [sub_resource type="Curve3D" id="Curve3D_kwi0s"]
+bake_interval = 50.0
 _data = {
 "points": PackedVector3Array(0, 0, 0, 0, 0, 0, -8.4827, 0, 0.806796, -61.3138, 0, -26.5086, 61.3138, 0, 26.5086, 49.9698, 0, -12.6638, 35.6334, 0, -53.1171, -35.6334, 0, 53.1171, 74.5858, 0, 76.4774),
 "tilts": PackedFloat32Array(0, 0, 0)

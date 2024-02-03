@@ -2,7 +2,8 @@ extends Node3D
 
 
 func _ready() -> void:
-	var points = $taxiway.curve.tessellate()
+	var c : Curve3D = $taxiway.curve 
+	var points = c.get_baked_points()
 	
 	for p in points:
 		var mesh = CSGBox3D.new()

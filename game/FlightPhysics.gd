@@ -40,7 +40,6 @@ func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
 	
 	var gravity_force : float = ProjectSettings.get_setting("physics/3d/default_gravity") * delta
 	state.linear_velocity.y -= gravity_force
-	print(state.linear_velocity.y)
 	
 	var lift_accel = (get_lift_force() / mass) * delta
 	state.linear_velocity.y += lift_accel

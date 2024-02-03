@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=3 uid="uid://bbdfih0weqhie"]
+[gd_scene load_steps=28 format=3 uid="uid://bbdfih0weqhie"]
 
 [ext_resource type="PackedScene" uid="uid://c3vpi5rklcc08" path="res://airport.blend" id="1_rkesj"]
 [ext_resource type="Texture2D" uid="uid://cfrwgslp3pgbs" path="res://airport overview.png" id="1_yjken"]
@@ -9,7 +9,6 @@
 [ext_resource type="Material" uid="uid://c367y7ge80otn" path="res://Assets/taxiways.tres" id="4_xtrim"]
 [ext_resource type="Material" path="res://Assets/Glass.tres" id="5_4pbmn"]
 [ext_resource type="PackedScene" uid="uid://dyunen1vglo8o" path="res://Gate.tscn" id="5_7ridq"]
-[ext_resource type="Texture2D" uid="uid://ixmxg1u128wp" path="res://Assets/overcast_soil_4k.hdr" id="10_qi7t2"]
 
 [sub_resource type="Curve3D" id="Curve3D_naxno"]
 _data = {
@@ -112,11 +111,11 @@ point_count = 2
 [sub_resource type="BoxShape3D" id="BoxShape3D_vdifn"]
 size = Vector3(5000, 10, 5000)
 
-[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_qkmnc"]
-panorama = ExtResource("10_qi7t2")
+[sub_resource type="PhysicalSkyMaterial" id="PhysicalSkyMaterial_68apj"]
+energy_multiplier = 1.5
 
 [sub_resource type="Sky" id="Sky_a1db7"]
-sky_material = SubResource("PanoramaSkyMaterial_qkmnc")
+sky_material = SubResource("PhysicalSkyMaterial_68apj")
 radiance_size = 6
 
 [sub_resource type="Environment" id="Environment_n4r1d"]
@@ -164,6 +163,9 @@ vertical_alignment = 2
 
 [node name="Taxiways" parent="airport" index="1"]
 surface_material_override/0 = ExtResource("4_xtrim")
+
+[node name="Tower " parent="airport" index="3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 736.137, 38.3013, 546.703)
 
 [node name="TowerTop -coll" parent="airport/Tower " index="4"]
 surface_material_override/0 = ExtResource("5_4pbmn")
