@@ -7,7 +7,11 @@ class_name FlightPhysics
 ## Abstract value to determine how fast the engines should react to thrust lever changes.[br]This won't translate to any real values.
 @export var engine_spool_up_speed : float = .5
 ## The position of thrust the lever. 0 = 0% thrust, 1 = 100% thrust.[br]The actual thrust output is determined by a number of factors and can be accessed via get_forces().[br][br]Note: You probably want to adjust this in-game.
-@export_range(0, 1) var thrust_lever := 0.0
+@export_range(0, 1) var thrust_lever := 0.0:
+	set(val):
+		thrust_lever = val
+		if val > 1:
+			printerr("Thrust lever was set to above 1, meaning above 100%. Thrust might be higher than it should")
 @export_category("Lift")
 ## The total area of the wing given in square meters.
 @export var wing_area : int = 100
@@ -15,12 +19,15 @@ class_name FlightPhysics
 @export var Cl_v_Alpha := Curve.new()
 @export_category("Taxi speeds")
 ## The speed in knots which the aircraft will aim to be at in turns.
-@export var turn_speed_kts : int = 8
+@export var turn_speed_kts : int = 10
 ## The speed in knots which the aircraft will aim to be at on straight taxiways.
 @export var max_straight_taxi_speed_kts : int = 28
+## The speed the aircraft should automatically aim for. Is updated every physics update. You probably want to set this during runtime.
+@export var current_target_speed : float
+## The maximum amount of brake force the aircraft can apply
+@export var max_brake_force : int = 1000
 
 var current_thrust_force := 0.0
-var velocity := Vector3.ZERO
 
 func kts_to_ms(kts : float) -> float:
 	return kts * 0.514444444
@@ -30,6 +37,7 @@ func ms_to_kts(meter_per_second : float) -> float:
 
 func _physics_process(delta: float) -> void:
 	manual_pitch_input()
+	handle_speed(current_target_speed)
 	current_thrust_force = lerp(current_thrust_force, max_thrust_N * thrust_lever, engine_spool_up_speed * delta)
 
 var total_time : float = Time.get_ticks_msec() * 0.001
@@ -69,8 +77,14 @@ func get_lift_force() -> float:
 	return lift
 
 func manual_pitch_input() -> void:
-	if Input.is_action_pressed("ui_up"):
-		rotation_degrees += Vector3(0, 0, -.5).rotated(Vector3(0, 1, 0), global_rotation.y)
 	if Input.is_action_pressed("ui_accept"):
 		rotation_degrees = lerp(rotation_degrees, Vector3(0, 0, 20).rotated(Vector3(0, 1, 0), global_rotation.y), .015)
-		#rotation_degrees += Vector3(0, 0, .5).rotated(Vector3(0, 1, 0), global_rotation.y)
+
+func handle_speed(target_speed : float) -> void:
+	var speed = ms_to_kts(linear_velocity.length())
+	
+	var speed_diff : float = (target_speed - speed) / 10
+	thrust_lever = clamp(speed_diff, 0, 1) * .30 # Use maximum of 30% thrust when taxiing
+	brake = abs(clamp(speed_diff, -1, 0)) * max_brake_force
+	
+	print("Brake force: ", brake, "  thrust lever: ", thrust_lever)

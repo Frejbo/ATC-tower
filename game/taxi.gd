@@ -36,7 +36,7 @@ func move(delta : float) -> void:
 			return
 	
 	# Calculate target speed
-	print("speed: ", get_safe_speed(get_upcoming_curvature()))
+	body.current_target_speed = get_safe_speed(get_upcoming_curvature())
 	
 	steer_nosewheel(taxi_path.get_point_position(0), delta)
 	body.get_node("Node/current navigation aid").position = taxi_path.get_point_position(0)
@@ -66,7 +66,7 @@ func get_safe_speed(curvature : float) -> float:
 	return turn_speed_kts + (varying_speed_range * curvature_percent)
 
 ## Get curvature of the given Vector3D points in radians. Can be used to get taxiway curvature for example. Returns radians.
-func get_upcoming_curvature(sample_length : int = 100) -> float:
+func get_upcoming_curvature(sample_length : int = 50) -> float:
 	
 	var points : Array[Vector3] = [body.get_steering_wheel().global_position]
 	var calculated_length : float = 0

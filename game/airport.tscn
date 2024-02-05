@@ -7,7 +7,7 @@
 [ext_resource type="Script" path="res://taxiwayManager.gd" id="3_4yp6r"]
 [ext_resource type="FontFile" uid="uid://bcj0k12k1cxkl" path="res://fonts/OpenRunwayNumbers.ttf" id="3_6fwq0"]
 [ext_resource type="Material" uid="uid://c367y7ge80otn" path="res://Assets/taxiways.tres" id="4_xtrim"]
-[ext_resource type="Material" path="res://Assets/Glass.tres" id="5_4pbmn"]
+[ext_resource type="Material" uid="uid://csrs8tff4me1h" path="res://Assets/Glass.tres" id="5_4pbmn"]
 [ext_resource type="PackedScene" uid="uid://dyunen1vglo8o" path="res://Gate.tscn" id="5_7ridq"]
 
 [sub_resource type="Curve3D" id="Curve3D_naxno"]

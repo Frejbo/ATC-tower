@@ -1,8 +1,6 @@
 extends FlightPhysics
 
 class_name AircraftController
-var target_speed := 0.0
-
 
 func get_steering_wheel() -> VehicleWheel3D:
 	for child : Node in get_children():
