@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://bbdfih0weqhie"]
+[gd_scene load_steps=34 format=3 uid="uid://bbdfih0weqhie"]
 
 [ext_resource type="PackedScene" uid="uid://c3vpi5rklcc08" path="res://airport.blend" id="1_rkesj"]
 [ext_resource type="Texture2D" uid="uid://cfrwgslp3pgbs" path="res://airport overview.png" id="1_yjken"]
@@ -7,8 +7,10 @@
 [ext_resource type="Script" path="res://taxiwayManager.gd" id="3_4yp6r"]
 [ext_resource type="FontFile" uid="uid://bcj0k12k1cxkl" path="res://fonts/OpenRunwayNumbers.ttf" id="3_6fwq0"]
 [ext_resource type="Material" uid="uid://c367y7ge80otn" path="res://Assets/taxiways.tres" id="4_xtrim"]
-[ext_resource type="Material" uid="uid://csrs8tff4me1h" path="res://Assets/Glass.tres" id="5_4pbmn"]
+[ext_resource type="Material" path="res://Assets/Glass.tres" id="5_4pbmn"]
 [ext_resource type="PackedScene" uid="uid://dyunen1vglo8o" path="res://Gate.tscn" id="5_7ridq"]
+[ext_resource type="Terrain3DStorage" uid="uid://dctp7s8g48ftc" path="res://Assets/Terrain/terrain_3d_storage.res" id="10_ha35n"]
+[ext_resource type="Terrain3DTextureList" uid="uid://cx1m2gu7oq6ht" path="res://Assets/Terrain/terrain_3d_texture_list.tres" id="11_11kne"]
 
 [sub_resource type="Curve3D" id="Curve3D_naxno"]
 _data = {
@@ -130,6 +132,41 @@ ssil_enabled = true
 glow_enabled = true
 glow_normalized = true
 glow_intensity = 0.5
+
+[sub_resource type="Gradient" id="Gradient_j4dgi"]
+offsets = PackedFloat32Array(0.2, 1)
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_4n34n"]
+noise_type = 2
+frequency = 0.03
+cellular_jitter = 3.0
+cellular_return_type = 0
+domain_warp_enabled = true
+domain_warp_type = 1
+domain_warp_amplitude = 50.0
+domain_warp_fractal_type = 2
+domain_warp_fractal_lacunarity = 1.5
+domain_warp_fractal_gain = 1.0
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_2y2am"]
+seamless = true
+color_ramp = SubResource("Gradient_j4dgi")
+noise = SubResource("FastNoiseLite_4n34n")
+
+[sub_resource type="Terrain3DMaterial" id="Terrain3DMaterial_2j1ac"]
+_shader_parameters = {
+"blend_sharpness": 0.87,
+"height_blending": true,
+"macro_variation1": Color(1, 1, 1, 1),
+"macro_variation2": Color(1, 1, 1, 1),
+"noise1_angle": 0.0,
+"noise1_offset": Vector2(0.5, 0.5),
+"noise1_scale": 0.04,
+"noise2_scale": 0.076,
+"noise3_scale": 0.225,
+"noise_texture": SubResource("NoiseTexture2D_2y2am")
+}
 
 [node name="airport" type="Node3D"]
 
@@ -298,5 +335,11 @@ shape = SubResource("BoxShape3D_vdifn")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_n4r1d")
+
+[node name="Terrain3D" type="Terrain3D" parent="."]
+storage = ExtResource("10_ha35n")
+material = SubResource("Terrain3DMaterial_2j1ac")
+texture_list = ExtResource("11_11kne")
+collision_enabled = false
 
 [editable path="airport"]

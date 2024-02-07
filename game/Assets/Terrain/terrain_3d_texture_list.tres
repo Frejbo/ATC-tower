@@ -1,0 +1,14 @@
+[gd_resource type="Terrain3DTextureList" load_steps=4 format=3 uid="uid://cx1m2gu7oq6ht"]
+
+[ext_resource type="Texture2D" path="res://Assets/Terrain/textures/ground037_alb_ht.dds" id="1_0nclk"]
+[ext_resource type="Texture2D" path="res://Assets/Terrain/textures/ground037_nrm_rgh.dds" id="2_6ahyn"]
+
+[sub_resource type="Terrain3DTexture" id="Terrain3DTexture_u3sbm"]
+name = "Grass"
+albedo_color = Color(0.486275, 0.541176, 0.494118, 1)
+albedo_texture = ExtResource("1_0nclk")
+normal_texture = ExtResource("2_6ahyn")
+uv_scale = 0.2
+
+[resource]
+textures = Array[Terrain3DTexture]([SubResource("Terrain3DTexture_u3sbm")])

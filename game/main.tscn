@@ -18,7 +18,7 @@ aircraftScene = ExtResource("3_q2orl")
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 808.321, 691.623, 300)
 
-[node name="UI" parent="Camera3D" instance=ExtResource("4_xor5g")]
-
 [node name="CharacterBody3D" parent="." instance=ExtResource("5_l640a")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 734.707, 46.4602, 540.643)
+
+[node name="UI" parent="." instance=ExtResource("4_xor5g")]
