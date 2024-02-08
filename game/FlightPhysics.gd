@@ -23,7 +23,7 @@ class_name FlightPhysics
 ## The speed in knots which the aircraft will aim to be at on straight taxiways.
 @export var max_straight_taxi_speed_kts : int = 28
 ## The speed the aircraft should automatically aim for. Is updated every physics update. You probably want to set this during runtime.
-@export var current_target_speed : float
+@export var target_speed : float
 ## The maximum amount of brake force the aircraft can apply
 @export var max_brake_force : int = 1000
 
@@ -34,14 +34,20 @@ func kts_to_ms(kts : float) -> float:
 func ms_to_kts(meter_per_second : float) -> float:
 	return meter_per_second * 1.94384449
 
+func _ready() -> void:
+	freeze = false
 
 func _physics_process(delta: float) -> void:
-	manual_pitch_input()
-	handle_speed(current_target_speed)
+	#manual_pitch_input()
+	handle_speed(target_speed)
 	current_thrust_force = lerp(current_thrust_force, max_thrust_N * thrust_lever, engine_spool_up_speed * delta)
 
 var total_time : float = Time.get_ticks_msec() * 0.001
 func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
+	#if true: # !!!
+		#return # !!!
+	
+	
 	%Speed.text = "Speed: " + str(round(ms_to_kts(Vector2(state.linear_velocity.x, state.linear_velocity.z).length()))) + " kts"
 	var delta : float = (Time.get_ticks_msec() * 0.001) - total_time
 	total_time = Time.get_ticks_msec() * 0.001
@@ -76,15 +82,19 @@ func get_lift_force() -> float:
 	#print("lift: ", lift, " gravity force: ", gravity_force, " sum: ", lift - gravity_force)
 	return lift
 
+## Only debug
 func manual_pitch_input() -> void:
 	if Input.is_action_pressed("ui_accept"):
 		rotation_degrees = lerp(rotation_degrees, Vector3(0, 0, 20).rotated(Vector3(0, 1, 0), global_rotation.y), .015)
 
-func handle_speed(target_speed : float) -> void:
+## Brakes or applies thrust to try to meet the target speed given in kts.
+func handle_speed(targ_speed : float) -> void:
 	var speed = ms_to_kts(linear_velocity.length())
 	
-	var speed_diff : float = (target_speed - speed) / 10
-	thrust_lever = clamp(speed_diff, 0, 1) * .30 # Use maximum of 30% thrust when taxiing
+	var speed_diff : float = (targ_speed - speed) / 10
+	thrust_lever = clamp(speed_diff, 0, 1)
+	if targ_speed < 40: # TEMP
+		thrust_lever = thrust_lever * .30 # Use maximum of 30% thrust when taxiing
 	brake = abs(clamp(speed_diff, -1, 0)) * max_brake_force
 	
-	print("Brake force: ", brake, "  thrust lever: ", thrust_lever)
+	#print("Brake force: ", brake, "  thrust lever: ", thrust_lever)

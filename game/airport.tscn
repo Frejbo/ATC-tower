@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=3 uid="uid://bbdfih0weqhie"]
+[gd_scene load_steps=36 format=3 uid="uid://bbdfih0weqhie"]
 
 [ext_resource type="PackedScene" uid="uid://c3vpi5rklcc08" path="res://airport.blend" id="1_rkesj"]
 [ext_resource type="Texture2D" uid="uid://cfrwgslp3pgbs" path="res://airport overview.png" id="1_yjken"]
@@ -6,11 +6,19 @@
 [ext_resource type="Material" uid="uid://rc5hmaanq1vr" path="res://Assets/runway.tres" id="2_ve8vh"]
 [ext_resource type="Script" path="res://taxiwayManager.gd" id="3_4yp6r"]
 [ext_resource type="FontFile" uid="uid://bcj0k12k1cxkl" path="res://fonts/OpenRunwayNumbers.ttf" id="3_6fwq0"]
+[ext_resource type="Script" path="res://approach_guidance.gd" id="4_hl1v7"]
 [ext_resource type="Material" uid="uid://c367y7ge80otn" path="res://Assets/taxiways.tres" id="4_xtrim"]
 [ext_resource type="Material" path="res://Assets/Glass.tres" id="5_4pbmn"]
 [ext_resource type="PackedScene" uid="uid://dyunen1vglo8o" path="res://Gate.tscn" id="5_7ridq"]
 [ext_resource type="Terrain3DStorage" uid="uid://dctp7s8g48ftc" path="res://Assets/Terrain/terrain_3d_storage.res" id="10_ha35n"]
 [ext_resource type="Terrain3DTextureList" uid="uid://cx1m2gu7oq6ht" path="res://Assets/Terrain/terrain_3d_texture_list.tres" id="11_11kne"]
+
+[sub_resource type="Curve3D" id="Curve3D_5p48f"]
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, 9260, 485.296, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+"tilts": PackedFloat32Array(0, 0)
+}
+point_count = 2
 
 [sub_resource type="Curve3D" id="Curve3D_naxno"]
 _data = {
@@ -170,15 +178,15 @@ _shader_parameters = {
 
 [node name="airport" type="Node3D"]
 
-[node name="Marker3D" type="Marker3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1036.79, 0, 437.207)
-
 [node name="airport" parent="." instance=ExtResource("1_rkesj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
 
 [node name="Runway 03-21" parent="airport" index="0"]
+cast_shadow = 0
 surface_material_override/0 = ExtResource("2_ve8vh")
 
 [node name="Designation marking 1" type="Label3D" parent="airport/Runway 03-21" index="0"]
+transform = Transform3D(-4.37114e-08, -1, -4.37114e-08, 0, -4.37114e-08, 1, -1, 4.37114e-08, 1.91069e-15, 1607.74, 0.1, 0)
 transparency = 0.9
 shaded = true
 double_sided = false
@@ -189,6 +197,7 @@ outline_size = 0
 vertical_alignment = 2
 
 [node name="Designation marking 2" type="Label3D" parent="airport/Runway 03-21" index="1"]
+transform = Transform3D(-4.37114e-08, 1, 4.37114e-08, 0, -4.37114e-08, 1, 1, 4.37114e-08, 1.91069e-15, -1607.74, 0.1, 0)
 transparency = 0.9
 shaded = true
 double_sided = false
@@ -198,7 +207,14 @@ font_size = 2500
 outline_size = 0
 vertical_alignment = 2
 
+[node name="approach_guidance_21" type="Path3D" parent="airport/Runway 03-21" index="2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1325.42, 0, 0)
+curve = SubResource("Curve3D_5p48f")
+script = ExtResource("4_hl1v7")
+active = true
+
 [node name="Taxiways" parent="airport" index="1"]
+cast_shadow = 0
 surface_material_override/0 = ExtResource("4_xtrim")
 
 [node name="Tower " parent="airport" index="3"]
@@ -328,6 +344,7 @@ taxiway_in = NodePath("..")
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
 
 [node name="ground collision" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="ground collision"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -5, 0)

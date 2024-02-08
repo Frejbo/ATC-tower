@@ -1,9 +1,10 @@
-[gd_scene load_steps=7 format=3 uid="uid://dooe7wxlpdhd5"]
+[gd_scene load_steps=8 format=3 uid="uid://dooe7wxlpdhd5"]
 
 [ext_resource type="Script" path="res://Aircraft.gd" id="1_7vn2h"]
 [ext_resource type="PackedScene" uid="uid://cpyj4w3k7b2br" path="res://Airplanes/A20N.tscn" id="2_bslt8"]
 [ext_resource type="Script" path="res://taxi.gd" id="3_ty30f"]
 [ext_resource type="Script" path="res://Airplanes/AircraftCommunicator.gd" id="4_xkhip"]
+[ext_resource type="Script" path="res://approach.gd" id="4_y30ov"]
 [ext_resource type="Script" path="res://taxi_to_stand.gd" id="5_7v62y"]
 [ext_resource type="Script" path="res://routeEnterer.gd" id="6_03386"]
 
@@ -12,11 +13,16 @@ script = ExtResource("1_7vn2h")
 communicator = NodePath("aircraft_communicator")
 
 [node name="A320neo" parent="." instance=ExtResource("2_bslt8")]
-max_thrust_N = 311375
+max_contacts_reported = 1
+contact_monitor = true
 
 [node name="taxi" type="Node" parent="." node_paths=PackedStringArray("body")]
 script = ExtResource("3_ty30f")
 body = NodePath("../A320neo")
+
+[node name="approach" type="Node" parent="." node_paths=PackedStringArray("controller")]
+script = ExtResource("4_y30ov")
+controller = NodePath("../A320neo")
 
 [node name="aircraft_communicator" type="CanvasLayer" parent="." node_paths=PackedStringArray("body")]
 visible = false

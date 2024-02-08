@@ -1,4 +1,5 @@
 extends Node
+class_name taxi_component
 
 @export var body : AircraftController
 @export var straight_taxi_speed_kts : float = 28
@@ -36,7 +37,7 @@ func move(delta : float) -> void:
 			return
 	
 	# Calculate target speed
-	body.current_target_speed = get_safe_speed(get_upcoming_curvature())
+	body.target_speed = get_safe_speed(get_upcoming_curvature())
 	
 	steer_nosewheel(taxi_path.get_point_position(0), delta)
 	body.get_node("Node/current navigation aid").position = taxi_path.get_point_position(0)
@@ -73,10 +74,11 @@ func get_upcoming_curvature(sample_length : int = 50) -> float:
 	var idx : int = 0
 	while calculated_length < sample_length and idx < taxi_path.point_count: # -1?
 		calculated_length += points.back().distance_to(taxi_path.get_point_position(idx))
+		print(calculated_length)
 		points.append(taxi_path.get_point_position(idx))
 		idx += 1
 	
-	if points.size() <= 2: return true # 2 points can only be straight, less is not a line
+	if points.size() <= 2: return 0 # 2 points can only be straight, less is not a line
 	
 	# Calculate the direction vector between the first and last point
 	var direction_vector : Vector3 = points[1] - points.front()

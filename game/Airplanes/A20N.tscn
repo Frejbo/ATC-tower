@@ -24,8 +24,10 @@ radius = 5.0
 mass = 55000.0
 center_of_mass_mode = 1
 center_of_mass = Vector3(0, 0, 5)
+freeze = true
 custom_integrator = true
 script = ExtResource("2_d16p7")
+max_thrust_N = 310000
 wing_area = 123
 Cl_v_Alpha = SubResource("Curve_0aihi")
 
@@ -38,22 +40,25 @@ use_as_steering = true
 wheel_roll_influence = 0.0
 wheel_radius = 0.42
 suspension_travel = 0.75
-suspension_stiffness = 20.0
-suspension_max_force = 4.13685e+06
+suspension_stiffness = 15.0
+suspension_max_force = 313685.0
+damping_compression = 0.9
 
 [node name="left main " parent="." index="11"]
 wheel_roll_influence = 0.0
 wheel_radius = 0.615
 suspension_travel = 0.75
-suspension_stiffness = 20.0
-suspension_max_force = 1.37895e+06
+suspension_stiffness = 15.0
+suspension_max_force = 313685.0
+damping_compression = 0.9
 
 [node name="right main " parent="." index="14"]
 wheel_roll_influence = 0.0
 wheel_radius = 0.615
 suspension_travel = 0.75
-suspension_stiffness = 20.0
-suspension_max_force = 1.37895e+06
+suspension_stiffness = 15.0
+suspension_max_force = 313685.0
+damping_compression = 0.9
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." index="17"]
 
@@ -108,5 +113,6 @@ size_flags_horizontal = 3
 mesh = SubResource("SphereMesh_3c0oo")
 
 [node name="Camera3D" type="Camera3D" parent="." index="19"]
-transform = Transform3D(-0.833886, 0.133526, -0.535542, 0, 0.970296, 0.241922, 0.551937, 0.201735, -0.809116, -28.2, 15.19, -24.845)
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 11.8111, -31.795)
 current = true
+fov = 60.0
