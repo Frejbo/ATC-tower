@@ -50,15 +50,15 @@ func _on_curve_changed() -> void:
 		for i in range(curve.point_count):
 			var point = curve.get_point_position(i)
 			if point.y != 0:
-				curve.set_point_position(i, Vector3(point.x, 0.1, point.z))
+				curve.set_point_position(i, Vector3(point.x, 0, point.z))
 			
 			var point_in = curve.get_point_in(i)
 			if point_in.y != 0:
-				curve.set_point_in(i, Vector3(point_in.x, 0.1, point_in.z))
+				curve.set_point_in(i, Vector3(point_in.x, 0, point_in.z))
 			
 			var point_out = curve.get_point_out(i)
 			if point_out.y  != 0:
-				curve.set_point_out(i, Vector3(point_out.x, 0.1, point_out.z))
+				curve.set_point_out(i, Vector3(point_out.x, 0, point_out.z))
 			
 			if curve.get_point_tilt(i) != 0:
 				curve.set_point_tilt(i, 0)
@@ -147,8 +147,6 @@ func create_area(pos : Vector3, area_name : String) -> Area3D:
 
 
 func update_areas() -> void:
-	#position = Vector3.ZERO # position can fuck things up
-	
 	if !curve: return
 	var curve_points : Array[int] = []
 	for i in curve.point_count:

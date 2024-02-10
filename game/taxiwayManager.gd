@@ -1,5 +1,5 @@
 @tool
-extends Node
+extends Node3D
 
 @export var show_taxiways : bool:
 	set(val):
