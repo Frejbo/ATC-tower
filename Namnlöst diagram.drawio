@@ -1,9 +1,66 @@
-<mxfile host="app.diagrams.net" modified="2024-02-16T11:12:09.526Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:122.0) Gecko/20100101 Firefox/122.0" version="23.1.5" etag="LRb7qhzHtp7e9VLvENgz" type="github">
+<mxfile host="app.diagrams.net" modified="2024-02-16T15:07:55.214Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:122.0) Gecko/20100101 Firefox/122.0" etag="rCb6Bm7ck91jU8OBVDVD" version="23.1.5" type="github">
   <diagram name="Sida-1" id="xGaA6MLKLsfbEzsCWlhL">
-    <mxGraphModel>
+    <mxGraphModel dx="989" dy="514" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
+        <mxCell id="6aqH_ZoxRrP5pMAh_-97-17" value="" style="rounded=1;whiteSpace=wrap;html=1;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" vertex="1" parent="1">
+          <mxGeometry x="20" y="280" width="120" height="690" as="geometry" />
+        </mxCell>
+        <mxCell id="6aqH_ZoxRrP5pMAh_-97-1" value="&lt;div&gt;Requirements:&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Lucida Console;" vertex="1" parent="1">
+          <mxGeometry width="110" height="230" as="geometry" />
+        </mxCell>
+        <mxCell id="6aqH_ZoxRrP5pMAh_-97-7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontFamily=Lucida Console;" edge="1" parent="1" source="6aqH_ZoxRrP5pMAh_-97-3" target="6aqH_ZoxRrP5pMAh_-97-5">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="635" y="110" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="6aqH_ZoxRrP5pMAh_-97-9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontFamily=Lucida Console;" edge="1" parent="1" source="6aqH_ZoxRrP5pMAh_-97-3" target="6aqH_ZoxRrP5pMAh_-97-8">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="6aqH_ZoxRrP5pMAh_-97-3" value="&lt;div&gt;Aircraft&lt;/div&gt;&lt;div&gt;Node3D&lt;br&gt;&lt;/div&gt;" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fontFamily=Lucida Console;" vertex="1" parent="1">
+          <mxGeometry x="374" y="70" width="80" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="6aqH_ZoxRrP5pMAh_-97-5" value="&lt;div&gt;AircraftBody&lt;/div&gt;&lt;div&gt;VehicleBody3D (scene)&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;ul&gt;&lt;li&gt;&lt;div align=&quot;left&quot;&gt;Meshes&lt;/div&gt;&lt;/li&gt;&lt;li&gt;&lt;div align=&quot;left&quot;&gt;Thrust and brake control&lt;/div&gt;&lt;/li&gt;&lt;li&gt;&lt;div align=&quot;left&quot;&gt;Aircraft specific&lt;br&gt;&lt;/div&gt;&lt;div align=&quot;left&quot;&gt;&lt;br&gt;&lt;/div&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Lucida Console;" vertex="1" parent="1">
+          <mxGeometry x="550" y="350" width="170" height="200" as="geometry" />
+        </mxCell>
+        <mxCell id="6aqH_ZoxRrP5pMAh_-97-20" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontFamily=Lucida Console;" edge="1" parent="1" source="6aqH_ZoxRrP5pMAh_-97-8" target="6aqH_ZoxRrP5pMAh_-97-19">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="6aqH_ZoxRrP5pMAh_-97-8" value="Communicator" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fontFamily=Lucida Console;" vertex="1" parent="1">
+          <mxGeometry x="344" y="210" width="140" height="140" as="geometry" />
+        </mxCell>
+        <mxCell id="6aqH_ZoxRrP5pMAh_-97-10" value="&lt;div&gt;taxi&lt;/div&gt;" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fontFamily=Lucida Console;" vertex="1" parent="1">
+          <mxGeometry x="40" y="320" width="80" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="6aqH_ZoxRrP5pMAh_-97-11" value="&lt;div&gt;approach&lt;/div&gt;" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fontFamily=Lucida Console;" vertex="1" parent="1">
+          <mxGeometry x="40" y="430" width="80" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="6aqH_ZoxRrP5pMAh_-97-12" value="approach" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fontFamily=Lucida Console;" vertex="1" parent="1">
+          <mxGeometry x="40" y="544.5" width="80" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="6aqH_ZoxRrP5pMAh_-97-13" value="&lt;div&gt;loading&lt;/div&gt;" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fontFamily=Lucida Console;" vertex="1" parent="1">
+          <mxGeometry x="40" y="760" width="80" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="6aqH_ZoxRrP5pMAh_-97-14" value="&lt;div&gt;unloading&lt;/div&gt;" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fontFamily=Lucida Console;" vertex="1" parent="1">
+          <mxGeometry x="40" y="650" width="80" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="6aqH_ZoxRrP5pMAh_-97-15" value="&lt;div&gt;static&lt;/div&gt;" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fontFamily=Lucida Console;" vertex="1" parent="1">
+          <mxGeometry x="40" y="870" width="80" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="6aqH_ZoxRrP5pMAh_-97-18" value="BehaviourNodes" style="text;strokeColor=none;align=center;fillColor=none;html=1;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontFamily=Lucida Console;" vertex="1" parent="1">
+          <mxGeometry x="30" y="280" width="100" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="6aqH_ZoxRrP5pMAh_-97-21" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;fontFamily=Lucida Console;" edge="1" parent="1" source="6aqH_ZoxRrP5pMAh_-97-19" target="6aqH_ZoxRrP5pMAh_-97-18">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="180" y="280" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="6aqH_ZoxRrP5pMAh_-97-19" value="BehaviourManager" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fontFamily=Lucida Console;" vertex="1" parent="1">
+          <mxGeometry x="240" y="404.5" width="140" height="140" as="geometry" />
+        </mxCell>
       </root>
     </mxGraphModel>
   </diagram>
