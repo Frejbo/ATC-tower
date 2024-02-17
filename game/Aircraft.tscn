@@ -106,7 +106,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 30, -48)
 pixel_size = 0.01
 billboard = 1
 text = "AUA2JA"
-font_size = 2048
+font_size = 1024
 outline_size = 127
 uppercase = true
 

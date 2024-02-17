@@ -3,7 +3,7 @@ extends Node3D
 @export var aircraftScene : PackedScene
 
 signal list_updated
-var aircrafts : Array[Aircraft]:
+var aircrafts : Dictionary:
 	set(val):
 		aircrafts = val
 		list_updated.emit(aircrafts)
@@ -11,11 +11,19 @@ var aircrafts : Array[Aircraft]:
 func _enter_tree() -> void:
 	Game.AircraftManager = self
 	child_entered_tree.connect(func(child): 
-		aircrafts.append(child)
-		aircrafts = aircrafts)
-	child_exiting_tree.connect(func(child): 
-		aircrafts.erase(child)
-		aircrafts = aircrafts)
+		aircrafts[child.callsign] = child
+		aircrafts = aircrafts # just to trigger setget
+		)
+	child_exiting_tree.connect(func(child):
+		aircrafts.erase(child.callsign)
+		aircrafts = aircrafts # just to trigger setget
+		)
+
+func _ready() -> void:
+	for child : Node in get_children():
+		if child is Aircraft:
+			aircrafts[child.callsign] = child
+			aircrafts = aircrafts
 
 func spawn(callsign : String, spawn_position : Vector3 = Vector3.ZERO) -> void:
 	var plane = aircraftScene.instantiate()
@@ -25,3 +33,7 @@ func spawn(callsign : String, spawn_position : Vector3 = Vector3.ZERO) -> void:
 	if spawn_position == Vector3.ZERO:
 		plane.global_position = Game.active_approach.get_position_at_distance(Game.active_approach.nm_to_m(.2))
 		plane.global_rotation.y = Game.active_approach.global_rotation.y + deg_to_rad(-90)
+
+func switch_communication_window_visibility(callsign : String) -> void:
+	print(aircrafts)
+	aircrafts[callsign].communicator.visible = !aircrafts[callsign].communicator.visible

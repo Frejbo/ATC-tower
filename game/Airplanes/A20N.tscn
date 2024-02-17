@@ -28,7 +28,6 @@ mass = 55000.0
 center_of_mass_mode = 1
 center_of_mass = Vector3(0, 0, 5)
 freeze = true
-custom_integrator = true
 script = ExtResource("2_d16p7")
 max_thrust_N = 310000
 wing_area = 123
@@ -39,7 +38,7 @@ transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 4.3
 shape = SubResource("CapsuleShape3D_bqab2")
 
 [node name="wings" type="CollisionShape3D" parent="." index="1"]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 4.14758, 1.40112)
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 4.58696, 1.40112)
 shape = SubResource("BoxShape3D_x23uk")
 
 [node name="right main " parent="." index="6"]
@@ -47,7 +46,7 @@ wheel_roll_influence = 0.0
 wheel_radius = 0.615
 suspension_travel = 0.75
 suspension_stiffness = 15.0
-suspension_max_force = 313685.0
+suspension_max_force = 627370.0
 damping_compression = 0.9
 
 [node name="left main " parent="." index="10"]
@@ -55,7 +54,7 @@ wheel_roll_influence = 0.0
 wheel_radius = 0.615
 suspension_travel = 0.75
 suspension_stiffness = 15.0
-suspension_max_force = 313685.0
+suspension_max_force = 627370.0
 damping_compression = 0.9
 
 [node name="front " parent="." index="11"]
@@ -64,7 +63,7 @@ wheel_roll_influence = 0.0
 wheel_radius = 0.42
 suspension_travel = 0.75
 suspension_stiffness = 15.0
-suspension_max_force = 313685.0
+suspension_max_force = 627370.0
 damping_compression = 0.9
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." index="13"]
@@ -122,5 +121,4 @@ mesh = SubResource("SphereMesh_3c0oo")
 
 [node name="Camera3D" type="Camera3D" parent="." index="15"]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 11.8111, -31.795)
-current = true
 fov = 60.0

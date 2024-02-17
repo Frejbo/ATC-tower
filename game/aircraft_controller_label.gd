@@ -19,4 +19,4 @@ extends Button
 
 
 func _on_pressed() -> void:
-	Game.AircraftManager.get_node(callsign).communicator.visible = !Game.AircraftManager.get_node(callsign).communicator.visible
+	Game.AircraftManager.switch_communication_window_visibility(callsign)

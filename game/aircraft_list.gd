@@ -4,9 +4,10 @@ extends VBoxContainer
 
 func _ready() -> void:
 	Game.AircraftManager.list_updated.connect(update_aircraft_list)
+	update_aircraft_list(Game.AircraftManager.aircrafts)
 
-func update_aircraft_list(list : Array[Aircraft]) -> void:
-	for airplane : Aircraft in list:
+func update_aircraft_list(dict : Dictionary) -> void:
+	for airplane : Aircraft in dict.values():
 		var strip := scene.instantiate()
 		if has_node(airplane.callsign):
 			strip = get_node(airplane.callsign)

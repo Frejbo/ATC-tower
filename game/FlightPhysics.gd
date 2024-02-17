@@ -52,10 +52,10 @@ func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
 	var delta : float = (Time.get_ticks_msec() * 0.001) - total_time
 	total_time = Time.get_ticks_msec() * 0.001
 	
-	var gravity_force : float = ProjectSettings.get_setting("physics/3d/default_gravity") * delta
-	state.linear_velocity.y -= gravity_force
+	var gravity_force : float = ProjectSettings.get_setting("physics/3d/default_gravity")
+	#state.linear_velocity.y -= gravity_force# * delta
 	
-	var lift_accel = (get_lift_force() / mass) * delta
+	var lift_accel = (get_lift_force() / mass)# * delta
 	state.linear_velocity.y += lift_accel
 	%TotalLift.text = "Total lift force: " + str(get_lift_force()) + " N"
 	%LiftAccel.text = "Lift acceleration: " + str(lift_accel) + " m/s"
