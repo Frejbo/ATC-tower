@@ -1,12 +1,8 @@
-extends Node
-class_name taxi_component
+extends State
 
-@export var body : AircraftController
+@export var controller : AircraftController
 @export var straight_taxi_speed_kts : float = 28
 @export var turn_speed_kts : float = 8
-
-func taxi(route : Curve3D):
-	taxi_path = route
 
 var taxi_path := Curve3D.new():
 	set(curve):
@@ -21,33 +17,36 @@ var taxi_path := Curve3D.new():
 		if taxi_path.point_count > 0:
 			set_physics_process(true)
 
-func _enter_tree() -> void:
-	set_physics_process(false)
-func _physics_process(delta: float) -> void:
-	if taxi_path != null and taxi_path.point_count > 0:
-		move(delta)
+
+func Update(delta : float) -> void:
+	if taxi_path == null or taxi_path.point_count == 0:
+		state_transition.emit(self, "static")
+		return
+	
+	move(delta)
+
 
 func move(delta : float) -> void:
 	var closest_distance : float = 10
-	while body.get_steering_wheel().global_position.distance_to(taxi_path.get_point_position(0)) < closest_distance:
+	while controller.get_steering_wheel().global_position.distance_to(taxi_path.get_point_position(0)) < closest_distance:
 		taxi_path.remove_point(0)
 		if taxi_path.point_count == 0:
 			set_physics_process(false)
-			body.steering = 0
+			controller.steering = 0
 			return
 	
 	# Calculate target speed
-	body.target_speed = get_safe_speed(get_upcoming_curvature())
+	controller.target_speed = get_safe_speed(get_upcoming_curvature())
 	
 	steer_nosewheel(taxi_path.get_point_position(0), delta)
-	body.get_node("Node/current navigation aid").position = taxi_path.get_point_position(0)
+	controller.get_node("Node/current navigation aid").position = taxi_path.get_point_position(0)
 
 ## Steers the nosewheel smoothly towards the target.
 func steer_nosewheel(target : Vector3, delta : float):
-	var fwd : Vector3 = body.linear_velocity.normalized()
-	var target_vector : Vector3 = (target - body.get_steering_wheel().global_position)
-	var steer_degrees : float = lerp(body.steering, fwd.cross(target_vector.normalized()).y, 2 * delta)
-	body.steering = steer_degrees
+	var fwd : Vector3 = controller.linear_velocity.normalized()
+	var target_vector : Vector3 = (target - controller.get_steering_wheel().global_position)
+	var steer_degrees : float = lerp(controller.steering, fwd.cross(target_vector.normalized()).y, 2 * delta)
+	controller.steering = steer_degrees
 
 ## Calculates the safe taxi speed depending on the upcoming taxiway curvature given in radians. The returned speed is dependent on 'straight_taxi_speed_kts' and 'turn_speed_kts'. 
 func get_safe_speed(curvature : float) -> float:
@@ -69,7 +68,7 @@ func get_safe_speed(curvature : float) -> float:
 ## Get curvature of the given Vector3D points in radians. Can be used to get taxiway curvature for example. Returns radians.
 func get_upcoming_curvature(sample_length : int = 50) -> float:
 	
-	var points : Array[Vector3] = [body.get_steering_wheel().global_position]
+	var points : Array[Vector3] = [controller.get_steering_wheel().global_position]
 	var calculated_length : float = 0
 	var idx : int = 0
 	while calculated_length < sample_length and idx < taxi_path.point_count: # -1?
@@ -89,4 +88,3 @@ func get_upcoming_curvature(sample_length : int = 50) -> float:
 	var final_direction : float = points.front().signed_angle_to(final_vector, Vector3(0, 1, 0))
 	
 	return final_direction - direction
-

@@ -1,12 +1,15 @@
-[gd_scene load_steps=8 format=3 uid="uid://dooe7wxlpdhd5"]
+[gd_scene load_steps=11 format=3 uid="uid://dooe7wxlpdhd5"]
 
 [ext_resource type="Script" path="res://Aircraft.gd" id="1_7vn2h"]
 [ext_resource type="PackedScene" uid="uid://cpyj4w3k7b2br" path="res://Airplanes/A20N.tscn" id="2_bslt8"]
-[ext_resource type="Script" path="res://taxi.gd" id="3_ty30f"]
+[ext_resource type="Script" path="res://FSM/taxi state.gd" id="3_kxk7k"]
+[ext_resource type="Script" path="res://FSM/AircraftBehaviourManager.gd" id="3_tfqqc"]
+[ext_resource type="Script" path="res://FSM/static state.gd" id="4_65qp4"]
 [ext_resource type="Script" path="res://Airplanes/AircraftCommunicator.gd" id="4_xkhip"]
-[ext_resource type="Script" path="res://approach.gd" id="4_y30ov"]
 [ext_resource type="Script" path="res://taxi_to_stand.gd" id="5_7v62y"]
 [ext_resource type="Script" path="res://routeEnterer.gd" id="6_03386"]
+[ext_resource type="Script" path="res://FSM/approach state.gd" id="6_ceths"]
+[ext_resource type="Script" path="res://FSM/decelerate state.gd" id="7_ys5k3"]
 
 [node name="Aircraft" type="Node3D" node_paths=PackedStringArray("communicator")]
 script = ExtResource("1_7vn2h")
@@ -16,13 +19,26 @@ communicator = NodePath("aircraft_communicator")
 max_contacts_reported = 1
 contact_monitor = true
 
-[node name="taxi" type="Node" parent="." node_paths=PackedStringArray("body")]
-script = ExtResource("3_ty30f")
-body = NodePath("../A320neo")
+[node name="FSM" type="Node" parent="." node_paths=PackedStringArray("initial_state")]
+script = ExtResource("3_tfqqc")
+initial_state = NodePath("approach")
 
-[node name="approach" type="Node" parent="." node_paths=PackedStringArray("controller")]
-script = ExtResource("4_y30ov")
-controller = NodePath("../A320neo")
+[node name="taxi" type="Node" parent="FSM" node_paths=PackedStringArray("controller")]
+script = ExtResource("3_kxk7k")
+controller = NodePath("../../A320neo")
+
+[node name="static" type="Node" parent="FSM" node_paths=PackedStringArray("controller")]
+script = ExtResource("4_65qp4")
+controller = NodePath("../../A320neo")
+
+[node name="approach" type="Node" parent="FSM" node_paths=PackedStringArray("controller")]
+script = ExtResource("6_ceths")
+controller = NodePath("../../A320neo")
+landing_rate_ms = 1.0
+
+[node name="decelerate" type="Node" parent="FSM" node_paths=PackedStringArray("controller")]
+script = ExtResource("7_ys5k3")
+controller = NodePath("../../A320neo")
 
 [node name="aircraft_communicator" type="CanvasLayer" parent="." node_paths=PackedStringArray("body")]
 visible = false
@@ -94,7 +110,7 @@ font_size = 2048
 outline_size = 127
 uppercase = true
 
-[connection signal="taxi_instruction_recieved" from="aircraft_communicator" to="taxi" method="taxi"]
+[connection signal="taxi_instruction_recieved" from="aircraft_communicator" to="FSM" method="taxi"]
 [connection signal="pressed" from="aircraft_communicator/taxi_to_stand" to="aircraft_communicator/taxi_to_stand" method="_on_pressed"]
 [connection signal="taxi_to_stand" from="aircraft_communicator/taxi_to_stand" to="aircraft_communicator" method="taxi_to_stand"]
 [connection signal="text_changed" from="aircraft_communicator/taxi_to_stand/HBoxContainer/route" to="aircraft_communicator/taxi_to_stand/HBoxContainer/route" method="_on_text_changed"]

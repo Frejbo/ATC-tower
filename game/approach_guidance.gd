@@ -22,7 +22,7 @@ func m_to_nm(meters : float) -> float:
 
 ## Takes distance in meters and returns how many meters above the ground the approach recommends to be at.
 func get_position_at_distance(distance : float) -> Vector3:
-	var pos : Vector3
+	var pos := Vector3()
 	pos.y = tan(deg_to_rad(angle)) * distance
 	pos.x = distance
 	return global_position + pos.rotated(Vector3(0, 1, 0), global_rotation.y)

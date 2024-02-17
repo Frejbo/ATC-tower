@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://cpyj4w3k7b2br"]
+[gd_scene load_steps=8 format=3 uid="uid://cpyj4w3k7b2br"]
 
 [ext_resource type="PackedScene" uid="uid://duepbpob8vkad" path="res://Airplanes/A320 Neo.blend" id="1_cmfso"]
 [ext_resource type="Script" path="res://Airplanes/AircraftController.gd" id="2_d16p7"]
@@ -12,6 +12,9 @@ point_count = 3
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_bqab2"]
 radius = 2.0
 height = 35.035
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_x23uk"]
+size = Vector3(35, 12.5, 5.5)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_udjg8"]
 albedo_color = Color(0, 1, 0, 1)
@@ -31,11 +34,31 @@ max_thrust_N = 310000
 wing_area = 123
 Cl_v_Alpha = SubResource("Curve_0aihi")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="." index="0"]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 4.14758, 0)
+[node name="fuselage" type="CollisionShape3D" parent="." index="0"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 4.32396, 1.70559)
 shape = SubResource("CapsuleShape3D_bqab2")
 
-[node name="front " parent="." index="9"]
+[node name="wings" type="CollisionShape3D" parent="." index="1"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 4.14758, 1.40112)
+shape = SubResource("BoxShape3D_x23uk")
+
+[node name="right main " parent="." index="6"]
+wheel_roll_influence = 0.0
+wheel_radius = 0.615
+suspension_travel = 0.75
+suspension_stiffness = 15.0
+suspension_max_force = 313685.0
+damping_compression = 0.9
+
+[node name="left main " parent="." index="10"]
+wheel_roll_influence = 0.0
+wheel_radius = 0.615
+suspension_travel = 0.75
+suspension_stiffness = 15.0
+suspension_max_force = 313685.0
+damping_compression = 0.9
+
+[node name="front " parent="." index="11"]
 use_as_steering = true
 wheel_roll_influence = 0.0
 wheel_radius = 0.42
@@ -44,25 +67,10 @@ suspension_stiffness = 15.0
 suspension_max_force = 313685.0
 damping_compression = 0.9
 
-[node name="left main " parent="." index="11"]
-wheel_roll_influence = 0.0
-wheel_radius = 0.615
-suspension_travel = 0.75
-suspension_stiffness = 15.0
-suspension_max_force = 313685.0
-damping_compression = 0.9
-
-[node name="right main " parent="." index="14"]
-wheel_roll_influence = 0.0
-wheel_radius = 0.615
-suspension_travel = 0.75
-suspension_stiffness = 15.0
-suspension_max_force = 313685.0
-damping_compression = 0.9
-
-[node name="CanvasLayer" type="CanvasLayer" parent="." index="17"]
+[node name="CanvasLayer" type="CanvasLayer" parent="." index="13"]
 
 [node name="thrust" type="VSlider" parent="CanvasLayer" index="0"]
+visible = false
 anchors_preset = 4
 anchor_top = 0.5
 anchor_bottom = 0.5
@@ -107,11 +115,12 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Node" type="Node" parent="." index="18"]
+[node name="Node" type="Node" parent="." index="14"]
 
 [node name="current navigation aid" type="MeshInstance3D" parent="Node" index="0"]
 mesh = SubResource("SphereMesh_3c0oo")
 
-[node name="Camera3D" type="Camera3D" parent="." index="19"]
+[node name="Camera3D" type="Camera3D" parent="." index="15"]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 11.8111, -31.795)
+current = true
 fov = 60.0

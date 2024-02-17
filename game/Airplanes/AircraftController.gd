@@ -14,5 +14,8 @@ func is_on_ground() -> bool:
 			return true
 	return false
 
+func get_speed_kts() -> float:
+	return ms_to_kts(linear_velocity.length())
+
 func _process(_delta: float) -> void:
 	thrust_lever = $CanvasLayer/thrust.value

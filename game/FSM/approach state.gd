@@ -1,6 +1,4 @@
-extends Node
-
-class_name approach_component
+extends State
 
 @export var controller : AircraftController
 @export var landing_rate_ms : float = .5
@@ -9,11 +7,14 @@ class_name approach_component
 var is_in_flare : bool = false
 var flare_elapsed_time : float = 0
 var before_flare_angle : float
-func _physics_process(delta: float) -> void:
+
+func Enter() -> void:
+	is_in_flare = false
+
+func Physics_update(delta: float) -> void:
 	if controller.is_on_ground():
 		print("Touchdown")
-		controller.target_speed = controller.max_straight_taxi_speed_kts
-		queue_free()
+		state_transition.emit(self, "decelerate")
 		return
 	
 	if is_in_flare:
@@ -33,10 +34,5 @@ func _physics_process(delta: float) -> void:
 		is_in_flare = true
 		return
 	
-	#if controller.global_position.y < 40:
-		#controller.global_rotation_degrees.x -= .5 * delta
-	
 	controller.linear_velocity = Vector3(0, -tan(deg_to_rad(3)) * controller.kts_to_ms(140), controller.kts_to_ms(140)).rotated(Vector3(0, 1, 0), controller.global_rotation.y)
 	controller.target_speed = 140
-
-
