@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=3 uid="uid://bbdfih0weqhie"]
+[gd_scene load_steps=37 format=3 uid="uid://bbdfih0weqhie"]
 
 [ext_resource type="PackedScene" uid="uid://c3vpi5rklcc08" path="res://airport.blend" id="1_rkesj"]
 [ext_resource type="Texture2D" uid="uid://cfrwgslp3pgbs" path="res://airport overview.png" id="1_yjken"]
@@ -118,6 +118,13 @@ _data = {
 }
 point_count = 2
 
+[sub_resource type="Curve3D" id="Curve3D_xn3hw"]
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, 850, 0, 405, 0, 0, 0, 0, 0, 0, 850, 0, 480),
+"tilts": PackedFloat32Array(0, 0)
+}
+point_count = 2
+
 [sub_resource type="BoxShape3D" id="BoxShape3D_vdifn"]
 size = Vector3(5000, 10, 5000)
 
@@ -224,8 +231,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 736.137, 38.3013, 546.703)
 surface_material_override/0 = ExtResource("5_4pbmn")
 
 [node name="Sprite3D" type="Sprite3D" parent="."]
-transform = Transform3D(305, 0, 0, 0, 305, 0, 0, 0, 305, -4.825, -1, 307.515)
+transform = Transform3D(305, 0, 0, 0, 305, 0, 0, 0, 305, -4.825, 1, 307.515)
 visible = false
+transparency = 0.9
 axis = 1
 texture = ExtResource("1_yjken")
 
@@ -339,6 +347,17 @@ taxiline_shape = PackedVector2Array(0, 0, -0.5, 0.01, 0.5, 0.01)
 [node name="20" parent="taxiways/20" node_paths=PackedStringArray("taxiway_in") instance=ExtResource("5_7ridq")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 780, 0, 477.5)
 gate_name = "20"
+taxiway_in = NodePath("..")
+
+[node name="19" type="Path3D" parent="taxiways"]
+curve = SubResource("Curve3D_xn3hw")
+script = ExtResource("2_0itsb")
+connection_sizes = Array[float]([30.0, 30.0])
+taxiline_shape = PackedVector2Array(0, 0, -0.5, 0.01, 0.5, 0.01)
+
+[node name="19" parent="taxiways/19" node_paths=PackedStringArray("taxiway_in") instance=ExtResource("5_7ridq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 850, 0, 477.5)
+gate_name = "19"
 taxiway_in = NodePath("..")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]

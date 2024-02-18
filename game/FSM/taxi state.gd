@@ -69,7 +69,6 @@ func get_safe_speed(curvature : float) -> float:
 		distance_left += taxi_path.get_baked_length()
 	var stopping_multiplier : float = clamp(distance_left / (stopping_distance_per_kts * safe_speed), 0, 1)
 	
-	print(safe_speed, "  multiplier: ", stopping_multiplier)
 	return clamp(safe_speed * stopping_multiplier, 2, controller.max_straight_taxi_speed_kts)
 
 ## Get curvature of the given Vector3D points in radians. Can be used to get taxiway curvature for example. Returns radians.

@@ -10,7 +10,7 @@ extends Marker3D
 		name = text.to_upper()
 		gate_name = name
 
-@export var taxiway_in : taxiway
+@export var taxiway_in : taxiway = get_parent()
 
 func _enter_tree() -> void:
 	Game.stands[gate_name] = self
