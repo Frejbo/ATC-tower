@@ -18,6 +18,7 @@ communicator = NodePath("aircraft_communicator")
 [node name="A320neo" parent="." instance=ExtResource("2_bslt8")]
 max_contacts_reported = 1
 contact_monitor = true
+max_brake_force = 500
 
 [node name="FSM" type="Node" parent="." node_paths=PackedStringArray("initial_state")]
 script = ExtResource("3_tfqqc")
