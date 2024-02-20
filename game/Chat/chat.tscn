@@ -1,0 +1,30 @@
+[gd_scene load_steps=3 format=3 uid="uid://chjm20ayayjbe"]
+
+[ext_resource type="Theme" uid="uid://cisxfuhwjmtn8" path="res://Chat/Chat theme.tres" id="1_m8da6"]
+[ext_resource type="Script" path="res://Chat/Chat.gd" id="1_ulyio"]
+
+[node name="ChatBox" type="ScrollContainer"]
+anchors_preset = -1
+anchor_left = 0.004
+anchor_top = 0.007
+anchor_right = 0.277
+anchor_bottom = 0.2
+offset_left = -0.12
+offset_top = -0.04
+size_flags_horizontal = 8
+size_flags_vertical = 0
+auto_translate = false
+theme = ExtResource("1_m8da6")
+horizontal_scroll_mode = 0
+
+[node name="Chat" type="VBoxContainer" parent="."]
+layout_mode = 2
+script = ExtResource("1_ulyio")
+
+[node name="Label" type="Label" parent="Chat"]
+layout_mode = 2
+text = "You: SAS40G taxi to stand 20 via E, J, L."
+
+[node name="Label2" type="Label" parent="Chat"]
+layout_mode = 2
+text = "SAS40G: Stand 20 via E, J, L."

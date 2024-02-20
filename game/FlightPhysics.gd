@@ -22,10 +22,10 @@ class_name FlightPhysics
 @export var turn_speed_kts : int = 10
 ## The speed in knots which the aircraft will aim to be at on straight taxiways.
 @export var max_straight_taxi_speed_kts : int = 28
-## The speed the aircraft should automatically aim for. Is updated every physics update. You probably want to set this during runtime.
-@export var target_speed : float
 ## The maximum amount of brake force the aircraft can apply
 @export var max_brake_force : int = 1000
+## The speed the aircraft should automatically aim for. Is updated every physics update. You probably want to set this during runtime.
+@export var target_speed : float
 
 var current_thrust_force := 0.0
 
@@ -42,16 +42,11 @@ func _physics_process(delta: float) -> void:
 	handle_speed(target_speed)
 	current_thrust_force = lerp(current_thrust_force, max_thrust_N * thrust_lever, engine_spool_up_speed * delta)
 
-#var total_time : float = Time.get_ticks_msec() * 0.001
-#func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
-	##if true: # !!!
-		##return # !!!
-	#
-	#
-	#%Speed.text = "Speed: " + str(round(ms_to_kts(Vector2(state.linear_velocity.x, state.linear_velocity.z).length()))) + " kts"
-	#var delta : float = (Time.get_ticks_msec() * 0.001) - total_time
-	#total_time = Time.get_ticks_msec() * 0.001
-	#
+var total_time : float = Time.get_ticks_msec() * 0.001
+func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
+	%Speed.text = "Speed: " + str(round(ms_to_kts(Vector2(state.linear_velocity.x, state.linear_velocity.z).length()))) + " kts"
+	var delta : float = (Time.get_ticks_msec() * 0.001) - total_time
+	total_time = Time.get_ticks_msec() * 0.001
 	#var gravity_force : float = ProjectSettings.get_setting("physics/3d/default_gravity")
 	#state.linear_velocity.y -= gravity_force# * delta
 	#
@@ -60,7 +55,8 @@ func _physics_process(delta: float) -> void:
 	#%TotalLift.text = "Total lift force: " + str(get_lift_force()) + " N"
 	#%LiftAccel.text = "Lift acceleration: " + str(lift_accel) + " m/s"
 	#%TotalLiftAccel.text = "Total lift acceleration: " + str(lift_accel - gravity_force) + " m/s"
-	#state.linear_velocity += Vector3(0, 0, get_acceleration(delta)).rotated(Vector3(0, 1, 0), global_rotation.y)
+	
+	state.linear_velocity += Vector3(0, 0, get_acceleration(delta)).rotated(Vector3(0, 1, 0), global_rotation.y)
 
 
 func get_acceleration(delta : float) -> float:

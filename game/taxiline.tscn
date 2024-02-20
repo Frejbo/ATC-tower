@@ -1,0 +1,29 @@
+[gd_scene load_steps=4 format=3 uid="uid://bitcsjq1jaull"]
+
+[ext_resource type="Material" uid="uid://xlg2hxke7bax" path="res://taxilines.tres" id="1_y7fvl"]
+[ext_resource type="Script" path="res://connection_areas.gd" id="2_gjl4r"]
+
+[sub_resource type="Curve3D" id="Curve3D_3p7jy"]
+
+[node name="Path3D" type="Path3D"]
+curve = SubResource("Curve3D_3p7jy")
+
+[node name="CSGPolygon3D" type="CSGPolygon3D" parent="."]
+snap = 0.1
+polygon = PackedVector2Array(0, 0, -0.5, 0.05, 0.5, 0.05)
+mode = 2
+path_node = NodePath("..")
+path_interval_type = 0
+path_interval = 5.0
+path_simplify_angle = 0.1
+path_rotation = 2
+path_local = false
+path_continuous_u = true
+path_u_distance = 1.0
+path_joined = false
+material = ExtResource("1_y7fvl")
+
+[node name="connection_areas" type="Node3D" parent="."]
+script = ExtResource("2_gjl4r")
+
+[connection signal="curve_changed" from="." to="connection_areas" method="_on_path_3d_curve_changed"]

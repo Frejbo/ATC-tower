@@ -117,6 +117,7 @@ size_flags_horizontal = 3
 [node name="Node" type="Node" parent="." index="14"]
 
 [node name="current navigation aid" type="MeshInstance3D" parent="Node" index="0"]
+transparency = 0.8
 mesh = SubResource("SphereMesh_3c0oo")
 
 [node name="Camera3D" type="Camera3D" parent="." index="15"]
