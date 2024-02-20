@@ -41,10 +41,11 @@ landing_rate_ms = 1.0
 script = ExtResource("7_ys5k3")
 controller = NodePath("../../A320neo")
 
-[node name="aircraft_communicator" type="CanvasLayer" parent="." node_paths=PackedStringArray("body")]
+[node name="aircraft_communicator" type="CanvasLayer" parent="." node_paths=PackedStringArray("body", "aircraft")]
 visible = false
 script = ExtResource("4_xkhip")
 body = NodePath("../A320neo")
+aircraft = NodePath("..")
 
 [node name="taxi_to_stand" type="Button" parent="aircraft_communicator" node_paths=PackedStringArray("stand", "route")]
 anchors_preset = 8

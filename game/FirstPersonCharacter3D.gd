@@ -42,7 +42,7 @@ func _physics_process(delta: float) -> void:
 		velocity.y += get_gravity() * delta
 	
 	# Handle jump.
-	if Input.is_action_pressed("ui_accept") and is_on_floor():
+	if Input.is_action_pressed("ui_accept") and is_on_floor() and Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
 		velocity.y = jump_velocity
 	
 	speed = lerp(speed, MAX_SPEED, DEACCELERATION)
@@ -51,7 +51,7 @@ func _physics_process(delta: float) -> void:
 	# As good practice, you should replace UI actions with custom gameplay actions.
 	var input_dir := Input.get_vector("left", "right", "forward", "back")
 	var direction := (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
-	if direction:
+	if direction and Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
 		var y := velocity.y
 		velocity.y = 0
 		velocity += (direction * (ACCELERATION * speed))
