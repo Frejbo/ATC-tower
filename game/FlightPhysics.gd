@@ -34,29 +34,29 @@ func kts_to_ms(kts : float) -> float:
 func ms_to_kts(meter_per_second : float) -> float:
 	return meter_per_second * 1.94384449
 
-func _ready() -> void:
-	freeze = false
+func _enter_tree() -> void:
+	if Engine.is_editor_hint():
+		freeze = true
 
 func _physics_process(delta: float) -> void:
-	#manual_pitch_input()
 	handle_speed(target_speed)
 	current_thrust_force = lerp(current_thrust_force, max_thrust_N * thrust_lever, engine_spool_up_speed * delta)
 
-var total_time : float = Time.get_ticks_msec() * 0.001
+#var total_time : float = Time.get_ticks_msec() * 0.001
 func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
 	%Speed.text = "Speed: " + str(round(ms_to_kts(Vector2(state.linear_velocity.x, state.linear_velocity.z).length()))) + " kts"
-	var delta : float = (Time.get_ticks_msec() * 0.001) - total_time
-	total_time = Time.get_ticks_msec() * 0.001
+	#var delta : float = (Time.get_ticks_msec() * 0.001) - total_time
+	#total_time = Time.get_ticks_msec() * 0.001
 	#var gravity_force : float = ProjectSettings.get_setting("physics/3d/default_gravity")
 	#state.linear_velocity.y -= gravity_force# * delta
-	#
+	
 	#var lift_accel = (get_lift_force() / mass)# * delta
 	#state.linear_velocity.y += lift_accel
 	#%TotalLift.text = "Total lift force: " + str(get_lift_force()) + " N"
 	#%LiftAccel.text = "Lift acceleration: " + str(lift_accel) + " m/s"
 	#%TotalLiftAccel.text = "Total lift acceleration: " + str(lift_accel - gravity_force) + " m/s"
 	
-	state.linear_velocity += Vector3(0, 0, get_acceleration(delta)).rotated(Vector3(0, 1, 0), global_rotation.y)
+	state.apply_force(Vector3(0, get_lift_force(), current_thrust_force).rotated(Vector3(0, 1, 0), global_rotation.y))
 
 
 func get_acceleration(delta : float) -> float:

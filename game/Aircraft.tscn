@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://dooe7wxlpdhd5"]
+[gd_scene load_steps=13 format=3 uid="uid://dooe7wxlpdhd5"]
 
 [ext_resource type="Script" path="res://Aircraft.gd" id="1_7vn2h"]
 [ext_resource type="PackedScene" uid="uid://cpyj4w3k7b2br" path="res://Airplanes/A20N.tscn" id="2_bslt8"]
@@ -10,6 +10,8 @@
 [ext_resource type="Script" path="res://routeEnterer.gd" id="6_03386"]
 [ext_resource type="Script" path="res://FSM/approach state.gd" id="6_ceths"]
 [ext_resource type="Script" path="res://FSM/decelerate state.gd" id="7_ys5k3"]
+[ext_resource type="Script" path="res://takeoff state.gd" id="8_u2wn2"]
+[ext_resource type="Script" path="res://takeoff clearence.gd" id="12_iomkr"]
 
 [node name="Aircraft" type="Node3D" node_paths=PackedStringArray("communicator")]
 script = ExtResource("1_7vn2h")
@@ -20,25 +22,29 @@ max_contacts_reported = 1
 contact_monitor = true
 max_brake_force = 500
 
-[node name="FSM" type="Node" parent="." node_paths=PackedStringArray("initial_state")]
+[node name="Behaviour FSM" type="Node" parent="." node_paths=PackedStringArray("initial_state")]
 script = ExtResource("3_tfqqc")
 initial_state = NodePath("approach")
 
-[node name="taxi" type="Node" parent="FSM" node_paths=PackedStringArray("controller")]
+[node name="taxi" type="Node" parent="Behaviour FSM" node_paths=PackedStringArray("controller")]
 script = ExtResource("3_kxk7k")
 controller = NodePath("../../A320neo")
 
-[node name="static" type="Node" parent="FSM" node_paths=PackedStringArray("controller")]
+[node name="static" type="Node" parent="Behaviour FSM" node_paths=PackedStringArray("controller")]
 script = ExtResource("4_65qp4")
 controller = NodePath("../../A320neo")
 
-[node name="approach" type="Node" parent="FSM" node_paths=PackedStringArray("controller")]
+[node name="approach" type="Node" parent="Behaviour FSM" node_paths=PackedStringArray("controller")]
 script = ExtResource("6_ceths")
 controller = NodePath("../../A320neo")
 landing_rate_ms = 1.0
 
-[node name="decelerate" type="Node" parent="FSM" node_paths=PackedStringArray("controller")]
+[node name="decelerate" type="Node" parent="Behaviour FSM" node_paths=PackedStringArray("controller")]
 script = ExtResource("7_ys5k3")
+controller = NodePath("../../A320neo")
+
+[node name="takeoff" type="Node" parent="Behaviour FSM" node_paths=PackedStringArray("controller")]
+script = ExtResource("8_u2wn2")
 controller = NodePath("../../A320neo")
 
 [node name="aircraft_communicator" type="CanvasLayer" parent="." node_paths=PackedStringArray("body", "aircraft")]
@@ -47,23 +53,27 @@ script = ExtResource("4_xkhip")
 body = NodePath("../A320neo")
 aircraft = NodePath("..")
 
-[node name="taxi_to_stand" type="Button" parent="aircraft_communicator" node_paths=PackedStringArray("stand", "route")]
-anchors_preset = 8
-anchor_left = 0.5
+[node name="VBoxContainer" type="VBoxContainer" parent="aircraft_communicator"]
+anchors_preset = 14
 anchor_top = 0.5
-anchor_right = 0.5
+anchor_right = 1.0
 anchor_bottom = 0.5
-offset_left = -147.0
-offset_top = -15.0
-offset_right = 147.0
-offset_bottom = 16.0
+offset_top = -29.5
+offset_bottom = 29.5
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="taxi to stand" type="Button" parent="aircraft_communicator/VBoxContainer" node_paths=PackedStringArray("stand", "route")]
+custom_minimum_size = Vector2(300, 30)
+layout_mode = 2
+size_flags_horizontal = 4
 script = ExtResource("5_7v62y")
 stand = NodePath("HBoxContainer/stand")
 route = NodePath("HBoxContainer/route")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="aircraft_communicator/taxi_to_stand"]
+[node name="HBoxContainer" type="HBoxContainer" parent="aircraft_communicator/VBoxContainer/taxi to stand"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -71,28 +81,28 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -139.5
-offset_top = -33.0
+offset_top = -15.5
 offset_right = 139.5
-offset_bottom = 33.0
+offset_bottom = 15.5
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Label" type="Label" parent="aircraft_communicator/taxi_to_stand/HBoxContainer"]
+[node name="Label" type="Label" parent="aircraft_communicator/VBoxContainer/taxi to stand/HBoxContainer"]
 layout_mode = 2
 text = "Taxi to stand"
 
-[node name="stand" type="LineEdit" parent="aircraft_communicator/taxi_to_stand/HBoxContainer"]
+[node name="stand" type="LineEdit" parent="aircraft_communicator/VBoxContainer/taxi to stand/HBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 4
 text = "20"
 placeholder_text = "stand"
 expand_to_text_length = true
 
-[node name="Label2" type="Label" parent="aircraft_communicator/taxi_to_stand/HBoxContainer"]
+[node name="Label2" type="Label" parent="aircraft_communicator/VBoxContainer/taxi to stand/HBoxContainer"]
 layout_mode = 2
 text = "via"
 
-[node name="route" type="LineEdit" parent="aircraft_communicator/taxi_to_stand/HBoxContainer"]
+[node name="route" type="LineEdit" parent="aircraft_communicator/VBoxContainer/taxi to stand/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
@@ -101,6 +111,12 @@ expand_to_text_length = true
 context_menu_enabled = false
 drag_and_drop_selection_enabled = false
 script = ExtResource("6_03386")
+
+[node name="takeoff clearence" type="Button" parent="aircraft_communicator/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Takeoff clearence"
+script = ExtResource("12_iomkr")
 
 [node name="callsign" type="Label3D" parent="."]
 unique_name_in_owner = true
@@ -112,7 +128,6 @@ font_size = 1024
 outline_size = 127
 uppercase = true
 
-[connection signal="taxi_instruction_recieved" from="aircraft_communicator" to="FSM" method="taxi"]
-[connection signal="pressed" from="aircraft_communicator/taxi_to_stand" to="aircraft_communicator/taxi_to_stand" method="_on_pressed"]
-[connection signal="taxi_to_stand" from="aircraft_communicator/taxi_to_stand" to="aircraft_communicator" method="taxi_to_stand"]
-[connection signal="text_changed" from="aircraft_communicator/taxi_to_stand/HBoxContainer/route" to="aircraft_communicator/taxi_to_stand/HBoxContainer/route" method="_on_text_changed"]
+[connection signal="taxi_instruction_recieved" from="aircraft_communicator" to="Behaviour FSM" method="taxi"]
+[connection signal="taxi_to_stand" from="aircraft_communicator/VBoxContainer/taxi to stand" to="aircraft_communicator" method="taxi_to_stand"]
+[connection signal="text_changed" from="aircraft_communicator/VBoxContainer/taxi to stand/HBoxContainer/route" to="aircraft_communicator/VBoxContainer/taxi to stand/HBoxContainer/route" method="_on_text_changed"]

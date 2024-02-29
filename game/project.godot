@@ -59,9 +59,15 @@ right={
 
 [physics]
 
-3d/solver/contact_recycle_radius=0.05
+3d/run_on_separate_thread=true
+3d/default_linear_damp=0.025
+3d/solver/solver_iterations=8
+3d/solver/contact_recycle_radius=0.1
+3d/solver/contact_max_separation=0.1
+3d/solver/contact_max_allowed_penetration=0.1
 
 [rendering]
 
-textures/default_filters/anisotropic_filtering_level=4
+textures/default_filters/anisotropic_filtering_level=0
 textures/decals/filter=5
+anti_aliasing/quality/msaa_3d=3

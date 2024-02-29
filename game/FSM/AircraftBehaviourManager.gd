@@ -9,3 +9,6 @@ func taxi(route : Curve3D):
 	
 	if current_state.name == "static":
 		change_state(current_state, "taxi")
+
+func takeoff() -> void:
+	change_state(current_state, "takeoff")

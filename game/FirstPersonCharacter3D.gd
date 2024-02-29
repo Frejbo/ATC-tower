@@ -33,9 +33,6 @@ func get_gravity() -> float:
 	else:
 		return fall_gravity# * ProjectSettings.get_setting("physics/3d/default_gravity")
 
-func _ready() -> void:
-	switch_mouse_mode()
-
 func _physics_process(delta: float) -> void:
 	# Add the gravity.
 	if not is_on_floor():

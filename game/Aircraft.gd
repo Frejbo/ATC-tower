@@ -2,7 +2,7 @@ extends Node3D
 
 class_name Aircraft
 
-@export var callsign : String:
+@export var callsign : String = "NORDO":
 	set(val):
 		callsign = val.to_upper()
 		name = callsign
