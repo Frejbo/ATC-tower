@@ -26,6 +26,17 @@ max_contacts_reported = 1
 contact_monitor = true
 max_brake_force = 500
 
+[node name="callsign" type="Label3D" parent="A320neo"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 25, 0)
+transparency = 0.8
+pixel_size = 0.01
+billboard = 1
+text = "AUA2JA"
+font_size = 800
+outline_size = 127
+uppercase = true
+
 [node name="ground visual" type="Area3D" parent="A320neo"]
 collision_layer = 0
 
@@ -134,16 +145,6 @@ layout_mode = 2
 size_flags_horizontal = 4
 text = "Takeoff clearence"
 script = ExtResource("12_iomkr")
-
-[node name="callsign" type="Label3D" parent="."]
-unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 30, -48)
-pixel_size = 0.01
-billboard = 1
-text = "AUA2JA"
-font_size = 1024
-outline_size = 127
-uppercase = true
 
 [connection signal="taxi_instruction_recieved" from="aircraft_communicator" to="Behaviour FSM" method="taxi"]
 [connection signal="taxi_to_stand" from="aircraft_communicator/VBoxContainer/taxi to stand" to="aircraft_communicator" method="taxi_to_stand"]
