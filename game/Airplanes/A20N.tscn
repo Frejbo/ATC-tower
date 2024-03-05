@@ -128,4 +128,5 @@ mesh = SubResource("SphereMesh_3c0oo")
 
 [node name="Camera3D" type="Camera3D" parent="." index="15"]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 1.07265, 11.8111, -32.66)
+current = true
 fov = 60.0

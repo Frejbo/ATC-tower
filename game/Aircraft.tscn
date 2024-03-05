@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://dooe7wxlpdhd5"]
+[gd_scene load_steps=15 format=3 uid="uid://dooe7wxlpdhd5"]
 
 [ext_resource type="Script" path="res://Aircraft.gd" id="1_7vn2h"]
 [ext_resource type="PackedScene" uid="uid://cpyj4w3k7b2br" path="res://Airplanes/A20N.tscn" id="2_bslt8"]
@@ -11,7 +11,11 @@
 [ext_resource type="Script" path="res://FSM/approach state.gd" id="6_ceths"]
 [ext_resource type="Script" path="res://FSM/decelerate state.gd" id="7_ys5k3"]
 [ext_resource type="Script" path="res://takeoff state.gd" id="8_u2wn2"]
+[ext_resource type="Script" path="res://vacating state.gd" id="9_1m6em"]
 [ext_resource type="Script" path="res://takeoff clearence.gd" id="12_iomkr"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_3epul"]
+size = Vector3(40, 10, 50)
 
 [node name="Aircraft" type="Node3D" node_paths=PackedStringArray("communicator")]
 script = ExtResource("1_7vn2h")
@@ -21,6 +25,13 @@ communicator = NodePath("aircraft_communicator")
 max_contacts_reported = 1
 contact_monitor = true
 max_brake_force = 500
+
+[node name="ground visual" type="Area3D" parent="A320neo"]
+collision_layer = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="A320neo/ground visual"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 38)
+shape = SubResource("BoxShape3D_3epul")
 
 [node name="Behaviour FSM" type="Node" parent="." node_paths=PackedStringArray("initial_state")]
 script = ExtResource("3_tfqqc")
@@ -46,6 +57,12 @@ controller = NodePath("../../A320neo")
 [node name="takeoff" type="Node" parent="Behaviour FSM" node_paths=PackedStringArray("controller")]
 script = ExtResource("8_u2wn2")
 controller = NodePath("../../A320neo")
+
+[node name="vacating" type="Node" parent="Behaviour FSM" node_paths=PackedStringArray("taxiway_detection", "controller", "taxi_state")]
+script = ExtResource("9_1m6em")
+taxiway_detection = NodePath("../../A320neo/ground visual")
+controller = NodePath("../../A320neo")
+taxi_state = NodePath("../taxi")
 
 [node name="aircraft_communicator" type="CanvasLayer" parent="." node_paths=PackedStringArray("body", "aircraft")]
 visible = false

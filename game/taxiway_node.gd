@@ -14,6 +14,8 @@ class_name taxiway
 		taxiway_name = name
 		Game.taxiways[name] = self
 
+@export var vacate : Array[int]
+
 func _get_configuration_warnings() -> PackedStringArray:
 	var warning : PackedStringArray = []
 	if Game.taxiways.get(name, self) != self:
@@ -44,7 +46,6 @@ var csg_debug_shape : CSGPolygon3D
 func _on_curve_changed() -> void:
 	if !curve: return
 	if curve.point_count <= 1: return
-	
 	# Force y of every point to 0
 	if not allow_y:
 		for i in range(curve.point_count):
@@ -202,14 +203,14 @@ func connect_to_nearby(exclude_taxiways : Array[taxiway] = [], recursion : bool 
 	var areas_to_check : Array[Area3D] = []
 	for node : Node in get_children():
 		if node is Area3D:
-			areas_to_check.append(node)
+			if node.owner is taxiway:
+				areas_to_check.append(node)
 	
 	for area : Area3D in areas_to_check:
 		# Get overlapping areas, excluding areas belonging to this taxiway
 		var overlapping_areas : Array[Area3D] = area.get_overlapping_areas()
 		for overlapping in overlapping_areas:
-			if overlapping.owner == self:
-				overlapping_areas.erase(overlapping)
+			overlapping_areas.erase(overlapping)
 		
 		# If no overlapping areas, continue and check next area on this taxiway
 		if not overlapping_areas: continue

@@ -20,33 +20,25 @@ func Update(delta : float) -> void:
 	if taxi_path == null or taxi_path.point_count == 0:
 		state_transition.emit(self, "static")
 		return
-	move(delta)
+	move(delta, taxi_path)
 
 
-func move(delta : float) -> void:
-	var closest_distance : float = clamp(taxi_path.point_count/2.0, .5, 10)
-	while controller.get_steering_wheel().global_position.distance_to(taxi_path.get_point_position(0)) < closest_distance:
-		taxi_path.remove_point(0)
-		if taxi_path.point_count == 0:
+func move(delta : float, path : Curve3D) -> void:
+	var closest_distance : float = clamp(path.point_count/2.0, .5, 10)
+	while controller.get_steering_wheel().global_position.distance_to(path.get_point_position(0)) < closest_distance:
+		path.remove_point(0)
+		if path.point_count == 0:
 			controller.steering = 0
 			return
 	
 	# Calculate target speed
-	controller.target_speed = get_safe_speed(get_upcoming_curvature())
+	controller.target_speed = get_safe_speed(get_upcoming_curvature(path), path)
 	
-	steer_nosewheel(taxi_path.get_point_position(0), delta)
-	controller.get_node("Node/current navigation aid").position = taxi_path.get_point_position(0)
-
-## Steers the nosewheel smoothly towards the target.
-func steer_nosewheel(target : Vector3, delta : float):
-	var fwd : Vector3 = controller.linear_velocity.normalized()
-	var target_vector : Vector3 = (target - controller.get_steering_wheel().global_position)
-	var steer_degrees : float = lerp(controller.steering, fwd.cross(target_vector.normalized()).y, 2 * delta)
-	controller.steering = steer_degrees
+	controller.steer_nosewheel(path.get_point_position(0), delta)
+	controller.get_node("Node/current navigation aid").position = path.get_point_position(0)
 
 ## Calculates the safe taxi speed depending on the upcoming taxiway curvature given in radians. The returned speed is dependent on 'max_straight_taxi_speed_kts' and 'turn_speed_kts'. 
-func get_safe_speed(curvature : float) -> float:
-	
+func get_safe_speed(curvature : float, path : Curve3D) -> float:
 	curvature = rad_to_deg(abs(curvature))
 	# curve range 3 - 30
 	var min_react_deg : float = 3
@@ -63,23 +55,23 @@ func get_safe_speed(curvature : float) -> float:
 		safe_speed = controller.turn_speed_kts + (varying_speed_range * curvature_percent)
 	
 	var distance_left : float = 0
-	if taxi_path.point_count > 0:
-		distance_left += controller.get_steering_wheel().global_position.distance_to(taxi_path.get_point_position(0))
-	if taxi_path.point_count >= 2:
-		distance_left += taxi_path.get_baked_length()
+	if path.point_count > 0:
+		distance_left += controller.get_steering_wheel().global_position.distance_to(path.get_point_position(0))
+	if path.point_count >= 2:
+		distance_left += path.get_baked_length()
 	var stopping_multiplier : float = clamp(distance_left / (stopping_distance_per_kts * safe_speed), 0, 1)
 	
 	return clamp(safe_speed * stopping_multiplier, 2, controller.max_straight_taxi_speed_kts)
 
 ## Get curvature of the given Vector3D points in radians. Can be used to get taxiway curvature for example. Returns radians.
-func get_upcoming_curvature(sample_length : int = 50) -> float:
+func get_upcoming_curvature(path : Curve3D, sample_length : int = 50) -> float:
 	
 	var points : Array[Vector3] = [controller.get_steering_wheel().global_position]
 	var calculated_length : float = 0
 	var idx : int = 0
-	while calculated_length < sample_length and idx < taxi_path.point_count: # -1?
-		calculated_length += points.back().distance_to(taxi_path.get_point_position(idx))
-		points.append(taxi_path.get_point_position(idx))
+	while calculated_length < sample_length and idx < path.point_count: # -1?
+		calculated_length += points.back().distance_to(path.get_point_position(idx))
+		points.append(path.get_point_position(idx))
 		idx += 1
 	
 	if points.size() <= 2: return 0 # 2 points can only be straight, less is not a line

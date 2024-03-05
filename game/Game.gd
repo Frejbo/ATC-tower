@@ -7,3 +7,4 @@ var AircraftManager : Node
 var stands := {}
 var active_approach : approach_guidance
 var chat : Chat
+var runway : Runway

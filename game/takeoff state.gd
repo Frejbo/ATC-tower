@@ -5,6 +5,7 @@ extends State
 
 func Enter() -> void:
 	controller.target_speed = 200
+	controller.add_lift_force = true
 
 var current_pitch_vel : float = 0
 func Update(_delta : float) -> void:

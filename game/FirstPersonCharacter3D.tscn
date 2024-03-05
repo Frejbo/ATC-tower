@@ -8,6 +8,7 @@ height = 1.7
 
 [node name="CharacterBody3D" type="CharacterBody3D"]
 script = ExtResource("1_7fy0s")
+MOUSE_SENSITIVITY = 0.3
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.85, 0)

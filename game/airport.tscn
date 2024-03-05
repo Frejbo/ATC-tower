@@ -1,4 +1,4 @@
-[gd_scene load_steps=39 format=3 uid="uid://bbdfih0weqhie"]
+[gd_scene load_steps=41 format=3 uid="uid://bbdfih0weqhie"]
 
 [ext_resource type="PackedScene" uid="uid://c3vpi5rklcc08" path="res://airport.blend" id="1_rkesj"]
 [ext_resource type="Texture2D" uid="uid://cfrwgslp3pgbs" path="res://airport overview.png" id="1_yjken"]
@@ -10,6 +10,7 @@
 [ext_resource type="Material" uid="uid://c367y7ge80otn" path="res://Assets/taxiways.tres" id="4_xtrim"]
 [ext_resource type="Material" uid="uid://bhldiskx54qpk" path="res://Assets/Glass.tres" id="5_4pbmn"]
 [ext_resource type="PackedScene" uid="uid://dyunen1vglo8o" path="res://Gate.tscn" id="5_7ridq"]
+[ext_resource type="Script" path="res://Runway.gd" id="5_nyymq"]
 [ext_resource type="Terrain3DStorage" uid="uid://dctp7s8g48ftc" path="res://Assets/Terrain/terrain_3d_storage.res" id="10_ha35n"]
 [ext_resource type="Terrain3DTextureList" uid="uid://cx1m2gu7oq6ht" path="res://Assets/Terrain/terrain_3d_texture_list.tres" id="11_11kne"]
 
@@ -19,6 +20,9 @@ _data = {
 "tilts": PackedFloat32Array(0, 0)
 }
 point_count = 2
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_rad3h"]
+size = Vector3(3300, 1, 60)
 
 [sub_resource type="Curve3D" id="Curve3D_naxno"]
 _data = {
@@ -234,6 +238,12 @@ curve = SubResource("Curve3D_5p48f")
 script = ExtResource("4_hl1v7")
 active = true
 
+[node name="Runway" type="Area3D" parent="airport/Runway 03-21" index="3" groups=["runway"]]
+script = ExtResource("5_nyymq")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="airport/Runway 03-21/Runway"]
+shape = SubResource("BoxShape3D_rad3h")
+
 [node name="Taxiways" parent="airport" index="1"]
 cast_shadow = 0
 surface_material_override/0 = ExtResource("4_xtrim")
@@ -259,7 +269,6 @@ show_taxiways = true
 [node name="A" type="Path3D" parent="taxiways"]
 curve = SubResource("Curve3D_naxno")
 script = ExtResource("2_0itsb")
-taxiway_name = "A"
 default_connection_size = 20.0
 connection_sizes = Array[float]([20.0, 20.0, 20.0, 20.0, 20.0])
 taxiline_shape = PackedVector2Array(0, 0, -0.5, 0.1, 0.5, 0.1)
@@ -267,7 +276,7 @@ taxiline_shape = PackedVector2Array(0, 0, -0.5, 0.1, 0.5, 0.1)
 [node name="B" type="Path3D" parent="taxiways"]
 curve = SubResource("Curve3D_6vhq3")
 script = ExtResource("2_0itsb")
-taxiway_name = "B"
+vacate = Array[int]([21])
 default_connection_size = 20.0
 connection_sizes = Array[float]([20.0, 40.0, 20.0])
 taxiline_shape = PackedVector2Array(0, 0, -0.5, 0.1, 0.5, 0.1)
@@ -275,7 +284,7 @@ taxiline_shape = PackedVector2Array(0, 0, -0.5, 0.1, 0.5, 0.1)
 [node name="C" type="Path3D" parent="taxiways"]
 curve = SubResource("Curve3D_xb24e")
 script = ExtResource("2_0itsb")
-taxiway_name = "C"
+vacate = Array[int]([21])
 default_connection_size = 20.0
 connection_sizes = Array[float]([50.0, 20.0])
 taxiline_shape = PackedVector2Array(0, 0, -0.5, 0.1, 0.5, 0.1)
@@ -283,77 +292,70 @@ taxiline_shape = PackedVector2Array(0, 0, -0.5, 0.1, 0.5, 0.1)
 [node name="D" type="Path3D" parent="taxiways"]
 curve = SubResource("Curve3D_m4b5l")
 script = ExtResource("2_0itsb")
-taxiway_name = "D"
+vacate = Array[int]([3, 21])
 connection_sizes = Array[float]([30.0, 30.0])
 taxiline_shape = PackedVector2Array(0, 0, -0.5, 0.1, 0.5, 0.1)
 
 [node name="E" type="Path3D" parent="taxiways"]
 curve = SubResource("Curve3D_u284r")
 script = ExtResource("2_0itsb")
-taxiway_name = "E"
+vacate = Array[int]([0, 0, 0])
 connection_sizes = Array[float]([30.0, 30.0, 10.0])
 taxiline_shape = PackedVector2Array(0, 0, -0.5, 0.01, 0.5, 0.01)
 
 [node name="F" type="Path3D" parent="taxiways"]
 curve = SubResource("Curve3D_ylsry")
 script = ExtResource("2_0itsb")
-taxiway_name = "F"
+vacate = Array[int]([0, 0, 0])
 connection_sizes = Array[float]([30.0, 30.0, 30.0, 30.0, 30.0, 30.0])
 taxiline_shape = PackedVector2Array(0, 0, -0.5, 0.1, 0.5, 0.1)
 
 [node name="G" type="Path3D" parent="taxiways"]
 curve = SubResource("Curve3D_mli6d")
 script = ExtResource("2_0itsb")
-taxiway_name = "G"
 connection_sizes = Array[float]([30.0, 30.0, 30.0, 30.0])
 taxiline_shape = PackedVector2Array(0, 0, -0.5, 0.1, 0.5, 0.1)
 
 [node name="H" type="Path3D" parent="taxiways"]
 curve = SubResource("Curve3D_cg8ay")
 script = ExtResource("2_0itsb")
-taxiway_name = "H"
 connection_sizes = Array[float]([30.0, 30.0, 30.0, 30.0])
 taxiline_shape = PackedVector2Array(0, 0, -0.5, 0.1, 0.5, 0.1)
 
 [node name="J" type="Path3D" parent="taxiways"]
 curve = SubResource("Curve3D_ydp76")
 script = ExtResource("2_0itsb")
-taxiway_name = "J"
 connection_sizes = Array[float]([30.0, 30.0, 30.0, 25.0])
 taxiline_shape = PackedVector2Array(0, 0, -0.5, 0.1, 0.5, 0.1)
 
 [node name="K" type="Path3D" parent="taxiways"]
 curve = SubResource("Curve3D_07fe1")
 script = ExtResource("2_0itsb")
-taxiway_name = "K"
 connection_sizes = Array[float]([30.0, 30.0, 30.0, 30.0])
 taxiline_shape = PackedVector2Array(0, 0, -0.5, 0.1, 0.5, 0.1)
 
 [node name="L" type="Path3D" parent="taxiways"]
 curve = SubResource("Curve3D_itwds")
 script = ExtResource("2_0itsb")
-taxiway_name = "L"
 connection_sizes = Array[float]([30.0, 30.0, 30.0, 30.0, 30.0, 30.0, 10.0, 5.0, 10.0, 10.0, 10.0, 15.0, 15.0, 30.0, 30.0, 30.0, 30.0])
 taxiline_shape = PackedVector2Array(0, 0, -0.5, 0.1, 0.5, 0.1)
 
 [node name="Y" type="Path3D" parent="taxiways"]
 curve = SubResource("Curve3D_2j8eh")
 script = ExtResource("2_0itsb")
-taxiway_name = "Y"
+vacate = Array[int]([21])
 connection_sizes = Array[float]([20.0, 20.0, 40.0, 10.0, 20.0, 20.0, 30.0, 30.0, 30.0, 30.0, 30.0, 30.0, 30.0, 30.0, 30.0, 30.0, 30.0, 30.0, 30.0, 30.0, 30.0, 30.0, 30.0])
 taxiline_shape = PackedVector2Array(0, 0, -0.5, 0.1, 0.5, 0.1)
 
 [node name="Z" type="Path3D" parent="taxiways"]
 curve = SubResource("Curve3D_kv12y")
 script = ExtResource("2_0itsb")
-taxiway_name = "Z"
 connection_sizes = Array[float]([30.0, 30.0, 30.0, 30.0, 30.0, 30.0, 30.0, 30.0, 30.0, 40.165])
 taxiline_shape = PackedVector2Array(0, 0, -0.5, 0.1, 0.5, 0.1)
 
 [node name="20" type="Path3D" parent="taxiways"]
 curve = SubResource("Curve3D_k5pn3")
 script = ExtResource("2_0itsb")
-taxiway_name = "20"
 default_connection_size = 5.0
 connection_sizes = Array[float]([15.0, 10.0])
 taxiline_shape = PackedVector2Array(0, 0, -0.5, 0.01, 0.5, 0.01)
@@ -377,7 +379,6 @@ taxiway_in = NodePath("..")
 [node name="17" type="Path3D" parent="taxiways"]
 curve = SubResource("Curve3D_liohx")
 script = ExtResource("2_0itsb")
-taxiway_name = "17"
 connection_sizes = Array[float]([10.0, 10.0])
 taxiline_shape = PackedVector2Array(0, 0, -0.5, 0.01, 0.5, 0.01)
 
@@ -389,7 +390,6 @@ taxiway_in = NodePath("..")
 [node name="16" type="Path3D" parent="taxiways"]
 curve = SubResource("Curve3D_jhv2q")
 script = ExtResource("2_0itsb")
-taxiway_name = "16"
 connection_sizes = Array[float]([10.0, 10.0])
 taxiline_shape = PackedVector2Array(0, 0, -0.5, 0.01, 0.5, 0.01)
 

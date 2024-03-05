@@ -26,6 +26,8 @@ class_name FlightPhysics
 @export var max_brake_force : int = 1000
 ## The speed the aircraft should automatically aim for. Is updated every physics update. You probably want to set this during runtime.
 @export var target_speed : float
+## Main switch for disabling/enabling lift calculation.
+@export var add_lift_force : bool = true
 
 var current_thrust_force := 0.0
 
@@ -64,6 +66,8 @@ func get_acceleration(delta : float) -> float:
 	return (current_thrust_force / mass) * delta
 
 func get_lift_force() -> float:
+	if not add_lift_force:
+		return 0
 	# Calculate angle of attack
 	var AOA : float = rad_to_deg(-global_rotation.rotated(Vector3(0, 1, 0), global_rotation.y).z)
 	AOA = clamp(AOA, -10, 20) # Cl v A chart only includes these angles
@@ -78,10 +82,6 @@ func get_lift_force() -> float:
 	#print("lift: ", lift, " gravity force: ", gravity_force, " sum: ", lift - gravity_force)
 	return lift
 
-## Only debug
-func manual_pitch_input() -> void:
-	if Input.is_action_pressed("ui_accept"):
-		rotation_degrees = lerp(rotation_degrees, Vector3(0, 0, 20).rotated(Vector3(0, 1, 0), global_rotation.y), .015)
 
 ## Brakes or applies thrust to try to meet the target speed given in kts.
 func handle_speed(targ_speed : float) -> void:
