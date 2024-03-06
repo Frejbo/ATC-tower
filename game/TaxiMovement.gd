@@ -1,6 +1,7 @@
 extends Node
-class_name PathMovement
+class_name TaxiMovement
 
+## When the taxi is completed and has arrived at the target position.
 signal done
 
 @export var controller : AircraftController
