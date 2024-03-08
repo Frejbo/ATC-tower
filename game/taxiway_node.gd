@@ -208,7 +208,8 @@ func connect_to_nearby(exclude_taxiways : Array[taxiway] = [], recursion : bool 
 	
 	for area : Area3D in areas_to_check:
 		# Get overlapping areas, excluding areas belonging to this taxiway
-		var overlapping_areas : Array[Area3D] = area.get_overlapping_areas()
+		var overlapping_areas : Array[Area3D] = area.get_overlapping_areas().filter(
+			func(area): return area.owner is taxiway)
 		for overlapping in overlapping_areas:
 			if overlapping.owner == self:
 				overlapping_areas.erase(overlapping)
