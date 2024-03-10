@@ -9,30 +9,40 @@ var landing_runway : int = 21
 func Enter() -> void:
 	controller.target_speed = 50
 
-var vacating_path := Curve3D.new():
-	set(curve):
-		for point in curve.tessellate_even_length():
-			vacating_path.add_point(point)
+var mover : TaxiMovement
 
-func Update(delta) -> void:
-	if vacating_path.point_count > 0:
-		if Game.runway in taxiway_detection.get_overlapping_areas():
-			taxi_state.move(delta, vacating_path)
-			print(vacating_path)
-		else:
-			state_transition.emit(self, "static")
-		return
-	
-	
-	for area : CollisionObject3D in taxiway_detection.get_overlapping_areas():
-		if area.owner is taxiway:
+func Update(_delta) -> void:
+	if not mover:
+		for area : CollisionObject3D in taxiway_detection.get_overlapping_areas().filter(func(a): return a.owner is taxiway):
 			var tw : taxiway = area.owner
+			#print(tw.name)
 			if not tw.vacate.has(landing_runway):
 				continue
 			
 			# vacate of tw.
-			vacating_path = tw.curve
 			Game.chat.send_message("Vacating via " + tw.name)
+			mover = TaxiMovement.new(FixVacateCurve(tw.curve, controller.get_steering_wheel().global_position), controller, 50)
+			mover.stopping_distance_per_kts += 2
+			add_child(mover)
+	
+	else:
+		if not Game.runway in taxiway_detection.get_overlapping_areas(): # Aircraft is clear of runway
+			mover.queue_free()
+			state_transition.emit(self, "static")
 
-func Exit() -> void:
-	pass
+## Takes in a curve and makes sure point index 0 is the side closest to the given position. Also places a duplicate of the first point right on the centerline (first).
+func FixVacateCurve(originCurve : Curve3D, pos : Vector3) -> Curve3D:
+	var points : Array[Vector3] = []
+	for i : int in range(originCurve.point_count):
+		points.append(originCurve.get_point_position(i))
+	
+	var curve := Curve3D.new()
+	
+	if points.back().distance_to(pos) < points.front().distance_to(pos):
+		points.reverse()
+	
+	curve.add_point(Vector3(points.front().x, points.front().y, 0)) 
+	
+	for p : Vector3 in points:
+		curve.add_point(p)
+	return curve

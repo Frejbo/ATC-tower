@@ -1,3 +1,4 @@
+@tool
 extends VehicleBody3D
 
 class_name FlightPhysics

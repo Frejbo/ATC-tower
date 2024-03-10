@@ -17,8 +17,6 @@ func is_on_ground() -> bool:
 func get_speed_kts() -> float:
 	return ms_to_kts(linear_velocity.length())
 
-func _process(_delta: float) -> void:
-	thrust_lever = $CanvasLayer/thrust.value
 
 ## Steers the nosewheel smoothly towards the target.
 func steer_nosewheel(target : Vector3, delta : float):
@@ -26,4 +24,3 @@ func steer_nosewheel(target : Vector3, delta : float):
 	var target_vector : Vector3 = (target - get_steering_wheel().global_position)
 	var steer_degrees : float = lerp(steering, fwd.cross(target_vector.normalized()).y, 2 * delta)
 	steering = steer_degrees
-	

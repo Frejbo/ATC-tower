@@ -7,6 +7,8 @@ signal done
 @export var controller : AircraftController
 ## When stopping, how many meters should be estimated per kts deceleration.[br]This equals the distance the plane will start to slow down to stop * the speed in kts.
 @export var stopping_distance_per_kts : float = 3
+## If zero, the speed will be copied from the referenced controller above.
+@onready var max_straight_speed : float = controller.max_straight_taxi_speed_kts
 
 var taxi_path := Curve3D.new():
 	set(curve):
@@ -14,13 +16,20 @@ var taxi_path := Curve3D.new():
 		for point in curve.tessellate_even_length():
 			taxi_path.add_point(point)
 
-func _init(full_path : Curve3D, ) -> void:
-	taxi_path = full_path
+func _init(set_taxi_path : Curve3D, set_controller : AircraftController, set_max_straight_speed : float = 0, set_stopping_distance_per_kts : float = 3) -> void:
+	taxi_path = set_taxi_path
+	controller = set_controller
+	stopping_distance_per_kts = set_max_straight_speed
+	if set_max_straight_speed > 0:
+		max_straight_speed = set_max_straight_speed
+	else:
+		max_straight_speed = controller.max_straight_taxi_speed_kts
 
 
 func _process(delta: float) -> void:
 	if taxi_path == null or taxi_path.point_count == 0:
 		done.emit()
+		queue_free()
 	move(delta)
 
 
@@ -46,12 +55,12 @@ func get_safe_speed(curvature : float) -> float:
 	var max_react_deg : float = 30
 	var safe_speed : float
 	if curvature < min_react_deg:
-		safe_speed = controller.max_straight_taxi_speed_kts
+		safe_speed = max_straight_speed
 	elif curvature > max_react_deg:
 		safe_speed = controller.turn_speed_kts
 	else:
 		# curvature degree is in a range where speed should gradually be adjusted.
-		var varying_speed_range : float = controller.max_straight_taxi_speed_kts - controller.turn_speed_kts
+		var varying_speed_range : float = max_straight_speed - controller.turn_speed_kts
 		var curvature_percent : float = 1.0 / (curvature - min_react_deg)
 		safe_speed = controller.turn_speed_kts + (varying_speed_range * curvature_percent)
 	
@@ -62,7 +71,7 @@ func get_safe_speed(curvature : float) -> float:
 		distance_left += taxi_path.get_baked_length()
 	var stopping_multiplier : float = clamp(distance_left / (stopping_distance_per_kts * safe_speed), 0, 1)
 	
-	return clamp(safe_speed * stopping_multiplier, 2, controller.max_straight_taxi_speed_kts)
+	return clamp(safe_speed * stopping_multiplier, 2, max_straight_speed)
 
 ## Get curvature of the given Vector3D points in radians. Can be used to get taxiway curvature for example. Returns radians.
 func get_upcoming_curvature(sample_length : int = 50) -> float:

@@ -15,7 +15,8 @@
 [ext_resource type="Script" path="res://takeoff clearence.gd" id="12_iomkr"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_3epul"]
-size = Vector3(40, 10, 50)
+margin = 0.1
+size = Vector3(40, 10, 100)
 
 [node name="Aircraft" type="Node3D" node_paths=PackedStringArray("communicator")]
 script = ExtResource("1_7vn2h")
@@ -25,6 +26,13 @@ communicator = NodePath("aircraft_communicator")
 max_contacts_reported = 1
 contact_monitor = true
 max_brake_force = 500
+
+[node name="ground visual" type="Area3D" parent="A320neo"]
+collision_layer = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="A320neo/ground visual"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 75)
+shape = SubResource("BoxShape3D_3epul")
 
 [node name="callsign" type="Label3D" parent="A320neo"]
 unique_name_in_owner = true
@@ -37,16 +45,9 @@ font_size = 800
 outline_size = 127
 uppercase = true
 
-[node name="ground visual" type="Area3D" parent="A320neo"]
-collision_layer = 0
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="A320neo/ground visual"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 38)
-shape = SubResource("BoxShape3D_3epul")
-
 [node name="Behaviour FSM" type="Node" parent="." node_paths=PackedStringArray("initial_state")]
 script = ExtResource("3_tfqqc")
-initial_state = NodePath("approach")
+initial_state = NodePath("vacating")
 
 [node name="taxi" type="Node" parent="Behaviour FSM" node_paths=PackedStringArray("controller")]
 script = ExtResource("3_kxk7k")
