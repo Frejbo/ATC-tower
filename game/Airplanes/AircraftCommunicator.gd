@@ -3,14 +3,14 @@ extends CanvasLayer
 class_name aircraft_communicator
 
 @export var body : AircraftController
-@export var aircraft : Aircraft
+@export var airplane : Aircraft
 @onready var taxi_pathfind : pathfinder
 
 
 func taxi_to_stand(stand : Marker3D, route : Array[String]) -> bool:
 	route.append(stand.taxiway_in.name)
 	
-	var chatMessage := aircraft.callsign + " taxi to stand " + stand.name + " via "
+	var chatMessage := airplane.callsign + " taxi to stand " + stand.name + " via "
 	var vias = route
 	vias.pop_back()
 	for s : String in vias:

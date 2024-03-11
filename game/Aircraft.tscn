@@ -16,7 +16,7 @@
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_3epul"]
 margin = 0.1
-size = Vector3(40, 10, 100)
+size = Vector3(40, 10, 125)
 
 [node name="Aircraft" type="Node3D" node_paths=PackedStringArray("communicator")]
 script = ExtResource("1_7vn2h")
@@ -31,7 +31,7 @@ max_brake_force = 500
 collision_layer = 0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="A320neo/ground visual"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 75)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 87.5)
 shape = SubResource("BoxShape3D_3epul")
 
 [node name="callsign" type="Label3D" parent="A320neo"]
@@ -47,7 +47,7 @@ uppercase = true
 
 [node name="Behaviour FSM" type="Node" parent="." node_paths=PackedStringArray("initial_state")]
 script = ExtResource("3_tfqqc")
-initial_state = NodePath("vacating")
+initial_state = NodePath("approach")
 
 [node name="taxi" type="Node" parent="Behaviour FSM" node_paths=PackedStringArray("controller")]
 script = ExtResource("3_kxk7k")
@@ -76,11 +76,11 @@ taxiway_detection = NodePath("../../A320neo/ground visual")
 controller = NodePath("../../A320neo")
 taxi_state = NodePath("../taxi")
 
-[node name="aircraft_communicator" type="CanvasLayer" parent="." node_paths=PackedStringArray("body", "aircraft")]
+[node name="aircraft_communicator" type="CanvasLayer" parent="." node_paths=PackedStringArray("body", "airplane")]
 visible = false
 script = ExtResource("4_xkhip")
 body = NodePath("../A320neo")
-aircraft = NodePath("..")
+airplane = NodePath("..")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="aircraft_communicator"]
 anchors_preset = 14

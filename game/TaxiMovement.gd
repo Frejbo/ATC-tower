@@ -7,6 +7,7 @@ signal done
 @export var controller : AircraftController
 ## When stopping, how many meters should be estimated per kts deceleration.[br]This equals the distance the plane will start to slow down to stop * the speed in kts.
 @export var stopping_distance_per_kts : float = 3
+
 ## If zero, the speed will be copied from the referenced controller above.
 @onready var max_straight_speed : float = controller.max_straight_taxi_speed_kts
 
@@ -19,11 +20,11 @@ var taxi_path := Curve3D.new():
 func _init(set_taxi_path : Curve3D, set_controller : AircraftController, set_max_straight_speed : float = 0, set_stopping_distance_per_kts : float = 3) -> void:
 	taxi_path = set_taxi_path
 	controller = set_controller
-	stopping_distance_per_kts = set_max_straight_speed
+	stopping_distance_per_kts = set_stopping_distance_per_kts
+	
+	max_straight_speed = controller.max_straight_taxi_speed_kts
 	if set_max_straight_speed > 0:
 		max_straight_speed = set_max_straight_speed
-	else:
-		max_straight_speed = controller.max_straight_taxi_speed_kts
 
 
 func _process(delta: float) -> void:

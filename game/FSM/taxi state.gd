@@ -16,5 +16,6 @@ func Enter() -> void:
 	add_child(mover)
 	print(mover.taxi_path)
 
+
 func done() -> void:
 	state_transition.emit(self, "static")

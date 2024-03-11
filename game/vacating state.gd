@@ -11,6 +11,10 @@ func Enter() -> void:
 
 var mover : TaxiMovement
 
+func Exit() -> void:
+	if mover != null:
+		mover.free()
+
 func Update(_delta) -> void:
 	if not mover:
 		for area : CollisionObject3D in taxiway_detection.get_overlapping_areas().filter(func(a): return a.owner is taxiway):
@@ -23,6 +27,7 @@ func Update(_delta) -> void:
 			Game.chat.send_message("Vacating via " + tw.name)
 			mover = TaxiMovement.new(FixVacateCurve(tw.curve, controller.get_steering_wheel().global_position), controller, 50)
 			mover.stopping_distance_per_kts += 2
+			mover.done.connect(func(): state_transition.emit(self, "static"))
 			add_child(mover)
 	
 	else:

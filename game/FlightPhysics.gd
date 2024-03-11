@@ -25,10 +25,10 @@ class_name FlightPhysics
 @export var max_straight_taxi_speed_kts : int = 28
 ## The maximum amount of brake force the aircraft can apply
 @export var max_brake_force : int = 1000
-## The speed the aircraft should automatically aim for. Is updated every physics update. You probably want to set this during runtime.
-@export var target_speed : float
 ## Main switch for disabling/enabling lift calculation.
 @export var add_lift_force : bool = true
+## The speed the aircraft should automatically aim for. Is updated every physics update. You probably want to set this during runtime.
+@export var target_speed : float
 
 var current_thrust_force := 0.0
 
@@ -93,5 +93,6 @@ func handle_speed(targ_speed : float) -> void:
 	if targ_speed < 40: # TEMP
 		thrust_lever = thrust_lever * .30 # Use maximum of 30% thrust when taxiing
 	brake = abs(clamp(speed_diff, -1, 0)) * max_brake_force
-	
+	if (target_speed == 0):
+		brake = max_brake_force
 	#print("Brake force: ", brake, "  thrust lever: ", thrust_lever)
