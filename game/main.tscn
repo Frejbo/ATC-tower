@@ -11,7 +11,7 @@
 [node name="airport" parent="." instance=ExtResource("1_ubhcf")]
 
 [node name="AircraftManager" type="Node3D" parent="."]
-transform = Transform3D(1, 0, -1.06581e-14, 0, 1, 0, 1.06581e-14, 0, 1, 257.531, 0, 108.26)
+transform = Transform3D(1, 0, -1.06581e-14, 0, 1, 0, 1.06581e-14, 0, 1, 857.031, 0, 376.306)
 script = ExtResource("2_8bqv8")
 aircraftScene = ExtResource("3_q2orl")
 

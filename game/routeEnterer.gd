@@ -27,4 +27,5 @@ func get_route() -> Array[String]:
 	for character in text:
 		if not regex.search(character): continue
 		route.append(character)
+	print("Route: ", route)
 	return route

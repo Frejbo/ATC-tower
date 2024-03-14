@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://dooe7wxlpdhd5"]
+[gd_scene load_steps=16 format=3 uid="uid://dooe7wxlpdhd5"]
 
 [ext_resource type="Script" path="res://Aircraft.gd" id="1_7vn2h"]
 [ext_resource type="PackedScene" uid="uid://cpyj4w3k7b2br" path="res://Airplanes/A20N.tscn" id="2_bslt8"]
@@ -13,6 +13,7 @@
 [ext_resource type="Script" path="res://takeoff state.gd" id="8_u2wn2"]
 [ext_resource type="Script" path="res://vacating state.gd" id="9_1m6em"]
 [ext_resource type="Script" path="res://takeoff clearence.gd" id="12_iomkr"]
+[ext_resource type="Script" path="res://taxi to runway.gd" id="13_ebeq5"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_3epul"]
 margin = 0.1
@@ -76,11 +77,8 @@ taxiway_detection = NodePath("../../A320neo/ground visual")
 controller = NodePath("../../A320neo")
 taxi_state = NodePath("../taxi")
 
-[node name="aircraft_communicator" type="CanvasLayer" parent="." node_paths=PackedStringArray("body", "airplane")]
-visible = false
+[node name="aircraft_communicator" type="CanvasLayer" parent="."]
 script = ExtResource("4_xkhip")
-body = NodePath("../A320neo")
-airplane = NodePath("..")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="aircraft_communicator"]
 anchors_preset = 14
@@ -94,13 +92,13 @@ grow_vertical = 2
 theme_override_constants/separation = 10
 alignment = 1
 
-[node name="taxi to stand" type="Button" parent="aircraft_communicator/VBoxContainer" node_paths=PackedStringArray("stand", "route")]
+[node name="taxi to stand" type="Button" parent="aircraft_communicator/VBoxContainer" node_paths=PackedStringArray("body", "airplane")]
 custom_minimum_size = Vector2(300, 30)
 layout_mode = 2
 size_flags_horizontal = 4
 script = ExtResource("5_7v62y")
-stand = NodePath("HBoxContainer/stand")
-route = NodePath("HBoxContainer/route")
+body = NodePath("../../../A320neo")
+airplane = NodePath("../../..")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="aircraft_communicator/VBoxContainer/taxi to stand"]
 layout_mode = 1
@@ -121,6 +119,7 @@ layout_mode = 2
 text = "Taxi to stand"
 
 [node name="stand" type="LineEdit" parent="aircraft_communicator/VBoxContainer/taxi to stand/HBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 4
 text = "20"
@@ -132,6 +131,41 @@ layout_mode = 2
 text = "via"
 
 [node name="route" type="LineEdit" parent="aircraft_communicator/VBoxContainer/taxi to stand/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+placeholder_text = "taxiways"
+expand_to_text_length = true
+context_menu_enabled = false
+drag_and_drop_selection_enabled = false
+script = ExtResource("6_03386")
+
+[node name="taxi to runway" type="Button" parent="aircraft_communicator/VBoxContainer"]
+custom_minimum_size = Vector2(250, 30)
+layout_mode = 2
+size_flags_horizontal = 4
+script = ExtResource("13_ebeq5")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="aircraft_communicator/VBoxContainer/taxi to runway"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -111.0
+offset_top = -15.5
+offset_right = 111.0
+offset_bottom = 15.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="aircraft_communicator/VBoxContainer/taxi to runway/HBoxContainer"]
+layout_mode = 2
+text = "Taxi to runway via"
+
+[node name="route" type="LineEdit" parent="aircraft_communicator/VBoxContainer/taxi to runway/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
@@ -147,6 +181,7 @@ size_flags_horizontal = 4
 text = "Takeoff clearence"
 script = ExtResource("12_iomkr")
 
-[connection signal="taxi_instruction_recieved" from="aircraft_communicator" to="Behaviour FSM" method="taxi"]
-[connection signal="taxi_to_stand" from="aircraft_communicator/VBoxContainer/taxi to stand" to="aircraft_communicator" method="taxi_to_stand"]
+[connection signal="taxi_instruction_recieved" from="aircraft_communicator/VBoxContainer/taxi to stand" to="Behaviour FSM" method="taxi"]
 [connection signal="text_changed" from="aircraft_communicator/VBoxContainer/taxi to stand/HBoxContainer/route" to="aircraft_communicator/VBoxContainer/taxi to stand/HBoxContainer/route" method="_on_text_changed"]
+[connection signal="pressed" from="aircraft_communicator/VBoxContainer/taxi to runway" to="aircraft_communicator/VBoxContainer/taxi to runway" method="_on_pressed"]
+[connection signal="text_changed" from="aircraft_communicator/VBoxContainer/taxi to runway/HBoxContainer/route" to="aircraft_communicator/VBoxContainer/taxi to runway/HBoxContainer/route" method="_on_text_changed"]
