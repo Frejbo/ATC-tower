@@ -76,6 +76,10 @@ func get_safe_speed(curvature : float) -> float:
 
 ## Get curvature of the given Vector3D points in radians. Can be used to get taxiway curvature for example. Returns radians.
 func get_upcoming_curvature(sample_length : int = 50) -> float:
+	if taxi_path.point_count == 0:
+		print("Krasch?")
+		return 0
+	
 	var points : Array[Vector3] = [controller.get_steering_wheel().global_position]
 	var calculated_length : float = 0
 	var idx : int = 0

@@ -47,7 +47,7 @@ uppercase = true
 
 [node name="Behaviour FSM" type="Node" parent="." node_paths=PackedStringArray("initial_state")]
 script = ExtResource("3_tfqqc")
-initial_state = NodePath("approach")
+initial_state = NodePath("static")
 
 [node name="taxi" type="Node" parent="Behaviour FSM" node_paths=PackedStringArray("controller")]
 script = ExtResource("3_kxk7k")
