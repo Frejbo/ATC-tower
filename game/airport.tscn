@@ -1,4 +1,4 @@
-[gd_scene load_steps=41 format=3 uid="uid://bbdfih0weqhie"]
+[gd_scene load_steps=40 format=3 uid="uid://bbdfih0weqhie"]
 
 [ext_resource type="PackedScene" uid="uid://c3vpi5rklcc08" path="res://airport.blend" id="1_rkesj"]
 [ext_resource type="Texture2D" uid="uid://cfrwgslp3pgbs" path="res://airport overview.png" id="1_yjken"]
@@ -8,7 +8,6 @@
 [ext_resource type="FontFile" uid="uid://bcj0k12k1cxkl" path="res://fonts/OpenRunwayNumbers.ttf" id="3_6fwq0"]
 [ext_resource type="Script" path="res://approach_guidance.gd" id="4_hl1v7"]
 [ext_resource type="Material" uid="uid://c367y7ge80otn" path="res://Assets/taxiways.tres" id="4_xtrim"]
-[ext_resource type="Material" uid="uid://bhldiskx54qpk" path="res://Assets/Glass.tres" id="5_4pbmn"]
 [ext_resource type="PackedScene" uid="uid://dyunen1vglo8o" path="res://Gate.tscn" id="5_7ridq"]
 [ext_resource type="Script" path="res://Runway.gd" id="5_nyymq"]
 [ext_resource type="Terrain3DStorage" uid="uid://dctp7s8g48ftc" path="res://Assets/Terrain/terrain_3d_storage.res" id="10_ha35n"]
@@ -247,12 +246,6 @@ shape = SubResource("BoxShape3D_rad3h")
 [node name="Taxiways" parent="airport" index="1"]
 cast_shadow = 0
 surface_material_override/0 = ExtResource("4_xtrim")
-
-[node name="Tower " parent="airport" index="3"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 736.137, 38.3013, 546.703)
-
-[node name="TowerTop -coll" parent="airport/Tower " index="4"]
-surface_material_override/0 = ExtResource("5_4pbmn")
 
 [node name="Sprite3D" type="Sprite3D" parent="."]
 transform = Transform3D(305, 0, 0, 0, 305, 0, 0, 0, 305, -4.825, 1, 307.515)
