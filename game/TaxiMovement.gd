@@ -25,6 +25,9 @@ func _init(set_taxi_path : Curve3D, set_controller : AircraftController, set_max
 	max_straight_speed = controller.max_straight_taxi_speed_kts
 	if set_max_straight_speed > 0:
 		max_straight_speed = set_max_straight_speed
+	
+	for i in set_taxi_path.point_count:
+		print(set_taxi_path.get_point_position(i))
 
 
 func _process(delta: float) -> void:
@@ -35,12 +38,15 @@ func _process(delta: float) -> void:
 
 
 func move(delta : float) -> void:
+	if taxi_path.point_count == 0:
+		controller.steering = 0
+		print("Stop hö?")
+		return
+	
+	
 	var closest_distance : float = clamp(taxi_path.point_count/2.0, .5, 10)
 	while controller.get_steering_wheel().global_position.distance_to(taxi_path.get_point_position(0)) < closest_distance:
 		taxi_path.remove_point(0)
-		if taxi_path.point_count == 0:
-			controller.steering = 0
-			return
 	
 	# Calculate target speed
 	controller.target_speed = get_safe_speed(get_upcoming_curvature())
