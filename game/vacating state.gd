@@ -2,7 +2,7 @@ extends State
 
 @export var taxiway_detection : Area3D
 @export var controller : AircraftController
-@export var taxi_state : State
+@export var taxi_in_state : State
 var landing_runway : int = 21
 @onready var pathfind : pathfinder
 

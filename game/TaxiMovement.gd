@@ -40,13 +40,14 @@ func _process(delta: float) -> void:
 func move(delta : float) -> void:
 	if taxi_path.point_count == 0:
 		controller.steering = 0
-		print("Stop hö?")
 		return
 	
 	
 	var closest_distance : float = clamp(taxi_path.point_count/2.0, .5, 10)
 	while controller.get_steering_wheel().global_position.distance_to(taxi_path.get_point_position(0)) < closest_distance:
 		taxi_path.remove_point(0)
+		if taxi_path.point_count == 0:
+			return
 	
 	# Calculate target speed
 	controller.target_speed = get_safe_speed(get_upcoming_curvature())
@@ -82,9 +83,9 @@ func get_safe_speed(curvature : float) -> float:
 
 ## Get curvature of the given Vector3D points in radians. Can be used to get taxiway curvature for example. Returns radians.
 func get_upcoming_curvature(sample_length : int = 50) -> float:
-	if taxi_path.point_count == 0:
-		print("Krasch?")
-		return 0
+	#if taxi_path.point_count == 0:
+		#print("Krasch?")
+		#return 0
 	
 	var points : Array[Vector3] = [controller.get_steering_wheel().global_position]
 	var calculated_length : float = 0

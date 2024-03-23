@@ -14,6 +14,10 @@ func Update(_delta : float) -> void:
 		climb_pitch = 5 # Start leveling off to begin acceleration
 	
 	if controller.get_speed_kts() > 130: # Start rotating
-		var deg_vel : float = lerpf(-.1, 0.0, abs(controller.rotation_degrees.x) / climb_pitch)
+		var deg_vel : float = lerpf(-.1, 0.0, abs(controller.rotation_degrees.z) / climb_pitch)
 		current_pitch_vel = lerpf(current_pitch_vel, deg_vel, .005)
 		controller.angular_velocity.z = current_pitch_vel
+	
+	if controller.global_position.y > 500:
+		print(controller.callsign, " passed 500m y, removing.")
+		queue_free()

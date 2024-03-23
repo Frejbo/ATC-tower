@@ -14,3 +14,4 @@ func show_communication_window() -> void:
 	communicator.show()
 func hide_communication_window() -> void:
 	communicator.hide()
+

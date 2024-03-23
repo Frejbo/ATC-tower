@@ -1,7 +1,7 @@
 extends State
 
 @export var controller : AircraftController
-@export var landing_rate_ms : float = .5
+@export var landing_rate_ms : float = .2
 @export var flare_degrees : float = 3
 
 var is_in_flare : bool = false
@@ -21,7 +21,7 @@ func Physics_update(delta: float) -> void:
 	if is_in_flare:
 		flare_elapsed_time += delta
 		
-		controller.global_rotation_degrees.x = lerp(before_flare_angle, -flare_degrees, ease(flare_elapsed_time/3, -2.5))
+		controller.global_rotation_degrees.z = lerp(before_flare_angle, flare_degrees, ease(flare_elapsed_time/3, -2.5))
 		controller.linear_velocity.y = lerp(-tan(deg_to_rad(3)) * controller.kts_to_ms(140), -landing_rate_ms, ease(flare_elapsed_time/4, -2.5))
 		return
 	
@@ -33,5 +33,5 @@ func Physics_update(delta: float) -> void:
 		is_in_flare = true
 		return
 	
-	controller.linear_velocity = Vector3(0, -tan(deg_to_rad(3)) * controller.kts_to_ms(140), controller.kts_to_ms(140)).rotated(Vector3(0, 1, 0), controller.global_rotation.y)
+	controller.linear_velocity = Vector3(controller.kts_to_ms(140), -tan(deg_to_rad(3)) * controller.kts_to_ms(140), 0).rotated(Vector3(0, 1, 0), controller.global_rotation.y)
 	controller.target_speed = 140

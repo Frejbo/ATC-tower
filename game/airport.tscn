@@ -1,4 +1,4 @@
-[gd_scene load_steps=40 format=3 uid="uid://bbdfih0weqhie"]
+[gd_scene load_steps=41 format=3 uid="uid://bbdfih0weqhie"]
 
 [ext_resource type="PackedScene" uid="uid://c3vpi5rklcc08" path="res://airport.blend" id="1_rkesj"]
 [ext_resource type="Texture2D" uid="uid://cfrwgslp3pgbs" path="res://airport overview.png" id="1_yjken"]
@@ -10,6 +10,7 @@
 [ext_resource type="Material" uid="uid://c367y7ge80otn" path="res://Assets/taxiways.tres" id="4_xtrim"]
 [ext_resource type="PackedScene" uid="uid://dyunen1vglo8o" path="res://Gate.tscn" id="5_7ridq"]
 [ext_resource type="Script" path="res://Runway.gd" id="5_nyymq"]
+[ext_resource type="Material" uid="uid://bhldiskx54qpk" path="res://Assets/Glass.tres" id="7_6bhcj"]
 [ext_resource type="Terrain3DStorage" uid="uid://dctp7s8g48ftc" path="res://Assets/Terrain/terrain_3d_storage.res" id="10_ha35n"]
 [ext_resource type="Terrain3DTextureList" uid="uid://cx1m2gu7oq6ht" path="res://Assets/Terrain/terrain_3d_texture_list.tres" id="11_11kne"]
 
@@ -60,7 +61,7 @@ point_count = 3
 
 [sub_resource type="Curve3D" id="Curve3D_ylsry"]
 _data = {
-"points": PackedVector3Array(0, 0, 0, 0, 0, 0, 1447.5, 0, 30, 0, 0, -55, 0, 0, 55, 1522.5, 0, 155, 0, 0, 0, 0, 0, 0, 1522.5, 0, 215, 0, 0, 0, 0, 0, 0, 1522.5, 0, 247.5, 0, 0, 0, 0, 0, 0, 1522.5, 0, 307.5, 0, 0, 0, 0, 0, 0, 1522.5, 0, 375),
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, 1447.5, 0, 30, 0, 0, -55, 0, 0, 0, 1522.5, 0, 155, 0, 0, 0, 0, 0, 0, 1522.5, 0, 215, 0, 0, 0, 0, 0, 0, 1522.5, 0, 247.5, 0, 0, 0, 0, 0, 0, 1522.5, 0, 307.5, 0, 0, 0, 0, 0, 0, 1522.5, 0, 375),
 "tilts": PackedFloat32Array(0, 0, 0, 0, 0, 0)
 }
 point_count = 6
@@ -243,9 +244,24 @@ script = ExtResource("5_nyymq")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="airport/Runway 03-21/Runway"]
 shape = SubResource("BoxShape3D_rad3h")
 
+[node name="F" type="Marker3D" parent="airport/Runway 03-21/Runway"]
+unique_name_in_owner = true
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 1410, 0, 0)
+
+[node name="Y" type="Marker3D" parent="airport/Runway 03-21/Runway"]
+unique_name_in_owner = true
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 1570, 0, 0)
+
+[node name="E" type="Marker3D" parent="airport/Runway 03-21/Runway"]
+unique_name_in_owner = true
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 295, 0, 0)
+
 [node name="Taxiways" parent="airport" index="1"]
 cast_shadow = 0
 surface_material_override/0 = ExtResource("4_xtrim")
+
+[node name="TowerTop" parent="airport/Tower " index="8"]
+surface_material_override/0 = ExtResource("7_6bhcj")
 
 [node name="Sprite3D" type="Sprite3D" parent="."]
 transform = Transform3D(305, 0, 0, 0, 305, 0, 0, 0, 305, -4.825, 1, 307.515)

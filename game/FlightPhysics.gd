@@ -59,7 +59,7 @@ func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
 	#%LiftAccel.text = "Lift acceleration: " + str(lift_accel) + " m/s"
 	#%TotalLiftAccel.text = "Total lift acceleration: " + str(lift_accel - gravity_force) + " m/s"
 	
-	state.apply_force(Vector3(0, get_lift_force(), current_thrust_force).rotated(Vector3(0, 1, 0), global_rotation.y))
+	state.apply_force(Vector3(current_thrust_force, get_lift_force(), 0).rotated(Vector3(0, 1, 0), global_rotation.y))
 
 
 func get_acceleration(delta : float) -> float:

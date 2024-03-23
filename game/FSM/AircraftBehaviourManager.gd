@@ -1,14 +1,12 @@
 extends FiniteStateMachine
 
+@export var controller : AircraftController
 
-func taxi(route : Curve3D):
-	if not states.has("taxi"):
-		printerr("taxi state was not found in AircraftBehaviourManager.")
-		return
-	states.get("taxi").taxi_path = route
-	
-	if current_state.name == "static":
-		change_state(current_state, "taxi")
-
-func takeoff() -> void:
-	change_state(current_state, "takeoff")
+var hold := false:
+	set(val):
+		if val:
+			Game.chat.send_message("Holding position.")
+		else:
+			Game.chat.send_message("Continuing taxiing.")
+		controller.freeze = val
+		hold = val

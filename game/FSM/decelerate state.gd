@@ -9,7 +9,7 @@ func Enter() -> void:
 	controller.linear_damp = .01
 
 func Update(_delta) -> void:
-	if controller.get_speed_kts() < 55:
+	if controller.get_speed_kts() < 60:
 		state_transition.emit(self, "vacating")
 
 func Exit() -> void:
