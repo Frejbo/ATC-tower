@@ -8,10 +8,10 @@ class_name Aircraft
 		name = callsign
 		%callsign.text = callsign
 
-@export var communicator : aircraft_communicator
+@export var comm_manager : communication_manager
 
 func show_communication_window() -> void:
-	communicator.show()
+	comm_manager.show()
 func hide_communication_window() -> void:
-	communicator.hide()
+	comm_manager.hide()
 

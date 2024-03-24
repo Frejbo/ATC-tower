@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://dooe7wxlpdhd5"]
+[gd_scene load_steps=23 format=3 uid="uid://dooe7wxlpdhd5"]
 
 [ext_resource type="Script" path="res://Aircraft.gd" id="1_7vn2h"]
 [ext_resource type="PackedScene" uid="uid://cpyj4w3k7b2br" path="res://Airplanes/A20N.tscn" id="2_bslt8"]
@@ -10,21 +10,25 @@
 [ext_resource type="Script" path="res://routeEnterer.gd" id="6_03386"]
 [ext_resource type="Script" path="res://FSM/approach state.gd" id="6_ceths"]
 [ext_resource type="Script" path="res://FSM/decelerate state.gd" id="7_ys5k3"]
-[ext_resource type="Script" path="res://takeoff state.gd" id="8_u2wn2"]
-[ext_resource type="Script" path="res://vacating state.gd" id="9_1m6em"]
+[ext_resource type="Script" path="res://FSM/takeoff state.gd" id="8_pbelx"]
+[ext_resource type="Script" path="res://FSM/vacating state.gd" id="9_pbim2"]
 [ext_resource type="Script" path="res://taxi_out.gd" id="10_dv66o"]
-[ext_resource type="Script" path="res://FSM/State.gd" id="11_k7x74"]
+[ext_resource type="Script" path="res://FSM/loading state.gd" id="11_hcpad"]
 [ext_resource type="Script" path="res://takeoff clearence.gd" id="12_iomkr"]
+[ext_resource type="Script" path="res://FSM/go around state.gd" id="12_xt3u5"]
 [ext_resource type="Script" path="res://taxi_to_runway.gd" id="14_o1sj5"]
 [ext_resource type="Script" path="res://hold.gd" id="17_wxysq"]
+[ext_resource type="Script" path="res://landing clearance.gd" id="18_b5mi3"]
+[ext_resource type="Script" path="res://continue approach.gd" id="20_1ulxa"]
+[ext_resource type="Script" path="res://go around.gd" id="20_8mppj"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_3epul"]
 margin = 0.1
 size = Vector3(125, 10, 40)
 
-[node name="Aircraft" type="Node3D" node_paths=PackedStringArray("communicator")]
+[node name="Aircraft" type="Node3D" node_paths=PackedStringArray("comm_manager")]
 script = ExtResource("1_7vn2h")
-communicator = NodePath("aircraft_communicator")
+comm_manager = NodePath("communication manager")
 
 [node name="A320neo" parent="." instance=ExtResource("2_bslt8")]
 max_contacts_reported = 1
@@ -54,47 +58,68 @@ script = ExtResource("3_tfqqc")
 controller = NodePath("../A320neo")
 initial_state = NodePath("approach")
 
-[node name="taxi in" type="Node" parent="Behaviour FSM" node_paths=PackedStringArray("controller")]
+[node name="taxi in" type="Node" parent="Behaviour FSM" node_paths=PackedStringArray("controller", "comm_manager")]
 script = ExtResource("4_k88an")
 controller = NodePath("../../A320neo")
+comm_manager = NodePath("../../communication manager")
 
 [node name="static" type="Node" parent="Behaviour FSM" node_paths=PackedStringArray("controller")]
 script = ExtResource("4_65qp4")
 controller = NodePath("../../A320neo")
 
-[node name="approach" type="Node" parent="Behaviour FSM" node_paths=PackedStringArray("controller")]
+[node name="approach" type="Node" parent="Behaviour FSM" node_paths=PackedStringArray("controller", "comm_manager", "behaviour_FSM")]
 script = ExtResource("6_ceths")
 controller = NodePath("../../A320neo")
 landing_rate_ms = 1.0
+comm_manager = NodePath("../../communication manager")
+behaviour_FSM = NodePath("..")
 
 [node name="decelerate" type="Node" parent="Behaviour FSM" node_paths=PackedStringArray("controller")]
 script = ExtResource("7_ys5k3")
 controller = NodePath("../../A320neo")
 
-[node name="takeoff" type="Node" parent="Behaviour FSM" node_paths=PackedStringArray("controller")]
-script = ExtResource("8_u2wn2")
+[node name="takeoff" type="Node" parent="Behaviour FSM" node_paths=PackedStringArray("controller", "comm_manager")]
+script = ExtResource("8_pbelx")
 controller = NodePath("../../A320neo")
+comm_manager = NodePath("../../communication manager")
 
-[node name="vacating" type="Node" parent="Behaviour FSM" node_paths=PackedStringArray("taxiway_detection", "controller", "taxi_in_state")]
-script = ExtResource("9_1m6em")
+[node name="vacating" type="Node" parent="Behaviour FSM" node_paths=PackedStringArray("taxiway_detection", "controller", "taxi_in_state", "comm_manager")]
+script = ExtResource("9_pbim2")
 taxiway_detection = NodePath("../../A320neo/ground visual")
 controller = NodePath("../../A320neo")
 taxi_in_state = NodePath("../taxi in")
+comm_manager = NodePath("../../communication manager")
 
-[node name="taxi out" type="Node" parent="Behaviour FSM" node_paths=PackedStringArray("controller")]
+[node name="taxi out" type="Node" parent="Behaviour FSM" node_paths=PackedStringArray("controller", "comm_manager")]
 script = ExtResource("10_dv66o")
 controller = NodePath("../../A320neo")
+comm_manager = NodePath("../../communication manager")
 
-[node name="loading" type="Node" parent="Behaviour FSM"]
-script = ExtResource("11_k7x74")
+[node name="loading" type="Node" parent="Behaviour FSM" node_paths=PackedStringArray("controller", "wait_timer", "comm_manager")]
+script = ExtResource("11_hcpad")
+controller = NodePath("../../A320neo")
+wait_timer = NodePath("Timer")
+comm_manager = NodePath("../../communication manager")
 
 [node name="Timer" type="Timer" parent="Behaviour FSM/loading"]
 wait_time = 10.0
+one_shot = true
 
-[node name="aircraft_communicator" type="CanvasLayer" parent="."]
+[node name="go around" type="Node" parent="Behaviour FSM" node_paths=PackedStringArray("comm_manager")]
+script = ExtResource("12_xt3u5")
+comm_manager = NodePath("../../communication manager")
+
+[node name="communication manager" type="CanvasLayer" parent="." node_paths=PackedStringArray("taxi_to_stand", "taxi_to_runway", "hold", "takeoff_clearance", "landing_clearance", "go_around", "continue_approach")]
 script = ExtResource("4_xkhip")
+taxi_to_stand = NodePath("VBoxContainer/taxi to stand")
+taxi_to_runway = NodePath("VBoxContainer/taxi to runway")
+hold = NodePath("VBoxContainer/hold")
+takeoff_clearance = NodePath("VBoxContainer/takeoff clearence")
+landing_clearance = NodePath("VBoxContainer/landing clearance")
+go_around = NodePath("VBoxContainer/go around")
+continue_approach = NodePath("VBoxContainer/continue approach")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="aircraft_communicator"]
+[node name="VBoxContainer" type="VBoxContainer" parent="communication manager"]
 anchors_preset = 14
 anchor_top = 0.5
 anchor_right = 1.0
@@ -106,7 +131,7 @@ grow_vertical = 2
 theme_override_constants/separation = 10
 alignment = 1
 
-[node name="taxi to stand" type="Button" parent="aircraft_communicator/VBoxContainer" node_paths=PackedStringArray("controller", "airplane", "behaviour_FSM")]
+[node name="taxi to stand" type="Button" parent="communication manager/VBoxContainer" node_paths=PackedStringArray("controller", "airplane", "behaviour_FSM")]
 custom_minimum_size = Vector2(300, 30)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -115,7 +140,7 @@ controller = NodePath("../../../A320neo")
 airplane = NodePath("../../..")
 behaviour_FSM = NodePath("../../../Behaviour FSM")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="aircraft_communicator/VBoxContainer/taxi to stand"]
+[node name="HBoxContainer" type="HBoxContainer" parent="communication manager/VBoxContainer/taxi to stand"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -129,22 +154,22 @@ offset_bottom = 15.5
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Label" type="Label" parent="aircraft_communicator/VBoxContainer/taxi to stand/HBoxContainer"]
+[node name="Label" type="Label" parent="communication manager/VBoxContainer/taxi to stand/HBoxContainer"]
 layout_mode = 2
 text = "Taxi to stand"
 
-[node name="stand" type="LineEdit" parent="aircraft_communicator/VBoxContainer/taxi to stand/HBoxContainer"]
+[node name="stand" type="LineEdit" parent="communication manager/VBoxContainer/taxi to stand/HBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 4
 text = "20"
 placeholder_text = "stand"
 expand_to_text_length = true
 
-[node name="Label2" type="Label" parent="aircraft_communicator/VBoxContainer/taxi to stand/HBoxContainer"]
+[node name="Label2" type="Label" parent="communication manager/VBoxContainer/taxi to stand/HBoxContainer"]
 layout_mode = 2
 text = "via"
 
-[node name="route" type="LineEdit" parent="aircraft_communicator/VBoxContainer/taxi to stand/HBoxContainer"]
+[node name="route" type="LineEdit" parent="communication manager/VBoxContainer/taxi to stand/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
@@ -154,7 +179,7 @@ context_menu_enabled = false
 drag_and_drop_selection_enabled = false
 script = ExtResource("6_03386")
 
-[node name="taxi to runway" type="Button" parent="aircraft_communicator/VBoxContainer" node_paths=PackedStringArray("controller", "airplane", "behaviour_FSM")]
+[node name="taxi to runway" type="Button" parent="communication manager/VBoxContainer" node_paths=PackedStringArray("controller", "airplane", "behaviour_FSM")]
 custom_minimum_size = Vector2(250, 30)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -163,7 +188,7 @@ controller = NodePath("../../../A320neo")
 airplane = NodePath("../../..")
 behaviour_FSM = NodePath("../../../Behaviour FSM")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="aircraft_communicator/VBoxContainer/taxi to runway"]
+[node name="HBoxContainer" type="HBoxContainer" parent="communication manager/VBoxContainer/taxi to runway"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -177,11 +202,11 @@ offset_bottom = 15.5
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Label" type="Label" parent="aircraft_communicator/VBoxContainer/taxi to runway/HBoxContainer"]
+[node name="Label" type="Label" parent="communication manager/VBoxContainer/taxi to runway/HBoxContainer"]
 layout_mode = 2
 text = "Taxi to runway via"
 
-[node name="route" type="LineEdit" parent="aircraft_communicator/VBoxContainer/taxi to runway/HBoxContainer"]
+[node name="route" type="LineEdit" parent="communication manager/VBoxContainer/taxi to runway/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
@@ -191,20 +216,42 @@ context_menu_enabled = false
 drag_and_drop_selection_enabled = false
 script = ExtResource("6_03386")
 
-[node name="takeoff clearence" type="Button" parent="aircraft_communicator/VBoxContainer" node_paths=PackedStringArray("behaviour_FSM")]
+[node name="takeoff clearence" type="Button" parent="communication manager/VBoxContainer" node_paths=PackedStringArray("behaviour_FSM")]
 layout_mode = 2
 size_flags_horizontal = 4
 text = "Takeoff clearence"
 script = ExtResource("12_iomkr")
 behaviour_FSM = NodePath("../../../Behaviour FSM")
 
-[node name="hold" type="Button" parent="aircraft_communicator/VBoxContainer" node_paths=PackedStringArray("behaviour_FSM")]
+[node name="hold" type="Button" parent="communication manager/VBoxContainer" node_paths=PackedStringArray("controller")]
 layout_mode = 2
 size_flags_horizontal = 4
 text = "Hold position"
 script = ExtResource("17_wxysq")
 resume_label = "Resume"
+controller = NodePath("../../../A320neo")
+
+[node name="landing clearance" type="Button" parent="communication manager/VBoxContainer" node_paths=PackedStringArray("behaviour_FSM", "comm_manager")]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Cleared to land"
+script = ExtResource("18_b5mi3")
+behaviour_FSM = NodePath("../../../Behaviour FSM")
+comm_manager = NodePath("../..")
+
+[node name="continue approach" type="Button" parent="communication manager/VBoxContainer" node_paths=PackedStringArray("comm_manager")]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Continue approach"
+script = ExtResource("20_1ulxa")
+comm_manager = NodePath("../..")
+
+[node name="go around" type="Button" parent="communication manager/VBoxContainer" node_paths=PackedStringArray("behaviour_FSM")]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Go around"
+script = ExtResource("20_8mppj")
 behaviour_FSM = NodePath("../../../Behaviour FSM")
 
-[connection signal="text_changed" from="aircraft_communicator/VBoxContainer/taxi to stand/HBoxContainer/route" to="aircraft_communicator/VBoxContainer/taxi to stand/HBoxContainer/route" method="_on_text_changed"]
-[connection signal="text_changed" from="aircraft_communicator/VBoxContainer/taxi to runway/HBoxContainer/route" to="aircraft_communicator/VBoxContainer/taxi to runway/HBoxContainer/route" method="_on_text_changed"]
+[connection signal="text_changed" from="communication manager/VBoxContainer/taxi to stand/HBoxContainer/route" to="communication manager/VBoxContainer/taxi to stand/HBoxContainer/route" method="_on_text_changed"]
+[connection signal="text_changed" from="communication manager/VBoxContainer/taxi to runway/HBoxContainer/route" to="communication manager/VBoxContainer/taxi to runway/HBoxContainer/route" method="_on_text_changed"]

@@ -22,12 +22,3 @@ layout_mode = 2
 script = ExtResource("1_ulyio")
 tower_text_color = Color(1, 1, 0, 1)
 aircraft_text_color = Color(0, 1, 1, 1)
-
-[node name="Label" type="Label" parent="Chat"]
-layout_mode = 2
-theme_override_colors/font_color = Color(1, 1, 0, 1)
-text = "You: SAS40G taxi to stand 20 via E, J, L."
-
-[node name="Label2" type="Label" parent="Chat"]
-layout_mode = 2
-text = "SAS40G: Stand 20 via E, J, L."

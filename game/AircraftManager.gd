@@ -1,6 +1,7 @@
 extends Node3D
 
 @export var aircraftScene : PackedScene
+@export var spawn_distance : float = 10
 
 signal list_updated
 var aircrafts : Dictionary:
@@ -31,9 +32,9 @@ func spawn(callsign : String, spawn_position : Vector3 = Vector3.ZERO) -> void:
 	plane.callsign = callsign
 	add_child(plane)
 	if spawn_position == Vector3.ZERO:
-		plane.global_position = Game.active_approach.get_position_at_distance(Game.active_approach.nm_to_m(.5))
+		plane.global_position = Game.active_approach.get_position_at_distance(Game.active_approach.nm_to_m(spawn_distance))
 		plane.global_rotation.y = Game.active_approach.global_rotation.y + deg_to_rad(180)
 
 func switch_communication_window_visibility(callsign : String) -> void:
 	print(aircrafts)
-	aircrafts[callsign].communicator.visible = !aircrafts[callsign].communicator.visible
+	aircrafts[callsign].comm_manager.visible = !aircrafts[callsign].comm_manager.visible

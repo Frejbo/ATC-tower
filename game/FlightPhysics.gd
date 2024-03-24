@@ -29,6 +29,8 @@ class_name FlightPhysics
 @export var add_lift_force : bool = true
 ## The speed the aircraft should automatically aim for. Is updated every physics update. You probably want to set this during runtime.
 @export var target_speed : float
+## Force the target speed to be 0. Useful for a hold position command.
+@export var force_hold : bool = false
 
 var current_thrust_force := 0.0
 
@@ -42,7 +44,10 @@ func _enter_tree() -> void:
 		freeze = true
 
 func _physics_process(delta: float) -> void:
-	handle_speed(target_speed)
+	if force_hold:
+		handle_speed(0)
+	else:
+		handle_speed(target_speed)
 	current_thrust_force = lerp(current_thrust_force, max_thrust_N * thrust_lever, engine_spool_up_speed * delta)
 
 #var total_time : float = Time.get_ticks_msec() * 0.001

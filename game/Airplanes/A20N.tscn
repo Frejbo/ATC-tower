@@ -6,7 +6,7 @@
 [sub_resource type="Curve" id="Curve_0aihi"]
 min_value = -1.0
 max_value = 2.0
-_data = [Vector2(0, -1), 0.0, 4.2, 0, 0, Vector2(0.787879, 1.74675), 0.0, 0.0, 0, 0, Vector2(1, 0.923701), -3.8801, 0.0, 1, 0]
+_data = [Vector2(0, -1), 0.0, 4.88311, 0, 0, Vector2(0.787879, 1.74675), 0.0, 0.0, 0, 0, Vector2(1, 1.48306), -1.2431, 0.0, 1, 0]
 point_count = 3
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_bqab2"]
@@ -118,4 +118,5 @@ mesh = SubResource("SphereMesh_3c0oo")
 
 [node name="Camera3D" type="Camera3D" parent="." index="15"]
 transform = Transform3D(-0.5, 0, -0.866025, 0, 1, 0, 0.866025, 0, -0.5, -25.791, 7.68, -16.847)
+current = true
 fov = 50.0

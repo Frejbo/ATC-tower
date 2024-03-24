@@ -6,33 +6,38 @@ extends State
 var landing_runway : int = 21
 @onready var pathfind : pathfinder
 
+@export var comm_manager : communication_manager
+
 func Enter() -> void:
 	controller.target_speed = 50
 
 var mover : TaxiMovement
 
+var vacating_taxiway : taxiway
+
 func Exit() -> void:
+	Game.chat.send_message("Vacated via " + vacating_taxiway.name + ", requesting taxi to stand.", owner.callsign)
+	comm_manager.set_visibility(comm_manager.TAXI_TO_STAND, true)
 	if mover != null:
 		mover.free()
 
 func Update(_delta) -> void:
 	if not mover:
 		for area : CollisionObject3D in taxiway_detection.get_overlapping_areas().filter(func(a): return a.owner is taxiway):
-			var tw : taxiway = area.owner
+			vacating_taxiway = area.owner
 			#print(tw.name)
-			if not tw.vacate.has(landing_runway):
+			if not vacating_taxiway.vacate.has(landing_runway):
 				continue
 			
+			
 			# vacate of tw.
-			Game.chat.send_message("Vacating via " + tw.name)
-			mover = TaxiMovement.new(FixVacateCurve(tw.curve, controller.get_steering_wheel().global_position), controller, 50)
+			mover = TaxiMovement.new(FixVacateCurve(vacating_taxiway.curve, controller.get_steering_wheel().global_position), controller, 50)
 			mover.stopping_distance_per_kts += 2
 			mover.done.connect(func(): state_transition.emit(self, "static"))
 			add_child(mover)
 	
 	else:
 		if not Game.runway in taxiway_detection.get_overlapping_areas(): # Aircraft is clear of runway
-			mover.queue_free()
 			state_transition.emit(self, "static")
 
 ## Takes in a curve and makes sure point index 0 is the side closest to the given position. Also places a duplicate of the first point right on the centerline (first).
