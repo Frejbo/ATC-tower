@@ -7,7 +7,7 @@ extends State
 @export var body_detection : Area3D
 
 var taxi_path : Curve3D
-
+var mover : TaxiMovement
 #var target_transform : Transform3D
 
 func Enter() -> void:
@@ -17,18 +17,18 @@ func Enter() -> void:
 		printerr("Unable to taxi, the taxi state didn't recieve any taxipath.")
 		state_transition.emit(self, "static")
 		return
-	var mover := TaxiMovement.new(taxi_path, controller)
+	mover = TaxiMovement.new(taxi_path, controller)
 	add_child(mover)
-	print(mover.taxi_path)
 	comm_manager.set_visibility(comm_manager.HOLD, true)
 
 func area_entered(area) -> void:
 	if area != Game.runway: return
-	
-	state_transition.emit(self, "static")
+	controller.target_speed = 0
+	state_transition.emit(self, "hold short")
 
 func Exit() -> void:
 	comm_manager.set_visibility(comm_manager.HOLD, false)
+	mover.queue_free()
 
 #func done() -> void:
 	#controller.global_transform = target_transform

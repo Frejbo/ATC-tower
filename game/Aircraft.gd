@@ -22,3 +22,7 @@ func _ready() -> void:
 	if controller.global_position.y < 1:
 		print(callsign + " is initially on ground, switching behaviour to static.")
 		behaviour_FSM.change_state(behaviour_FSM.current_state, "static")
+		comm_manager.hide_all()
+		# if at gate...
+		comm_manager.set_visibility(comm_manager.TAXI_TO_RUNWAY, true)
+		comm_manager.set_visibility(comm_manager.TAXI_TO_STAND, true)

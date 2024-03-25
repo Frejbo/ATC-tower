@@ -20,8 +20,8 @@ func _pressed() -> void:
 	behaviour_FSM.takeoff_point = takeoff_point
 	
 	# Send chat message
-	var chatMessage : String = "Taxiing to runway 21 via " + $HBoxContainer/route.text + "."
-	Game.chat.send_tower_message(chatMessage)
+	Game.chat.send_tower_message(owner.callsign + " taxi to runway 21 via " + $HBoxContainer/route.text + ".")
+	Game.chat.send_message("Taxiing to runway 21 via " + $HBoxContainer/route.text + ".", owner.callsign)
 	
 	taxi_to(takeoff_point.global_transform.origin, route)
 

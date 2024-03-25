@@ -9,5 +9,5 @@ func Enter() -> void:
 	
 	comm_manager.hide_all()
 	comm_manager.set_visibility(comm_manager.TAKEOFF_CLEARANCE, true)
-	comm_manager.set_visibility(comm_manager.LINE_UP_AND_WAIT, true)
+	comm_manager.set_visibility(comm_manager.LINE_UP, true)
 	

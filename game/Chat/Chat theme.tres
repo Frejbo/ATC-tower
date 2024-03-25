@@ -12,4 +12,5 @@ corner_radius_bottom_right = 15
 corner_radius_bottom_left = 15
 
 [resource]
+Label/font_sizes/font_size = 8
 ScrollContainer/styles/panel = SubResource("StyleBoxFlat_osbo5")
