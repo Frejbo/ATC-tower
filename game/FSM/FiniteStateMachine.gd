@@ -32,6 +32,10 @@ func change_state(source_state : State, new_state_name : String) -> void:
 	if !new_state:
 		printerr("New state is empty")
 	
+	if new_state == source_state:
+		push_warning("Tried to change to the already active state. Current state is " + source_state.name + " in FiniteStateMachine.")
+		return
+	
 	current_state.Exit()
 	print("Switching state to: ", new_state.name)
 	new_state.Enter()

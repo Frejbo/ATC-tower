@@ -1,5 +1,7 @@
 extends CanvasLayer
 
+# Denna kod behöver byggas om i framtiden. Manuell och temporär.
+
 class_name communication_manager
 
 enum {
@@ -9,7 +11,8 @@ enum {
 	TAKEOFF_CLEARANCE,
 	LANDING_CLEARANCE,
 	GO_AROUND,
-	CONTINUE_APPROACH
+	CONTINUE_APPROACH,
+	LINE_UP
 }
 @export var taxi_to_stand : Button
 @export var taxi_to_runway : Button
@@ -18,6 +21,7 @@ enum {
 @export var landing_clearance : Button
 @export var go_around : Button
 @export var continue_approach : Button
+@export var line_up : Button
 
 #func _enter_tree() -> void:
 	#hide_all()
@@ -30,6 +34,7 @@ func hide_all() -> void:
 	landing_clearance.hide()
 	go_around.hide()
 	continue_approach.hide()
+	line_up.hide()
 
 func set_visibility(comm, available : bool) -> void:
 	match comm:
@@ -47,3 +52,5 @@ func set_visibility(comm, available : bool) -> void:
 			go_around.visible = available
 		CONTINUE_APPROACH:
 			continue_approach.visible = available
+		LINE_UP:
+			line_up.visible = available

@@ -17,29 +17,29 @@ func _pressed() -> void:
 		return
 	
 	takeoff_point = Game.runway.takeoff_points.get(takeoff_point)
+	behaviour_FSM.takeoff_point = takeoff_point
 	
 	# Send chat message
 	var chatMessage : String = "Taxiing to runway 21 via " + $HBoxContainer/route.text + "."
 	Game.chat.send_tower_message(chatMessage)
 	
-	taxi_to(takeoff_point.global_transform, route)
+	taxi_to(takeoff_point.global_transform.origin, route)
 
 
 
 #signal taxi_instruction_recieved(route : Curve3D, target_transform : Transform3D)
-func taxi_to(transform : Transform3D, route : Array[String]) -> void:
-	taxi_pathfind = pathfinder.new(controller.get_steering_wheel().global_position, transform.origin, route)
-	print("target: ", transform.origin)
+func taxi_to(pos : Vector3, route : Array[String]) -> void:
+	taxi_pathfind = pathfinder.new(controller.get_steering_wheel().global_position, pos, route)
+	print("target: ", pos)
 	if await taxi_pathfind.path_is_valid():
-		set_behaviour_state(await taxi_pathfind.calculate_path(), transform)
+		set_behaviour_state(await taxi_pathfind.calculate_path())
 
 
-func set_behaviour_state(route : Curve3D, transform : Transform3D) -> void:
+func set_behaviour_state(route : Curve3D) -> void:
 	if not behaviour_FSM.states.has("taxi out"):
 		printerr("taxi out state was not found in AircraftBehaviourManager.")
 		return
 	behaviour_FSM.states.get("taxi out").taxi_path = route
-	behaviour_FSM.states.get("taxi out").target_transform = transform
 	
 	if behaviour_FSM.current_state.name == "static":
 		behaviour_FSM.change_state(behaviour_FSM.current_state, "taxi out")

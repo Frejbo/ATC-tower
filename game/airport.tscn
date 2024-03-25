@@ -156,7 +156,7 @@ radiance_size = 6
 [sub_resource type="Environment" id="Environment_n4r1d"]
 background_mode = 2
 sky = SubResource("Sky_a1db7")
-tonemap_mode = 3
+tonemap_mode = 1
 ssr_enabled = true
 ssao_enabled = true
 ssao_radius = 3.0
@@ -239,6 +239,7 @@ script = ExtResource("4_hl1v7")
 active = true
 
 [node name="Runway" type="Area3D" parent="airport/Runway 03-21" index="3" groups=["runway"]]
+collision_mask = 0
 script = ExtResource("5_nyymq")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="airport/Runway 03-21/Runway"]

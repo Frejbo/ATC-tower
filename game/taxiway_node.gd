@@ -95,8 +95,6 @@ func _enter_tree() -> void:
 		add_child(area_update_cooldown_timer)
 		area_update_cooldown_timer.owner = self
 		area_update_cooldown_timer.add_to_group("dynamic_taxiline")
-		
-		PhysicsServer3D.set_active(true)
 	
 	
 	add_to_group("taxiway")
@@ -115,11 +113,21 @@ func _enter_tree() -> void:
 	csg_debug_shape.position = -position
 	
 	if not ignore_areas:
+		PhysicsServer3D.set_active(true)
 		update_areas()
 		for i in range(2): # wait 2 physics frames to make sure areas has detected each other. (1 don't work)
 			await Engine.get_main_loop().physics_frame
 		connect_to_nearby()
+		if Engine.is_editor_hint():
+			PhysicsServer3D.set_active(false)
 
+func _notification(what: int) -> void: # Temporarily reactivate the PhysisServer to allow taxiways to connect.
+	if what == NOTIFICATION_EDITOR_POST_SAVE:
+		PhysicsServer3D.set_active(true)
+		for i in range(2): # wait 2 physics frames to make sure areas has detected each other. (1 don't work)
+			await Engine.get_main_loop().physics_frame
+		if Engine.is_editor_hint():
+			PhysicsServer3D.set_active(false)
 
 func create_area(pos : Vector3, area_name : String) -> Area3D:
 	if ignore_areas: return

@@ -1,6 +1,9 @@
 extends Button
 
 @export var behaviour_FSM : FiniteStateMachine
+@export var comm_manager : communication_manager
 
 func _pressed() -> void:
-	behaviour_FSM.change_state(behaviour_FSM.current_state, "takeoff")
+	behaviour_FSM.takeoff_clearance = true
+	behaviour_FSM.change_state(behaviour_FSM.current_state, "line up")
+	comm_manager.hide_all()

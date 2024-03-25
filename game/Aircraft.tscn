@@ -1,6 +1,6 @@
-[gd_scene load_steps=23 format=3 uid="uid://dooe7wxlpdhd5"]
+[gd_scene load_steps=27 format=3 uid="uid://dooe7wxlpdhd5"]
 
-[ext_resource type="Script" path="res://Aircraft.gd" id="1_7vn2h"]
+[ext_resource type="Script" path="res://aircraft.gd" id="1_rl0fh"]
 [ext_resource type="PackedScene" uid="uid://cpyj4w3k7b2br" path="res://Airplanes/A20N.tscn" id="2_bslt8"]
 [ext_resource type="Script" path="res://FSM/AircraftBehaviourManager.gd" id="3_tfqqc"]
 [ext_resource type="Script" path="res://FSM/static state.gd" id="4_65qp4"]
@@ -16,19 +16,27 @@
 [ext_resource type="Script" path="res://FSM/loading state.gd" id="11_hcpad"]
 [ext_resource type="Script" path="res://takeoff clearence.gd" id="12_iomkr"]
 [ext_resource type="Script" path="res://FSM/go around state.gd" id="12_xt3u5"]
+[ext_resource type="Script" path="res://FSM/hold short state.gd" id="13_0c0gu"]
+[ext_resource type="Script" path="res://FSM/line up state.gd" id="14_g8q61"]
 [ext_resource type="Script" path="res://taxi_to_runway.gd" id="14_o1sj5"]
 [ext_resource type="Script" path="res://hold.gd" id="17_wxysq"]
 [ext_resource type="Script" path="res://landing clearance.gd" id="18_b5mi3"]
 [ext_resource type="Script" path="res://continue approach.gd" id="20_1ulxa"]
 [ext_resource type="Script" path="res://go around.gd" id="20_8mppj"]
+[ext_resource type="Script" path="res://line up and wait.gd" id="23_l4doq"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_3epul"]
 margin = 0.1
 size = Vector3(125, 10, 40)
 
-[node name="Aircraft" type="Node3D" node_paths=PackedStringArray("comm_manager")]
-script = ExtResource("1_7vn2h")
+[sub_resource type="BoxShape3D" id="BoxShape3D_7ylq8"]
+size = Vector3(37, 12, 36)
+
+[node name="Aircraft" type="Node3D" node_paths=PackedStringArray("comm_manager", "controller", "behaviour_FSM")]
+script = ExtResource("1_rl0fh")
 comm_manager = NodePath("communication manager")
+controller = NodePath("A320neo")
+behaviour_FSM = NodePath("Behaviour FSM")
 
 [node name="A320neo" parent="." instance=ExtResource("2_bslt8")]
 max_contacts_reported = 1
@@ -52,6 +60,13 @@ text = "AUA2JA"
 font_size = 800
 outline_size = 127
 uppercase = true
+
+[node name="body detection" type="Area3D" parent="A320neo"]
+collision_layer = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="A320neo/body detection"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6, 0)
+shape = SubResource("BoxShape3D_7ylq8")
 
 [node name="Behaviour FSM" type="Node" parent="." node_paths=PackedStringArray("controller", "initial_state")]
 script = ExtResource("3_tfqqc")
@@ -83,17 +98,19 @@ script = ExtResource("8_pbelx")
 controller = NodePath("../../A320neo")
 comm_manager = NodePath("../../communication manager")
 
-[node name="vacating" type="Node" parent="Behaviour FSM" node_paths=PackedStringArray("taxiway_detection", "controller", "taxi_in_state", "comm_manager")]
+[node name="vacating" type="Node" parent="Behaviour FSM" node_paths=PackedStringArray("taxiway_detection", "body_detection", "controller", "taxi_in_state", "comm_manager")]
 script = ExtResource("9_pbim2")
 taxiway_detection = NodePath("../../A320neo/ground visual")
+body_detection = NodePath("../../A320neo/body detection")
 controller = NodePath("../../A320neo")
 taxi_in_state = NodePath("../taxi in")
 comm_manager = NodePath("../../communication manager")
 
-[node name="taxi out" type="Node" parent="Behaviour FSM" node_paths=PackedStringArray("controller", "comm_manager")]
+[node name="taxi out" type="Node" parent="Behaviour FSM" node_paths=PackedStringArray("controller", "comm_manager", "body_detection")]
 script = ExtResource("10_dv66o")
 controller = NodePath("../../A320neo")
 comm_manager = NodePath("../../communication manager")
+body_detection = NodePath("../../A320neo/body detection")
 
 [node name="loading" type="Node" parent="Behaviour FSM" node_paths=PackedStringArray("controller", "wait_timer", "comm_manager")]
 script = ExtResource("11_hcpad")
@@ -109,7 +126,17 @@ one_shot = true
 script = ExtResource("12_xt3u5")
 comm_manager = NodePath("../../communication manager")
 
-[node name="communication manager" type="CanvasLayer" parent="." node_paths=PackedStringArray("taxi_to_stand", "taxi_to_runway", "hold", "takeoff_clearance", "landing_clearance", "go_around", "continue_approach")]
+[node name="hold short" type="Node" parent="Behaviour FSM" node_paths=PackedStringArray("comm_manager", "behaviour_FSM")]
+script = ExtResource("13_0c0gu")
+comm_manager = NodePath("../../communication manager")
+behaviour_FSM = NodePath("..")
+
+[node name="line up" type="Node" parent="Behaviour FSM" node_paths=PackedStringArray("behaviour_FSM", "controller")]
+script = ExtResource("14_g8q61")
+behaviour_FSM = NodePath("..")
+controller = NodePath("../../A320neo")
+
+[node name="communication manager" type="CanvasLayer" parent="." node_paths=PackedStringArray("taxi_to_stand", "taxi_to_runway", "hold", "takeoff_clearance", "landing_clearance", "go_around", "continue_approach", "line_up")]
 script = ExtResource("4_xkhip")
 taxi_to_stand = NodePath("VBoxContainer/taxi to stand")
 taxi_to_runway = NodePath("VBoxContainer/taxi to runway")
@@ -118,6 +145,7 @@ takeoff_clearance = NodePath("VBoxContainer/takeoff clearence")
 landing_clearance = NodePath("VBoxContainer/landing clearance")
 go_around = NodePath("VBoxContainer/go around")
 continue_approach = NodePath("VBoxContainer/continue approach")
+line_up = NodePath("VBoxContainer/line up and wait")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="communication manager"]
 anchors_preset = 14
@@ -216,12 +244,13 @@ context_menu_enabled = false
 drag_and_drop_selection_enabled = false
 script = ExtResource("6_03386")
 
-[node name="takeoff clearence" type="Button" parent="communication manager/VBoxContainer" node_paths=PackedStringArray("behaviour_FSM")]
+[node name="takeoff clearence" type="Button" parent="communication manager/VBoxContainer" node_paths=PackedStringArray("behaviour_FSM", "comm_manager")]
 layout_mode = 2
 size_flags_horizontal = 4
 text = "Takeoff clearence"
 script = ExtResource("12_iomkr")
 behaviour_FSM = NodePath("../../../Behaviour FSM")
+comm_manager = NodePath("../..")
 
 [node name="hold" type="Button" parent="communication manager/VBoxContainer" node_paths=PackedStringArray("controller")]
 layout_mode = 2
@@ -252,6 +281,15 @@ size_flags_horizontal = 4
 text = "Go around"
 script = ExtResource("20_8mppj")
 behaviour_FSM = NodePath("../../../Behaviour FSM")
+
+[node name="line up and wait" type="Button" parent="communication manager/VBoxContainer" node_paths=PackedStringArray("behaviour_FSM", "hold_short_state", "comm_manager")]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Line up and wait"
+script = ExtResource("23_l4doq")
+behaviour_FSM = NodePath("../../../Behaviour FSM")
+hold_short_state = NodePath("../../../Behaviour FSM/hold short")
+comm_manager = NodePath("../..")
 
 [connection signal="text_changed" from="communication manager/VBoxContainer/taxi to stand/HBoxContainer/route" to="communication manager/VBoxContainer/taxi to stand/HBoxContainer/route" method="_on_text_changed"]
 [connection signal="text_changed" from="communication manager/VBoxContainer/taxi to runway/HBoxContainer/route" to="communication manager/VBoxContainer/taxi to runway/HBoxContainer/route" method="_on_text_changed"]

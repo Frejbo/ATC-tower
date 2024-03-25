@@ -1,6 +1,7 @@
 extends State
 
 @export var taxiway_detection : Area3D
+@export var body_detection : Area3D
 @export var controller : AircraftController
 @export var taxi_in_state : State
 var landing_runway : int = 21
@@ -37,7 +38,7 @@ func Update(_delta) -> void:
 			add_child(mover)
 	
 	else:
-		if not Game.runway in taxiway_detection.get_overlapping_areas(): # Aircraft is clear of runway
+		if not Game.runway in body_detection.get_overlapping_areas(): # Aircraft is clear of runway
 			state_transition.emit(self, "static")
 
 ## Takes in a curve and makes sure point index 0 is the side closest to the given position. Also places a duplicate of the first point right on the centerline (first).
