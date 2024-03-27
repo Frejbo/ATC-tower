@@ -17,7 +17,7 @@ aircraftScene = ExtResource("3_q2orl")
 spawn_distance = 1.0
 
 [node name="Aircraft" parent="AircraftManager" instance=ExtResource("3_q2orl")]
-transform = Transform3D(0.5, 0.000114262, 0.866025, -0.000739588, 1, 0.000295064, -0.866025, -0.000788034, 0.5, 762.198, 0, -180.538)
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 103, 0, 109)
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 808.321, 691.623, 300)

@@ -1,16 +1,24 @@
 @tool
-extends Marker3D
+extends Area3D
 
-@export var gate_name : String:
+class_name Gate
+
+@export var stand_name : String:
 	set(text):
 		if text == "":
 			name = "Gate"
-			gate_name = ""
+			stand_name = ""
 			return
 		name = text.to_upper()
-		gate_name = name
+		stand_name = text.to_upper()
 
 @export var taxiway_in : taxiway = get_parent()
 
 func _enter_tree() -> void:
-	Game.stands[gate_name] = self
+	Game.stands[stand_name] = self
+
+func is_occupied() -> bool:
+	return not get_overlapping_bodies().filter(
+		func(body):
+			return body is AircraftController
+			).is_empty()

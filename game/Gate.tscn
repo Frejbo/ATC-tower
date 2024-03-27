@@ -1,11 +1,19 @@
-[gd_scene load_steps=4 format=3 uid="uid://dyunen1vglo8o"]
+[gd_scene load_steps=5 format=3 uid="uid://dyunen1vglo8o"]
 
 [ext_resource type="Script" path="res://Gate.gd" id="1_77ol5"]
 [ext_resource type="PackedScene" uid="uid://rnljgttipq8b" path="res://Assets/Jetbridge.blend" id="1_qpewg"]
 [ext_resource type="Texture2D" uid="uid://bvryuew5o48vu" path="res://Assets/Stopline.png" id="2_4shp7"]
 
-[node name="20" type="Marker3D"]
+[sub_resource type="BoxShape3D" id="BoxShape3D_lrcr3"]
+size = Vector3(30, 10, 40)
+
+[node name="Gate" type="Area3D"]
+collision_layer = 0
 script = ExtResource("1_77ol5")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 0)
+shape = SubResource("BoxShape3D_lrcr3")
 
 [node name="Jetbridge" parent="." instance=ExtResource("1_qpewg")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25, 0, 23.2036)

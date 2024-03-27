@@ -32,15 +32,15 @@ size = Vector3(125, 10, 40)
 [sub_resource type="BoxShape3D" id="BoxShape3D_7ylq8"]
 size = Vector3(50, 12, 40)
 
-[node name="Aircraft" type="Node3D" node_paths=PackedStringArray("comm_manager", "controller", "behaviour_FSM")]
+[node name="Aircraft" type="Node3D" node_paths=PackedStringArray("comm_manager", "controller", "behaviour_FSM", "taxi_to_stand_stand_input")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 script = ExtResource("1_vq2jg")
 comm_manager = NodePath("communication manager")
 controller = NodePath("A320neo")
 behaviour_FSM = NodePath("Behaviour FSM")
+taxi_to_stand_stand_input = NodePath("communication manager/VBoxContainer/taxi to stand/HBoxContainer/stand")
 
 [node name="A320neo" parent="." instance=ExtResource("2_bslt8")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.13053, 0)
-linear_velocity = Vector3(0, -1.46755, 0)
 max_brake_force = 500
 
 [node name="ground visual" type="Area3D" parent="A320neo"]
@@ -189,7 +189,6 @@ text = "Taxi to stand"
 [node name="stand" type="LineEdit" parent="communication manager/VBoxContainer/taxi to stand/HBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 4
-text = "20"
 placeholder_text = "stand"
 expand_to_text_length = true
 

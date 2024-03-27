@@ -117,7 +117,7 @@ point_count = 10
 
 [sub_resource type="Curve3D" id="Curve3D_k5pn3"]
 _data = {
-"points": PackedVector3Array(0, 0, 0, 0, 0, 0, 775, 0, 400, 0, 0, 0, 0, 0, 0, 780, 0, 480),
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, 780, 0, 400, 0, 0, 0, 0, 0, 0, 780, 0, 480),
 "tilts": PackedFloat32Array(0, 0)
 }
 point_count = 2
@@ -367,45 +367,45 @@ taxiline_shape = PackedVector2Array(0, 0, -0.5, 0.1, 0.5, 0.1)
 curve = SubResource("Curve3D_k5pn3")
 script = ExtResource("2_0itsb")
 default_connection_size = 5.0
-connection_sizes = Array[float]([10.0, 10.0])
+connection_sizes = Array[float]([10.0, 10.0, 30.0])
 taxiline_shape = PackedVector2Array(0, 0, -0.5, 0.01, 0.5, 0.01)
 
 [node name="20" parent="taxiways/20" node_paths=PackedStringArray("taxiway_in") instance=ExtResource("5_7ridq")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 780, 0, 480)
-gate_name = "20"
+stand_name = "20"
 taxiway_in = NodePath("..")
 
 [node name="19" type="Path3D" parent="taxiways"]
 curve = SubResource("Curve3D_xn3hw")
 script = ExtResource("2_0itsb")
-connection_sizes = Array[float]([10.0, 10.0])
+connection_sizes = Array[float]([10.0, 10.0, 30.0])
 taxiline_shape = PackedVector2Array(0, 0, -0.5, 0.01, 0.5, 0.01)
 
 [node name="19" parent="taxiways/19" node_paths=PackedStringArray("taxiway_in") instance=ExtResource("5_7ridq")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 850, 0, 480)
-gate_name = "19"
+stand_name = "19"
 taxiway_in = NodePath("..")
 
 [node name="17" type="Path3D" parent="taxiways"]
 curve = SubResource("Curve3D_liohx")
 script = ExtResource("2_0itsb")
-connection_sizes = Array[float]([10.0, 10.0])
+connection_sizes = Array[float]([10.0, 10.0, 30.0])
 taxiline_shape = PackedVector2Array(0, 0, -0.5, 0.01, 0.5, 0.01)
 
 [node name="17" parent="taxiways/17" node_paths=PackedStringArray("taxiway_in") instance=ExtResource("5_7ridq")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 930, 0, 480)
-gate_name = "17"
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 930, 0, 480.5)
+stand_name = "17"
 taxiway_in = NodePath("..")
 
 [node name="16" type="Path3D" parent="taxiways"]
 curve = SubResource("Curve3D_jhv2q")
 script = ExtResource("2_0itsb")
-connection_sizes = Array[float]([10.0, 10.0])
+connection_sizes = Array[float]([10.0, 10.0, 30.0])
 taxiline_shape = PackedVector2Array(0, 0, -0.5, 0.01, 0.5, 0.01)
 
 [node name="16" parent="taxiways/16" node_paths=PackedStringArray("taxiway_in") instance=ExtResource("5_7ridq")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 980, 0, 480)
-gate_name = "16"
+stand_name = "16"
 taxiway_in = NodePath("..")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]

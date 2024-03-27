@@ -2,6 +2,8 @@ extends FlightPhysics
 
 class_name AircraftController
 
+func _enter_tree() -> void:
+	process_mode = Node.PROCESS_MODE_INHERIT
 
 ## Returns the wheel used for steering. In most cases the nosewheel.
 func get_steering_wheel() -> VehicleWheel3D:

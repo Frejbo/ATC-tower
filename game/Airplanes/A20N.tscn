@@ -24,6 +24,7 @@ material = SubResource("StandardMaterial3D_udjg8")
 radius = 5.0
 
 [node name="A320neo" instance=ExtResource("1_cmfso")]
+process_mode = 4
 mass = 55000.0
 center_of_mass_mode = 1
 center_of_mass = Vector3(5, 0, 0)
@@ -44,7 +45,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.00424, 4.587, 0)
 shape = SubResource("BoxShape3D_x23uk")
 
 [node name="right main " parent="." index="6"]
-transform = Transform3D(-3.57628e-07, 0, -1, 0, 1, 0, -1, 0, 3.57628e-07, 1.16481, 0.272044, 3.77609)
+transform = Transform3D(-3.57628e-07, 0, -1, 0, 1, 0, -1, 0, 3.57628e-07, 1.16481, -0.027956, 3.77609)
 wheel_roll_influence = 0.0
 wheel_radius = 0.615
 suspension_travel = 0.75
@@ -52,7 +53,7 @@ suspension_stiffness = 15.0
 suspension_max_force = 1.02737e+07
 
 [node name="left main " parent="." index="10"]
-transform = Transform3D(-3.57628e-07, 0, -1, 0, 1, 0, -1, 0, 3.57628e-07, 1.1648, 0.272044, -3.77609)
+transform = Transform3D(-3.57628e-07, 0, -1, 0, 1, 0, -1, 0, 3.57628e-07, 1.1648, -0.027956, -3.77609)
 wheel_roll_influence = 0.0
 wheel_radius = 0.615
 suspension_travel = 0.75
@@ -60,7 +61,7 @@ suspension_stiffness = 15.0
 suspension_max_force = 1.02737e+07
 
 [node name="front " parent="." index="11"]
-transform = Transform3D(-3.57628e-07, 0, -1, 0, 1, 0, -1, 0, 3.57628e-07, 13.2238, 0.105123, -5.91972e-06)
+transform = Transform3D(-3.57628e-07, 0, -1, 0, 1, 0, -1, 0, 3.57628e-07, 13.2238, -0.194877, -5.91972e-06)
 use_as_steering = true
 wheel_roll_influence = 0.0
 wheel_radius = 0.42
