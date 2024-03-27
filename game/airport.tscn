@@ -1,5 +1,6 @@
-[gd_scene load_steps=41 format=3 uid="uid://bbdfih0weqhie"]
+[gd_scene load_steps=39 format=3 uid="uid://bbdfih0weqhie"]
 
+[ext_resource type="PackedScene" uid="uid://bjjceeyq3csc3" path="res://Assets/sky/sky.tscn" id="1_bve0f"]
 [ext_resource type="PackedScene" uid="uid://c3vpi5rklcc08" path="res://airport.blend" id="1_rkesj"]
 [ext_resource type="Texture2D" uid="uid://cfrwgslp3pgbs" path="res://airport overview.png" id="1_yjken"]
 [ext_resource type="Script" path="res://taxiway_node.gd" id="2_0itsb"]
@@ -146,26 +147,6 @@ point_count = 2
 [sub_resource type="BoxShape3D" id="BoxShape3D_vdifn"]
 size = Vector3(5000, 10, 5000)
 
-[sub_resource type="PhysicalSkyMaterial" id="PhysicalSkyMaterial_68apj"]
-energy_multiplier = 1.5
-
-[sub_resource type="Sky" id="Sky_a1db7"]
-sky_material = SubResource("PhysicalSkyMaterial_68apj")
-radiance_size = 6
-
-[sub_resource type="Environment" id="Environment_n4r1d"]
-background_mode = 2
-sky = SubResource("Sky_a1db7")
-tonemap_mode = 1
-ssr_enabled = true
-ssao_enabled = true
-ssao_radius = 3.0
-ssao_intensity = 3.0
-ssil_enabled = true
-glow_enabled = true
-glow_normalized = true
-glow_intensity = 0.5
-
 [sub_resource type="Gradient" id="Gradient_j4dgi"]
 offsets = PackedFloat32Array(0.2, 1)
 colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
@@ -202,6 +183,12 @@ _shader_parameters = {
 }
 
 [node name="airport" type="Node3D"]
+
+[node name="Sky" parent="." instance=ExtResource("1_bve0f")]
+day_time = 18.061
+day_of_year = 165
+clouds_cutoff = 0.18
+clouds_weight = 0.35
 
 [node name="airport" parent="." instance=ExtResource("1_rkesj")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
@@ -408,18 +395,12 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 980, 0, 480)
 stand_name = "16"
 taxiway_in = NodePath("..")
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
-
 [node name="ground collision" type="StaticBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="ground collision"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -5, 0)
 shape = SubResource("BoxShape3D_vdifn")
-
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource("Environment_n4r1d")
 
 [node name="Terrain3D" type="Terrain3D" parent="."]
 storage = ExtResource("10_ha35n")
