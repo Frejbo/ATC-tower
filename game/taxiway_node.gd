@@ -163,6 +163,7 @@ func update_areas() -> void:
 	
 	for area in get_children():
 		if not area is Area3D: continue
+		if not area.owner == self: continue
 		
 		if area.name.to_int() > curve.point_count -1:
 			# Point on curve has been deleted, remove corresponding area.
