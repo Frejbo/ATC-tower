@@ -1,4 +1,4 @@
-[gd_scene load_steps=38 format=3 uid="uid://bbdfih0weqhie"]
+[gd_scene load_steps=40 format=3 uid="uid://bbdfih0weqhie"]
 
 [ext_resource type="PackedScene" uid="uid://c3vpi5rklcc08" path="res://airport.blend" id="1_rkesj"]
 [ext_resource type="Texture2D" uid="uid://cfrwgslp3pgbs" path="res://airport overview.png" id="1_yjken"]
@@ -13,6 +13,7 @@
 [ext_resource type="Material" uid="uid://bhldiskx54qpk" path="res://Assets/Glass.tres" id="7_6bhcj"]
 [ext_resource type="Terrain3DStorage" uid="uid://dctp7s8g48ftc" path="res://Assets/Terrain/terrain_3d_storage.res" id="10_ha35n"]
 [ext_resource type="Terrain3DTextureList" uid="uid://cx1m2gu7oq6ht" path="res://Assets/Terrain/terrain_3d_texture_list.tres" id="11_11kne"]
+[ext_resource type="Script" path="res://Pushback/pushback_procedure_res.gd" id="12_qsmfn"]
 
 [sub_resource type="Curve3D" id="Curve3D_5p48f"]
 _data = {
@@ -121,6 +122,10 @@ _data = {
 "tilts": PackedFloat32Array(0, 0)
 }
 point_count = 2
+
+[sub_resource type="Resource" id="Resource_o817w"]
+script = ExtResource("12_qsmfn")
+points = Array[Transform3D]([Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)])
 
 [sub_resource type="Curve3D" id="Curve3D_xn3hw"]
 _data = {
@@ -354,6 +359,7 @@ taxiline_shape = PackedVector2Array(0, 0, -0.5, 0.01, 0.5, 0.01)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 780, 0, 480)
 stand_name = "20"
 taxiway_in = NodePath("..")
+push_procedure = SubResource("Resource_o817w")
 
 [node name="19" type="Path3D" parent="taxiways"]
 curve = SubResource("Curve3D_xn3hw")

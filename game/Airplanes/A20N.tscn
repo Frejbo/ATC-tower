@@ -45,21 +45,21 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.00424, 4.587, 0)
 shape = SubResource("BoxShape3D_x23uk")
 
 [node name="right main " parent="." index="6"]
-transform = Transform3D(-3.57628e-07, 0, -1, 0, 1, 0, -1, 0, 3.57628e-07, 1.16481, -0.027956, 3.77609)
+transform = Transform3D(-3.57628e-07, 0, -1, 0, 1, 0, -1, 0, 3.57628e-07, 1.16481, 0.5, 3.77609)
 wheel_radius = 0.615
 suspension_travel = 0.75
 suspension_stiffness = 15.0
 suspension_max_force = 1.02737e+07
 
 [node name="left main " parent="." index="10"]
-transform = Transform3D(-3.57628e-07, 0, -1, 0, 1, 0, -1, 0, 3.57628e-07, 1.1648, -0.027956, -3.77609)
+transform = Transform3D(-3.57628e-07, 0, -1, 0, 1, 0, -1, 0, 3.57628e-07, 1.1648, 0.5, -3.77609)
 wheel_radius = 0.615
 suspension_travel = 0.75
 suspension_stiffness = 15.0
 suspension_max_force = 1.02737e+07
 
 [node name="front " parent="." index="11"]
-transform = Transform3D(-3.57628e-07, 0, -1, 0, 1, 0, -1, 0, 3.57628e-07, 13.2238, -0.194877, -5.91972e-06)
+transform = Transform3D(-3.57628e-07, 0, -1, 0, 1, 0, -1, 0, 3.57628e-07, 13.2238, 0.5, -5.91972e-06)
 use_as_steering = true
 wheel_radius = 0.42
 suspension_travel = 0.75
@@ -125,3 +125,14 @@ mesh = SubResource("SphereMesh_3c0oo")
 [node name="Camera3D" type="Camera3D" parent="." index="15"]
 transform = Transform3D(-0.5, 0, -0.866025, 0, 1, 0, 0.866025, 0, -0.5, -25.791, 7.68, -16.847)
 fov = 50.0
+
+[node name="noselight" type="SpotLight3D" parent="." index="16"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 13.6292, 1.49177, 0)
+light_color = Color(0.705882, 0.721569, 0.454902, 1)
+light_energy = 512.0
+light_size = 0.1
+distance_fade_enabled = true
+distance_fade_begin = 400.0
+distance_fade_length = 700.0
+spot_range = 75.0
+spot_angle = 30.0

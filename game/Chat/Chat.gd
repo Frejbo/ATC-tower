@@ -5,7 +5,7 @@ class_name Chat
 @export var aircraft_text_color : Color
 @export var info_overlay : Color = Color(0, 0, 0, .75)
 
-var voice_id = DisplayServer.tts_get_voices_for_language("en")[0]
+var voice_id = DisplayServer.tts_get_voices_for_language("en")[1]
 
 const callsign_telephony_designators : Dictionary = {
 	"SAS":"Scandinavian",

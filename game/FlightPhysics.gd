@@ -98,7 +98,7 @@ func handle_speed(targ_speed : float) -> void:
 	thrust_lever = clamp(speed_diff, 0, 1)
 	if targ_speed < 40: # TEMP
 		thrust_lever = thrust_lever * .30 # Use maximum of 30% thrust when taxiing
-	brake = abs(clamp(speed_diff, -1, 0)) * max_brake_force
+	brake = abs(clamp(speed_diff, -1, 0)) * float(max_brake_force) if speed < 50 else max_brake_force * .4 # Don't use full brakes if speed is above 50
 	
 	if target_speed < 1: # Stop completely
 		brake = max_brake_force

@@ -13,7 +13,7 @@ func _pressed() -> void:
 		route.append(s)
 	var takeoff_point = route.back()
 	if not Game.runway.takeoff_points.has(takeoff_point):
-		printerr("Didn't found takeoff point " + str(takeoff_point) + ".")
+		printerr("Didn't found takeoff point " + str(takeoff_point))
 		return
 	
 	takeoff_point = Game.runway.takeoff_points.get(takeoff_point)
@@ -21,7 +21,7 @@ func _pressed() -> void:
 	
 	# Send chat message
 	Game.chat.send_tower_message(owner.callsign + " taxi to runway 21 via " + $HBoxContainer/route.text + ".")
-	Game.chat.send_message("Taxi to runway 21 via " + $HBoxContainer/route.text + ". " + owner.callsign)
+	Game.chat.send_message("Taxi to runway 21 via " + $HBoxContainer/route.text + owner.callsign)
 	
 	taxi_to(takeoff_point.global_transform.origin, route)
 

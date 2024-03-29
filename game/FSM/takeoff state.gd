@@ -21,8 +21,8 @@ func Physics_update(_delta : float) -> void:
 		current_pitch_vel = lerpf(current_pitch_vel, deg_vel, .01)
 		controller.angular_velocity.z = current_pitch_vel
 	
-	if controller.global_position.y > 500:
-		print(owner.callsign, " passed 500m y, removing.")
+	if controller.global_position.y > 1500:
+		print(owner.callsign, " passed 1500m y, removing.")
 		owner.queue_free()
 	
 	# Something in FlightPhysics doesn't allow the plane to remain airborne at some speeds, this forces the aircraft to not fall too much.

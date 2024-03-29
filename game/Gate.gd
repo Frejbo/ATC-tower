@@ -13,6 +13,7 @@ class_name Gate
 		stand_name = text.to_upper()
 
 @export var taxiway_in : taxiway = get_parent()
+@export var push_procedure : pushback_procedure
 
 func _enter_tree() -> void:
 	Game.stands[stand_name] = self

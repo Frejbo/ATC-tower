@@ -11,8 +11,8 @@
 [node name="main" type="Node3D"]
 
 [node name="Sky" parent="." instance=ExtResource("1_il8bf")]
-day_time = 4.5358
-day_of_year = 191
+day_time = 3.2863
+day_of_year = 100
 
 [node name="airport" parent="." instance=ExtResource("1_ubhcf")]
 
@@ -22,8 +22,9 @@ script = ExtResource("2_8bqv8")
 aircraftScene = ExtResource("3_q2orl")
 spawn_distance = 3.0
 
-[node name="Aircraft" parent="AircraftManager" instance=ExtResource("3_q2orl")]
-transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 103, 0, 109)
+[node name="SAS86L" parent="AircraftManager" instance=ExtResource("3_q2orl")]
+transform = Transform3D(0.866025, 0, -0.5, 0, 1, 0, 0.5, 0, 0.866025, 719.37, 0, -204.477)
+callsign = "SAS86L"
 
 [node name="spawnTimer" type="Timer" parent="AircraftManager" node_paths=PackedStringArray("aircraftManager")]
 wait_time = 60.0
