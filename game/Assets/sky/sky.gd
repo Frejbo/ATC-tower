@@ -56,12 +56,12 @@ const DAYS_IN_YEAR : int = 365
 	set( value ) :
 		use_day_time_for_shader = value
 		_update_shader()
-## Multiplier of the elapsed time in the running game.
-## If 0.0 - day time will not be changed automatically.
-## If 1.0 - one hour will take one second.
-@export_range( 0.0, 1.0, 0.0001 ) var time_scale : float = 0.01 :
-	set( value ) :
-		time_scale = value
+# Multiplier of the elapsed time in the running game.
+# If 0.0 - day time will not be changed automatically.
+# If 1.0 - one hour will take one second.
+#@export_range( 0.0, 1.0, 0.0001 ) var time_scale : float = 0.01 :
+	#set( value ) :
+		#time_scale = value
 ## If 0, the value will set from the sun object, but as the script runs in the editor, it may set the wrong value, so it is best to set it manually.
 @export_range( 0.0, 10.0, 0.01 ) var sun_base_enegry : float = 0.0 :
 	set( value ) :
@@ -92,9 +92,9 @@ func _ready() -> void :
 			moon_base_enegry = moon.light_energy
 	_update()
 
-func _process( delta: float ) -> void :
-	if not Engine.is_editor_hint() : # We don't want a time lapse in the editor
-		day_time += delta * time_scale
+#func _process( delta: float ) -> void :
+	#if not Engine.is_editor_hint() : # We don't want a time lapse in the editor
+	#day_time += delta * time_scale
 
 func _update() -> void :
 	_update_sun()

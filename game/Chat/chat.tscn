@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://chjm20ayayjbe"]
 
 [ext_resource type="Theme" uid="uid://cisxfuhwjmtn8" path="res://Chat/Chat theme.tres" id="1_m8da6"]
-[ext_resource type="Script" path="res://Chat/Chat.gd" id="1_ulyio"]
+[ext_resource type="Script" path="res://Chat/Chat.gd" id="2_su3k8"]
 
 [node name="ChatBox" type="ScrollContainer"]
 anchors_preset = -1
@@ -19,6 +19,6 @@ horizontal_scroll_mode = 0
 
 [node name="Chat" type="VBoxContainer" parent="."]
 layout_mode = 2
-script = ExtResource("1_ulyio")
-tower_text_color = Color(1, 1, 0, 1)
-aircraft_text_color = Color(0, 1, 1, 1)
+script = ExtResource("2_su3k8")
+tower_text_color = Color(0, 1, 1, 1)
+aircraft_text_color = Color(1, 1, 0, 1)

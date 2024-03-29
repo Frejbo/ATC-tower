@@ -1,6 +1,5 @@
-[gd_scene load_steps=39 format=3 uid="uid://bbdfih0weqhie"]
+[gd_scene load_steps=38 format=3 uid="uid://bbdfih0weqhie"]
 
-[ext_resource type="PackedScene" uid="uid://bjjceeyq3csc3" path="res://Assets/sky/sky.tscn" id="1_bve0f"]
 [ext_resource type="PackedScene" uid="uid://c3vpi5rklcc08" path="res://airport.blend" id="1_rkesj"]
 [ext_resource type="Texture2D" uid="uid://cfrwgslp3pgbs" path="res://airport overview.png" id="1_yjken"]
 [ext_resource type="Script" path="res://taxiway_node.gd" id="2_0itsb"]
@@ -183,12 +182,6 @@ _shader_parameters = {
 }
 
 [node name="airport" type="Node3D"]
-
-[node name="Sky" parent="." instance=ExtResource("1_bve0f")]
-day_time = 18.061
-day_of_year = 165
-clouds_cutoff = 0.18
-clouds_weight = 0.35
 
 [node name="airport" parent="." instance=ExtResource("1_rkesj")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)

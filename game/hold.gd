@@ -15,8 +15,10 @@ func _pressed() -> void:
 
 func check_text() -> void:
 	if controller.force_hold:
-		Game.chat.send_message("Holding position.")
+		Game.chat.send_tower_message(owner.callsign + " hold position.")
+		Game.chat.send_message("Holding position, " + owner.callsign)
 		text = resume_label
 	else:
-		Game.chat.send_message("Continuing taxi.")
+		Game.chat.send_tower_message(owner.callsign + " continue taxiing.")
+		Game.chat.send_message("Continuing, " + owner.callsign)
 		text = hold_label

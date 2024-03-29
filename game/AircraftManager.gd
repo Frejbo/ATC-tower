@@ -9,16 +9,20 @@ var aircrafts : Dictionary:
 		aircrafts = val
 		list_updated.emit(aircrafts)
 
+func _on_child_entered_tree(node: Node) -> void:
+	if node is Aircraft:
+		aircrafts[node.callsign] = node
+		aircrafts = aircrafts # just to trigger setget
+
+func _on_child_exiting_tree(node: Node) -> void:
+	if not node is Aircraft: return
+	if aircrafts.has(node.callsign):
+		aircrafts.erase(node.callsign)
+		aircrafts = aircrafts # just to trigger setget
+
+
 func _enter_tree() -> void:
 	Game.AircraftManager = self
-	child_entered_tree.connect(func(child): 
-		aircrafts[child.callsign] = child
-		aircrafts = aircrafts # just to trigger setget
-		)
-	child_exiting_tree.connect(func(child):
-		aircrafts.erase(child.callsign)
-		aircrafts = aircrafts # just to trigger setget
-		)
 
 func _ready() -> void:
 	for child : Node in get_children():
@@ -38,3 +42,4 @@ func spawn(callsign : String, spawn_position : Vector3 = Vector3.ZERO) -> void:
 func switch_communication_window_visibility(callsign : String) -> void:
 	print(aircrafts)
 	aircrafts[callsign].comm_manager.visible = !aircrafts[callsign].comm_manager.visible
+

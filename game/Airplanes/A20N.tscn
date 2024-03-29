@@ -70,6 +70,7 @@ suspension_stiffness = 15.0
 suspension_max_force = 627370.0
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." index="13"]
+visible = false
 
 [node name="thrust" type="VSlider" parent="CanvasLayer" index="0"]
 visible = false
@@ -126,5 +127,4 @@ mesh = SubResource("SphereMesh_3c0oo")
 
 [node name="Camera3D" type="Camera3D" parent="." index="15"]
 transform = Transform3D(-0.5, 0, -0.866025, 0, 1, 0, 0.866025, 0, -0.5, -25.791, 7.68, -16.847)
-current = true
 fov = 50.0

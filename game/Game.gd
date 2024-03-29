@@ -8,3 +8,7 @@ var stands := {}
 var active_approach : approach_guidance
 var chat : Chat
 var runway : Runway
+var time : float
+
+func _process(_delta: float) -> void:
+	pass

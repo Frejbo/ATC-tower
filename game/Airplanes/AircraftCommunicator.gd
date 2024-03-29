@@ -54,3 +54,6 @@ func set_visibility(comm, available : bool) -> void:
 			continue_approach.visible = available
 		LINE_UP:
 			line_up.visible = available
+
+func _enter_tree() -> void:
+	hide()

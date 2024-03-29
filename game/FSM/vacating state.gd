@@ -17,7 +17,7 @@ var mover : TaxiMovement
 var vacating_taxiway : taxiway
 
 func Exit() -> void:
-	Game.chat.send_message("Vacated via " + vacating_taxiway.name + ", requesting taxi to stand.", owner.callsign)
+	Game.chat.send_message(owner.callsign + " vacated via " + vacating_taxiway.name + ", requesting taxi to stand.")
 	comm_manager.set_visibility(comm_manager.TAXI_TO_STAND, true)
 	if mover != null:
 		mover.free()

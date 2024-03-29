@@ -5,7 +5,7 @@ extends State
 
 func Enter() -> void:
 	# Send message
-	Game.chat.send_message("Line up and wait runway 21.", owner.callsign)
+	Game.chat.send_message("Line up and wait runway 21. " + owner.callsign)
 	
 	# Line up
 	call_deferred("teleport")

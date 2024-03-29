@@ -21,7 +21,7 @@ func _pressed() -> void:
 	
 	# Send chat message
 	Game.chat.send_tower_message(owner.callsign + " taxi to runway 21 via " + $HBoxContainer/route.text + ".")
-	Game.chat.send_message("Taxiing to runway 21 via " + $HBoxContainer/route.text + ".", owner.callsign)
+	Game.chat.send_message("Taxi to runway 21 via " + $HBoxContainer/route.text + ". " + owner.callsign)
 	
 	taxi_to(takeoff_point.global_transform.origin, route)
 

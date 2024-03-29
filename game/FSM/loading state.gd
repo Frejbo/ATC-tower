@@ -12,7 +12,7 @@ func Enter() -> void:
 	wait_timer.one_shot = true
 	wait_timer.timeout.connect(func():
 		comm_manager.set_visibility(comm_manager.TAXI_TO_RUNWAY, true)
-		Game.chat.send_message("Requesting taxi to runway", owner.callsign)
+		Game.chat.send_message(owner.callsign + " requesting taxi to runway")
 		state_transition.emit(self, "static")
 	)
 	wait_timer.start()

@@ -5,7 +5,7 @@ extends State
 
 func Enter() -> void:
 	# Send message
-	Game.chat.send_message("Holding short of runway 21 at " + behaviour_FSM.takeoff_point.name, owner.callsign)
+	Game.chat.send_message(owner.callsign + " holding short of runway 21 at " + behaviour_FSM.takeoff_point.name)
 	
 	comm_manager.hide_all()
 	comm_manager.set_visibility(comm_manager.TAKEOFF_CLEARANCE, true)

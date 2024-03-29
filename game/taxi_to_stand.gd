@@ -13,7 +13,7 @@ func _pressed() -> void:
 	taxi_to_stand(Game.stands.get($HBoxContainer/stand.text), $HBoxContainer/route.get_route())
 
 
-func taxi_to_stand(stand : Marker3D, route : Array[String]) -> void:
+func taxi_to_stand(stand : Gate, route : Array[String]) -> void:
 	# Send chat message
 	var chatMessage := airplane.callsign + " taxi to stand " + stand.name + " via "
 	for s : String in route:

@@ -7,3 +7,5 @@ extends Button
 func _pressed() -> void:
 	behaviour_FSM.change_state(hold_short_state, "line up")
 	comm_manager.set_visibility(comm_manager.LINE_UP, false)
+	
+	Game.chat.send_tower_message(owner.callsign + " line up and wait runway 21.")

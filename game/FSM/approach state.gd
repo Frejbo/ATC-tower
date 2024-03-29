@@ -3,6 +3,7 @@ extends State
 @export var controller : AircraftController
 @export var landing_rate_ms : float = .2
 @export var flare_degrees : float = 3
+@export var go_around_altitude : float = 30
 @export var comm_manager : communication_manager
 @export var behaviour_FSM : FiniteStateMachine
 
@@ -18,17 +19,23 @@ func Enter() -> void:
 	comm_manager.set_visibility(comm_manager.GO_AROUND, true)
 	comm_manager.set_visibility(comm_manager.CONTINUE_APPROACH, true)
 	
-	Game.chat.send_message("On final runway 21.", owner.callsign)
+	await get_tree().process_frame # Wait 1 frame to prevent aircrafts on ground from reporting approach. This is due to approach is the initial state in the FSM and it takes a frame for it to change to static if on ground.
+	if behaviour_FSM.current_state == self:
+		Game.chat.send_message(owner.callsign + " is on final runway 21.")
 
+
+var warned_about_short_final := false
 func Physics_update(delta: float) -> void:
-	
-	
 	if controller.is_on_ground():
 		print("Touchdown")
 		state_transition.emit(self, "decelerate")
 		return
 	
-	if controller.global_position.y < 30 and not behaviour_FSM.landing_clearance:
+	if controller.global_position.y < go_around_altitude + 50 and not warned_about_short_final:
+		Game.chat.send_message(owner.callsign + " is on short final.")
+		warned_about_short_final = true
+	
+	if controller.global_position.y < go_around_altitude and not behaviour_FSM.landing_clearance:
 		# Go around
 		state_transition.emit(self, "go around")
 		return
