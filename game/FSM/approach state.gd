@@ -3,7 +3,7 @@ extends State
 @export var controller : AircraftController
 @export var landing_rate_ms : float = .2
 @export var flare_degrees : float = 3
-@export var go_around_altitude : float = 30
+@export var go_around_altitude : float = 50
 @export var comm_manager : communication_manager
 @export var behaviour_FSM : FiniteStateMachine
 

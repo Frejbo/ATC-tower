@@ -4,6 +4,5 @@ extends Button
 
 func _pressed() -> void:
 	behaviour_FSM.landing_clearance = false
-	behaviour_FSM.change_state(behaviour_FSM.current_state, "go around")
-	
 	Game.chat.send_tower_message(owner.callsign + " go around.")
+	behaviour_FSM.change_state(behaviour_FSM.current_state, "go around")

@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://cacaqggyoumx3"]
+[gd_scene load_steps=4 format=3 uid="uid://cacaqggyoumx3"]
 
 [ext_resource type="Script" path="res://FirstPersonCharacter3D.gd" id="1_7fy0s"]
+[ext_resource type="Script" path="res://PlayerCam.gd" id="2_okooe"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_boknm"]
 radius = 0.3
@@ -20,3 +21,5 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8, 0)
 current = true
 fov = 60.0
 far = 3000.0
+script = ExtResource("2_okooe")
+scroll_snap = 10

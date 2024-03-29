@@ -74,6 +74,7 @@ func get_acceleration(delta : float) -> float:
 func get_lift_force() -> float:
 	if not add_lift_force:
 		return 0
+	
 	# Calculate angle of attack
 	var AOA : float = rad_to_deg(-global_rotation.rotated(Vector3(0, 1, 0), global_rotation.y).z)
 	AOA = clamp(AOA, -10, 20) # Cl v A chart only includes these angles

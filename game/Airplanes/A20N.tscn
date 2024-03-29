@@ -46,7 +46,6 @@ shape = SubResource("BoxShape3D_x23uk")
 
 [node name="right main " parent="." index="6"]
 transform = Transform3D(-3.57628e-07, 0, -1, 0, 1, 0, -1, 0, 3.57628e-07, 1.16481, -0.027956, 3.77609)
-wheel_roll_influence = 0.0
 wheel_radius = 0.615
 suspension_travel = 0.75
 suspension_stiffness = 15.0
@@ -54,7 +53,6 @@ suspension_max_force = 1.02737e+07
 
 [node name="left main " parent="." index="10"]
 transform = Transform3D(-3.57628e-07, 0, -1, 0, 1, 0, -1, 0, 3.57628e-07, 1.1648, -0.027956, -3.77609)
-wheel_roll_influence = 0.0
 wheel_radius = 0.615
 suspension_travel = 0.75
 suspension_stiffness = 15.0
@@ -63,7 +61,6 @@ suspension_max_force = 1.02737e+07
 [node name="front " parent="." index="11"]
 transform = Transform3D(-3.57628e-07, 0, -1, 0, 1, 0, -1, 0, 3.57628e-07, 13.2238, -0.194877, -5.91972e-06)
 use_as_steering = true
-wheel_roll_influence = 0.0
 wheel_radius = 0.42
 suspension_travel = 0.75
 suspension_stiffness = 15.0
