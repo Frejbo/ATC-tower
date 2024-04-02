@@ -7,7 +7,7 @@
 script = ExtResource("1_awq8r")
 day_time = 11.0797
 latitude = 57.69
-day_of_year = 365
+day_of_year = 105
 moon_orbital_period = 27.3
 use_day_time_for_shader = true
 sun_base_enegry = 1.0
@@ -17,17 +17,17 @@ moon_base_enegry = 0.1
 environment = ExtResource("2_so62b")
 
 [node name="Sun" type="DirectionalLight3D" parent="."]
-transform = Transform3D(0.170912, -0.201665, -0.964427, 0.980857, 0.127537, 0.147155, 0.093324, -0.971116, 0.219602, 0, 0, 0)
+transform = Transform3D(0.66481, -0.201665, -0.719276, 0.745936, 0.127537, 0.653693, -0.040093, -0.971116, 0.235217, 0, 0, 0)
 rotation_order = 4
 shadow_enabled = true
 shadow_opacity = 0.75
 shadow_blur = 5.0
 
 [node name="Moon" type="DirectionalLight3D" parent="."]
-transform = Transform3D(0.531457, 0.753579, -0.386873, 0.847055, -0.476577, 0.235311, -0.00704966, -0.45276, -0.891604, 0, 0, 0)
+transform = Transform3D(0.538363, -0.68813, 0.486459, 0.842688, 0.435186, -0.317, 0.00643739, 0.580594, 0.814167, 0, 0, 0)
 rotation_order = 4
 light_color = Color(1, 1, 0.6, 1)
-light_energy = 0.1
+light_energy = 0.0
 shadow_enabled = true
 shadow_opacity = 0.25
 shadow_blur = 5.0

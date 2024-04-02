@@ -8,7 +8,11 @@ var stands := {}
 var active_approach : approach_guidance
 var chat : Chat
 var runway : Runway
-var time : float
+@onready var time : float
 
-func _process(_delta: float) -> void:
-	pass
+func _ready() -> void:
+	var total_seconds = Time.get_time_dict_from_system().hour * 3600 + Time.get_time_dict_from_system().minute * 60 + Time.get_time_dict_from_system().second
+	time = total_seconds / 3600.0
+
+func _process(delta: float) -> void:
+	time += delta * 0.00027777777

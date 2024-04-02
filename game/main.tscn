@@ -11,8 +11,8 @@
 [node name="main" type="Node3D"]
 
 [node name="Sky" parent="." instance=ExtResource("1_il8bf")]
-day_time = 3.2863
-day_of_year = 100
+day_time = 304.983
+day_of_year = 3960
 
 [node name="airport" parent="." instance=ExtResource("1_ubhcf")]
 

@@ -8,9 +8,9 @@ shader = ExtResource("1_6xtdi")
 shader_parameter/day_top_color = Color(0.1, 0.6, 1, 1)
 shader_parameter/day_bottom_color = Color(0.4, 0.8, 1, 1)
 shader_parameter/sunset_top_color = Color(0.7, 0.75, 1, 1)
-shader_parameter/sunset_bottom_color = Color(1, 0.5, 0.7, 1)
-shader_parameter/night_top_color = Color(0.02, 0, 0.04, 1)
-shader_parameter/night_bottom_color = Color(0.1, 0, 0.2, 1)
+shader_parameter/sunset_bottom_color = Color(1, 0.345098, 0.372549, 1)
+shader_parameter/night_top_color = Color(0.00784314, 0, 0.0196078, 1)
+shader_parameter/night_bottom_color = Color(0.0470588, 0, 0.109804, 1)
 shader_parameter/horizon_color = Color(0, 0, 0, 1)
 shader_parameter/horizon_blur = 0.1
 shader_parameter/sun_color = Color(10, 8, 1, 1)
@@ -35,7 +35,7 @@ shader_parameter/stars_speed = 1.0
 shader_parameter/stars_scale = 1.0
 shader_parameter/stars_opacity = 1.0
 shader_parameter/stars_texture = ExtResource("2_27e7r")
-shader_parameter/overwritten_time = 241000.0
+shader_parameter/overwritten_time = 253108.0
 
 [sub_resource type="Sky" id="Sky_q13r3"]
 sky_material = SubResource("ShaderMaterial_msgkm")
