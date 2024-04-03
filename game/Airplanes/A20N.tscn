@@ -1,7 +1,10 @@
-[gd_scene load_steps=8 format=3 uid="uid://cpyj4w3k7b2br"]
+[gd_scene load_steps=19 format=3 uid="uid://cpyj4w3k7b2br"]
 
 [ext_resource type="PackedScene" uid="uid://duepbpob8vkad" path="res://Airplanes/A320 Neo.blend" id="1_cmfso"]
 [ext_resource type="Script" path="res://Airplanes/AircraftController.gd" id="2_d16p7"]
+[ext_resource type="Shader" path="res://Airplanes/liveries/texture combiner.gdshader" id="3_ylma1"]
+[ext_resource type="Texture2D" uid="uid://cc4wvqqu2lmbg" path="res://Airplanes/textures/constant marks.png" id="4_rs1a3"]
+[ext_resource type="Texture2D" uid="uid://d0l5m2qv2w1df" path="res://Airplanes/textures/livery.png" id="5_8uoe3"]
 
 [sub_resource type="Curve" id="Curve_0aihi"]
 min_value = -1.0
@@ -15,6 +18,94 @@ height = 30.0
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_x23uk"]
 size = Vector3(11, 5.5, 35)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_u50n6"]
+render_priority = 0
+shader = ExtResource("3_ylma1")
+shader_parameter/albedo = Color(1, 1, 1, 1)
+shader_parameter/roughness = null
+shader_parameter/metallic_texture_channel = null
+shader_parameter/specular = null
+shader_parameter/metallic = 1.0
+shader_parameter/constant_marks_texture_albedo = ExtResource("4_rs1a3")
+shader_parameter/livery_texture_albedo = ExtResource("5_8uoe3")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_tmuwt"]
+render_priority = 0
+shader = ExtResource("3_ylma1")
+shader_parameter/albedo = Color(1, 1, 1, 1)
+shader_parameter/roughness = null
+shader_parameter/metallic_texture_channel = null
+shader_parameter/specular = null
+shader_parameter/metallic = 1.0
+shader_parameter/constant_marks_texture_albedo = ExtResource("4_rs1a3")
+shader_parameter/livery_texture_albedo = ExtResource("5_8uoe3")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_th5ku"]
+render_priority = 0
+shader = ExtResource("3_ylma1")
+shader_parameter/albedo = Color(1, 1, 1, 1)
+shader_parameter/roughness = null
+shader_parameter/metallic_texture_channel = null
+shader_parameter/specular = null
+shader_parameter/metallic = 1.0
+shader_parameter/constant_marks_texture_albedo = ExtResource("4_rs1a3")
+shader_parameter/livery_texture_albedo = ExtResource("5_8uoe3")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_4owv2"]
+render_priority = 0
+shader = ExtResource("3_ylma1")
+shader_parameter/albedo = Color(1, 1, 1, 1)
+shader_parameter/roughness = null
+shader_parameter/metallic_texture_channel = null
+shader_parameter/specular = null
+shader_parameter/metallic = 1.0
+shader_parameter/constant_marks_texture_albedo = ExtResource("4_rs1a3")
+shader_parameter/livery_texture_albedo = ExtResource("5_8uoe3")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_82nqt"]
+render_priority = 0
+shader = ExtResource("3_ylma1")
+shader_parameter/albedo = Color(1, 1, 1, 1)
+shader_parameter/roughness = null
+shader_parameter/metallic_texture_channel = null
+shader_parameter/specular = null
+shader_parameter/metallic = 1.0
+shader_parameter/constant_marks_texture_albedo = ExtResource("4_rs1a3")
+shader_parameter/livery_texture_albedo = ExtResource("5_8uoe3")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_w4202"]
+render_priority = 0
+shader = ExtResource("3_ylma1")
+shader_parameter/albedo = Color(1, 1, 1, 1)
+shader_parameter/roughness = null
+shader_parameter/metallic_texture_channel = null
+shader_parameter/specular = null
+shader_parameter/metallic = 1.0
+shader_parameter/constant_marks_texture_albedo = ExtResource("4_rs1a3")
+shader_parameter/livery_texture_albedo = ExtResource("5_8uoe3")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_m23cl"]
+render_priority = 0
+shader = ExtResource("3_ylma1")
+shader_parameter/albedo = Color(1, 1, 1, 1)
+shader_parameter/roughness = null
+shader_parameter/metallic_texture_channel = null
+shader_parameter/specular = null
+shader_parameter/metallic = 1.0
+shader_parameter/constant_marks_texture_albedo = ExtResource("4_rs1a3")
+shader_parameter/livery_texture_albedo = ExtResource("5_8uoe3")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_7tg11"]
+render_priority = 0
+shader = ExtResource("3_ylma1")
+shader_parameter/albedo = Color(1, 1, 1, 1)
+shader_parameter/roughness = null
+shader_parameter/metallic_texture_channel = null
+shader_parameter/specular = null
+shader_parameter/metallic = 1.0
+shader_parameter/constant_marks_texture_albedo = ExtResource("4_rs1a3")
+shader_parameter/livery_texture_albedo = ExtResource("5_8uoe3")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_udjg8"]
 albedo_color = Color(0, 1, 0, 1)
@@ -44,12 +135,33 @@ shape = SubResource("CapsuleShape3D_bqab2")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.00424, 4.587, 0)
 shape = SubResource("BoxShape3D_x23uk")
 
+[node name="engines" parent="." index="2"]
+surface_material_override/0 = SubResource("ShaderMaterial_u50n6")
+
+[node name="Horizontal Stabilizer" parent="." index="3"]
+surface_material_override/0 = SubResource("ShaderMaterial_tmuwt")
+
+[node name="main gear mount" parent="." index="4"]
+surface_material_override/0 = SubResource("ShaderMaterial_th5ku")
+
+[node name="wing" parent="." index="5"]
+surface_material_override/0 = SubResource("ShaderMaterial_4owv2")
+
 [node name="right main " parent="." index="6"]
 transform = Transform3D(-3.57628e-07, 0, -1, 0, 1, 0, -1, 0, 3.57628e-07, 1.16481, 0.5, 3.77609)
 wheel_radius = 0.615
 suspension_travel = 0.75
 suspension_stiffness = 15.0
 suspension_max_force = 1.02737e+07
+
+[node name="Fuselage" parent="." index="7"]
+surface_material_override/0 = SubResource("ShaderMaterial_82nqt")
+
+[node name="fins" parent="." index="8"]
+surface_material_override/0 = SubResource("ShaderMaterial_w4202")
+
+[node name="Vertical Stabilizer" parent="." index="9"]
+surface_material_override/0 = SubResource("ShaderMaterial_m23cl")
 
 [node name="left main " parent="." index="10"]
 transform = Transform3D(-3.57628e-07, 0, -1, 0, 1, 0, -1, 0, 3.57628e-07, 1.1648, 0.5, -3.77609)
@@ -65,6 +177,9 @@ wheel_radius = 0.42
 suspension_travel = 0.75
 suspension_stiffness = 15.0
 suspension_max_force = 627370.0
+
+[node name="front gear mount" parent="." index="12"]
+surface_material_override/0 = SubResource("ShaderMaterial_7tg11")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." index="13"]
 visible = false
