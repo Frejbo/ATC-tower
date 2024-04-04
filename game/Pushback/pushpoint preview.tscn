@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://bf558gc2gv1fa"]
+
+[ext_resource type="Texture2D" uid="uid://d1fmlys85tms8" path="res://Pushback/pushpoint preview.png" id="1_kvlac"]
+
+[node name="Decal" type="Decal" groups=["pushpoint preview"]]
+size = Vector3(40, 40, 40)
+texture_albedo = ExtResource("1_kvlac")
