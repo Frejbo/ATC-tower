@@ -9,6 +9,9 @@ var voice_id = DisplayServer.tts_get_voices_for_language("en")[1]
 
 const callsign_telephony_designators : Dictionary = {
 	"SAS":"Scandinavian",
+	"DLH":"Lufthansa",
+	"EWG":"Eurowings",
+	"BEL":"Beeline"
 }
 const phonetic_alphabet : Dictionary = {
 	"A":"Alpha",
@@ -41,7 +44,6 @@ const phonetic_alphabet : Dictionary = {
 
 func _enter_tree() -> void:
 	Game.chat = self
-	
 
 func send_message(message : String, sender : String = "", include_time : bool = true, text_color : Color = aircraft_text_color) -> void:
 	DisplayServer.tts_speak(format_tts(message), voice_id)
