@@ -128,12 +128,9 @@ script = ExtResource("12_qsmfn")
 points = [{
 "position": Vector2(0, -50),
 "rotation": 180.0
-}, {
-"position": Vector2(0, -50),
-"rotation": 180.0
 }]
-new_rotation = 0.0
-new_position = Vector2(0, 0)
+new_rotation = 31.32
+new_position = Vector2(10.065, 3.18)
 add_point_using_rotation_and_position = false
 
 [sub_resource type="Curve3D" id="Curve3D_xn3hw"]
