@@ -3,7 +3,7 @@ extends State
 @export var controller : AircraftController
 @export var landing_rate_ms : float = .2
 @export var flare_degrees : float = 3
-@export var go_around_altitude : float = 50
+@export var go_around_altitude : float = 100
 @export var comm_manager : communication_manager
 @export var behaviour_FSM : FiniteStateMachine
 
@@ -31,7 +31,7 @@ func Physics_update(delta: float) -> void:
 		state_transition.emit(self, "decelerate")
 		return
 	
-	if controller.global_position.y < go_around_altitude + 50 and not warned_about_short_final:
+	if controller.global_position.y < go_around_altitude and not warned_about_short_final and not behaviour_FSM.landing_clearance:
 		Game.chat.send_message(owner.callsign + " is on short final.")
 		warned_about_short_final = true
 	

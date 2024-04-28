@@ -1,6 +1,5 @@
-[gd_scene load_steps=27 format=3 uid="uid://dooe7wxlpdhd5"]
+[gd_scene load_steps=26 format=3 uid="uid://dooe7wxlpdhd5"]
 
-[ext_resource type="Script" path="res://Aircraft.gd" id="1_nplal"]
 [ext_resource type="PackedScene" uid="uid://cpyj4w3k7b2br" path="res://Airplanes/A20N.tscn" id="2_bslt8"]
 [ext_resource type="Script" path="res://FSM/AircraftBehaviourManager.gd" id="3_tfqqc"]
 [ext_resource type="Script" path="res://FSM/static state.gd" id="4_65qp4"]
@@ -32,13 +31,8 @@ size = Vector3(125, 10, 40)
 [sub_resource type="BoxShape3D" id="BoxShape3D_7ylq8"]
 size = Vector3(50, 12, 40)
 
-[node name="Aircraft" type="Node3D" node_paths=PackedStringArray("comm_manager", "controller", "behaviour_FSM", "taxi_to_stand_stand_input")]
+[node name="Aircraft" type="Node3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
-script = ExtResource("1_nplal")
-comm_manager = NodePath("communication manager")
-controller = NodePath("A320neo")
-behaviour_FSM = NodePath("Behaviour FSM")
-taxi_to_stand_stand_input = NodePath("communication manager/VBoxContainer/taxi to stand/HBoxContainer/stand")
 
 [node name="A320neo" parent="." instance=ExtResource("2_bslt8")]
 max_brake_force = 500

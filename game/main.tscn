@@ -11,13 +11,13 @@
 [node name="main" type="Node3D"]
 
 [node name="Sky" parent="." instance=ExtResource("1_il8bf")]
-day_time = 280.983
-day_of_year = 125
+day_time = 208.983
+day_of_year = 131
 
 [node name="airport" parent="." instance=ExtResource("1_ubhcf")]
 
 [node name="AircraftManager" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 1.06581e-14, 0, 1, 0, -1.06581e-14, 0, 1, 746.991, 0, 358.265)
+transform = Transform3D(1, 0, 1.06581e-14, 0, 1, 0, -1.06581e-14, 0, 1, 1321.99, 0, 0)
 script = ExtResource("2_8bqv8")
 aircraftScene = ExtResource("3_q2orl")
 spawn_distance = 3.0
