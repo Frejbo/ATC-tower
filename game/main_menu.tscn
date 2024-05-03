@@ -1,0 +1,126 @@
+[gd_scene load_steps=9 format=3 uid="uid://bscxb1rjxmohy"]
+
+[ext_resource type="Script" path="res://main_menu_exit.gd" id="1_3xb2y"]
+[ext_resource type="Script" path="res://main_menu_play.gd" id="1_kqsbg"]
+[ext_resource type="Script" path="res://timeSelector.gd" id="1_m1lna"]
+[ext_resource type="PackedScene" uid="uid://dyyjsxg1bijpa" path="res://main.tscn" id="2_fvsel"]
+[ext_resource type="Texture2D" uid="uid://cl81a7f1die0g" path="res://Assets/arrow.png" id="2_xoa1m"]
+[ext_resource type="Texture2D" uid="uid://rqwbuypuwka0" path="res://Assets/arrow_pressed.png" id="3_iv1h2"]
+[ext_resource type="Texture2D" uid="uid://clbkwqa6g5dj3" path="res://Assets/arrow_hover.png" id="4_xmd2g"]
+
+[sub_resource type="Theme" id="Theme_c01gr"]
+Button/font_sizes/font_size = 48
+Label/colors/font_outline_color = Color(0, 0, 0, 1)
+Label/constants/outline_size = 5
+Label/font_sizes/font_size = 96
+
+[node name="MainMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_c01gr")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 23.0
+grow_horizontal = 2
+text = "ATC Tower"
+horizontal_alignment = 1
+
+[node name="timeSelection" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -216.0
+grow_horizontal = 0
+grow_vertical = 2
+
+[node name="hour" type="VBoxContainer" parent="timeSelection" node_paths=PackedStringArray("increase_button", "decrease_button", "label")]
+layout_mode = 2
+script = ExtResource("1_m1lna")
+increase_button = NodePath("hour_up")
+decrease_button = NodePath("hour_down")
+label = NodePath("hour")
+
+[node name="hour_up" type="TextureButton" parent="timeSelection/hour"]
+layout_mode = 2
+texture_normal = ExtResource("2_xoa1m")
+texture_pressed = ExtResource("3_iv1h2")
+texture_hover = ExtResource("4_xmd2g")
+
+[node name="hour" type="Label" parent="timeSelection/hour"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 55
+text = "12"
+
+[node name="hour_down" type="TextureButton" parent="timeSelection/hour"]
+layout_mode = 2
+texture_normal = ExtResource("2_xoa1m")
+texture_pressed = ExtResource("3_iv1h2")
+texture_hover = ExtResource("4_xmd2g")
+flip_v = true
+
+[node name="sep" type="Label" parent="timeSelection"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 55
+text = ":"
+
+[node name="minute" type="VBoxContainer" parent="timeSelection" node_paths=PackedStringArray("increase_button", "decrease_button", "label")]
+layout_mode = 2
+script = ExtResource("1_m1lna")
+type = 1
+max_value = 59.0
+increase_button = NodePath("minute_up")
+decrease_button = NodePath("minute_down")
+label = NodePath("minute")
+
+[node name="minute_up" type="TextureButton" parent="timeSelection/minute"]
+layout_mode = 2
+texture_normal = ExtResource("2_xoa1m")
+texture_pressed = ExtResource("3_iv1h2")
+texture_hover = ExtResource("4_xmd2g")
+
+[node name="minute" type="Label" parent="timeSelection/minute"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 55
+text = "30"
+
+[node name="minute_down" type="TextureButton" parent="timeSelection/minute"]
+layout_mode = 2
+texture_normal = ExtResource("2_xoa1m")
+texture_pressed = ExtResource("3_iv1h2")
+texture_hover = ExtResource("4_xmd2g")
+flip_v = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 64.0
+offset_top = -91.0
+offset_right = 280.0
+offset_bottom = 91.0
+grow_vertical = 2
+theme_override_constants/separation = 32
+
+[node name="play" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "Play"
+script = ExtResource("1_kqsbg")
+main_game = ExtResource("2_fvsel")
+
+[node name="exit" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "Quit"
+script = ExtResource("1_3xb2y")

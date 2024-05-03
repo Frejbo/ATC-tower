@@ -10,9 +10,8 @@ var chat : Chat
 var runway : Runway
 @onready var time : float
 
-func _ready() -> void:
-	var total_seconds = Time.get_time_dict_from_system().hour * 3600 + Time.get_time_dict_from_system().minute * 60 + Time.get_time_dict_from_system().second
-	time = total_seconds / 3600.0
+var landing_count : int = 0
+var takeoff_count : int = 0
 
 func _process(delta: float) -> void:
 	time += delta * 0.00027777777
