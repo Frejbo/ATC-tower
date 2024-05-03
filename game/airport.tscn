@@ -11,6 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://dyunen1vglo8o" path="res://Gate.tscn" id="5_7ridq"]
 [ext_resource type="Script" path="res://Runway.gd" id="5_nyymq"]
 [ext_resource type="Material" uid="uid://bhldiskx54qpk" path="res://Assets/Glass.tres" id="7_6bhcj"]
+[ext_resource type="Terrain3DStorage" uid="uid://dctp7s8g48ftc" path="res://Assets/Terrain/terrain_3d_storage.res" id="10_ha35n"]
 [ext_resource type="Terrain3DTextureList" uid="uid://cx1m2gu7oq6ht" path="res://Assets/Terrain/terrain_3d_texture_list.tres" id="11_11kne"]
 [ext_resource type="Script" path="res://Pushback/pushback_points.gd" id="12_qsmfn"]
 
@@ -136,9 +137,6 @@ points = [{
 }, {
 "position": Vector2(10.065, 3.18),
 "rotation": 31.32
-}, {
-"position": Vector2(10.065, 3.18),
-"rotation": 31.32
 }]
 new_rotation = 31.32
 new_position = Vector2(10.065, 3.18)
@@ -167,9 +165,6 @@ point_count = 2
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_vdifn"]
 size = Vector3(5000, 10, 5000)
-
-[sub_resource type="Terrain3DStorage" id="Terrain3DStorage_2kg6v"]
-version = 0.842
 
 [sub_resource type="Gradient" id="Gradient_j4dgi"]
 offsets = PackedFloat32Array(0.2, 1)
@@ -419,10 +414,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -5, 0)
 shape = SubResource("BoxShape3D_vdifn")
 
 [node name="Terrain3D" type="Terrain3D" parent="."]
-storage = SubResource("Terrain3DStorage_2kg6v")
+storage = ExtResource("10_ha35n")
 material = SubResource("Terrain3DMaterial_2j1ac")
 texture_list = ExtResource("11_11kne")
 collision_enabled = false
-mesh_size = 40
 
 [editable path="airport"]

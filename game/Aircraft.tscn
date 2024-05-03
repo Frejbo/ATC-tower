@@ -1,12 +1,10 @@
-[gd_scene load_steps=29 format=3 uid="uid://dooe7wxlpdhd5"]
+[gd_scene load_steps=27 format=3 uid="uid://dooe7wxlpdhd5"]
 
 [ext_resource type="Script" path="res://Aircraft.gd" id="1_nplal"]
 [ext_resource type="PackedScene" uid="uid://cpyj4w3k7b2br" path="res://Airplanes/A20N.tscn" id="2_bslt8"]
-[ext_resource type="Script" path="res://body detection.gd" id="3_efk5g"]
 [ext_resource type="Script" path="res://FSM/AircraftBehaviourManager.gd" id="3_tfqqc"]
 [ext_resource type="Script" path="res://FSM/static state.gd" id="4_65qp4"]
 [ext_resource type="Script" path="res://FSM/taxi in state.gd" id="4_k88an"]
-[ext_resource type="PackedScene" uid="uid://bscxb1rjxmohy" path="res://main_menu.tscn" id="4_mkd56"]
 [ext_resource type="Script" path="res://Airplanes/AircraftCommunicator.gd" id="4_xkhip"]
 [ext_resource type="Script" path="res://taxi_to_stand.gd" id="5_7v62y"]
 [ext_resource type="Script" path="res://routeEnterer.gd" id="6_03386"]
@@ -65,8 +63,6 @@ uppercase = true
 
 [node name="body detection" type="Area3D" parent="A320neo"]
 collision_layer = 2
-script = ExtResource("3_efk5g")
-main_menu = ExtResource("4_mkd56")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="A320neo/body detection"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6, 0)
@@ -294,6 +290,5 @@ behaviour_FSM = NodePath("../../../Behaviour FSM")
 hold_short_state = NodePath("../../../Behaviour FSM/hold short")
 comm_manager = NodePath("../..")
 
-[connection signal="area_entered" from="A320neo/body detection" to="A320neo/body detection" method="_on_area_entered"]
 [connection signal="text_changed" from="communication manager/VBoxContainer/taxi to stand/HBoxContainer/route" to="communication manager/VBoxContainer/taxi to stand/HBoxContainer/route" method="_on_text_changed"]
 [connection signal="text_changed" from="communication manager/VBoxContainer/taxi to runway/HBoxContainer/route" to="communication manager/VBoxContainer/taxi to runway/HBoxContainer/route" method="_on_text_changed"]
