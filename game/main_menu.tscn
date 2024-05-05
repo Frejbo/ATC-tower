@@ -1,39 +1,25 @@
-[gd_scene load_steps=9 format=3 uid="uid://bscxb1rjxmohy"]
+[gd_scene load_steps=8 format=3 uid="uid://bscxb1rjxmohy"]
 
 [ext_resource type="Script" path="res://main_menu_exit.gd" id="1_3xb2y"]
 [ext_resource type="Script" path="res://main_menu_play.gd" id="1_kqsbg"]
 [ext_resource type="Script" path="res://timeSelector.gd" id="1_m1lna"]
-[ext_resource type="PackedScene" uid="uid://dyyjsxg1bijpa" path="res://main.tscn" id="2_fvsel"]
-[ext_resource type="Texture2D" uid="uid://cl81a7f1die0g" path="res://Assets/arrow.png" id="2_xoa1m"]
-[ext_resource type="Texture2D" uid="uid://rqwbuypuwka0" path="res://Assets/arrow_pressed.png" id="3_iv1h2"]
-[ext_resource type="Texture2D" uid="uid://clbkwqa6g5dj3" path="res://Assets/arrow_hover.png" id="4_xmd2g"]
+[ext_resource type="Texture2D" uid="uid://ccyjbxuo8tfou" path="res://Assets/arrow.png" id="2_xoa1m"]
+[ext_resource type="Texture2D" uid="uid://b60ywojoxtu31" path="res://Assets/arrow_pressed.png" id="3_iv1h2"]
+[ext_resource type="Texture2D" uid="uid://dyp2d7qvlasjn" path="res://Assets/arrow_hover.png" id="4_xmd2g"]
+[ext_resource type="PackedScene" uid="uid://dyyjsxg1bijpa" path="res://main.tscn" id="6_c4xbb"]
 
-[sub_resource type="Theme" id="Theme_c01gr"]
-Button/font_sizes/font_size = 48
-Label/colors/font_outline_color = Color(0, 0, 0, 1)
-Label/constants/outline_size = 5
-Label/font_sizes/font_size = 96
-
-[node name="MainMenu" type="Control"]
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme = SubResource("Theme_c01gr")
+[node name="MainMenu" type="CanvasLayer"]
 
 [node name="Label" type="Label" parent="."]
-layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
 offset_bottom = 23.0
 grow_horizontal = 2
+theme_override_font_sizes/font_size = 64
 text = "ATC Tower"
 horizontal_alignment = 1
 
 [node name="timeSelection" type="HBoxContainer" parent="."]
-layout_mode = 1
 anchors_preset = 6
 anchor_left = 1.0
 anchor_top = 0.5
@@ -103,7 +89,6 @@ texture_hover = ExtResource("4_xmd2g")
 flip_v = true
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
-layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
 anchor_bottom = 0.5
@@ -118,7 +103,7 @@ theme_override_constants/separation = 32
 layout_mode = 2
 text = "Play"
 script = ExtResource("1_kqsbg")
-main_game = ExtResource("2_fvsel")
+main_game = ExtResource("6_c4xbb")
 
 [node name="exit" type="Button" parent="VBoxContainer"]
 layout_mode = 2

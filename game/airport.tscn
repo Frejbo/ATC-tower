@@ -11,7 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://dyunen1vglo8o" path="res://Gate.tscn" id="5_7ridq"]
 [ext_resource type="Script" path="res://Runway.gd" id="5_nyymq"]
 [ext_resource type="Material" uid="uid://bhldiskx54qpk" path="res://Assets/Glass.tres" id="7_6bhcj"]
-[ext_resource type="Terrain3DStorage" uid="uid://dctp7s8g48ftc" path="res://Assets/Terrain/terrain_3d_storage.res" id="10_ha35n"]
+[ext_resource type="Terrain3DStorage" uid="uid://b124lslruhhel" path="res://Assets/Terrain/terrain_3d_storage.res" id="10_ha35n"]
 [ext_resource type="Terrain3DTextureList" uid="uid://cx1m2gu7oq6ht" path="res://Assets/Terrain/terrain_3d_texture_list.tres" id="11_11kne"]
 [ext_resource type="Script" path="res://Pushback/pushback_points.gd" id="12_qsmfn"]
 
@@ -128,6 +128,12 @@ script = ExtResource("12_qsmfn")
 points = [{
 "position": Vector2(0, -50),
 "rotation": 180.0
+}, {
+"position": Vector2(10.065, 3.18),
+"rotation": 31.32
+}, {
+"position": Vector2(10.065, 3.18),
+"rotation": 31.32
 }, {
 "position": Vector2(10.065, 3.18),
 "rotation": 31.32

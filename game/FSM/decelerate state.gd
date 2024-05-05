@@ -11,7 +11,6 @@ func Enter() -> void:
 func Update(_delta) -> void:
 	if controller.get_speed_kts() < 60:
 		state_transition.emit(self, "vacating")
-		Game.landing_count += 1
 
 func Exit() -> void:
 	controller.linear_damp = default_linear_damp

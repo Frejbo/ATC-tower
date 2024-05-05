@@ -12,7 +12,7 @@
 
 [node name="Sky" parent="." instance=ExtResource("1_il8bf")]
 day_time = 136.983
-day_of_year = 133
+day_of_year = 138
 
 [node name="airport" parent="." instance=ExtResource("1_ubhcf")]
 

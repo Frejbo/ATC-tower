@@ -18,6 +18,8 @@ func _ready() -> void:
 		label.text = str(Time.get_time_dict_from_system().hour)
 	if type == types.MINUTE:
 		label.text = str(Time.get_time_dict_from_system().minute)
+	
+	check()
 
 func increase() -> void:
 	label.text = str(label.text.to_int() + steps)
@@ -33,3 +35,4 @@ func check() -> void:
 		label.text = str(min_value)
 	if val < min_value:
 		label.text = str(max_value)
+	label.text = label.text.pad_zeros(2)
