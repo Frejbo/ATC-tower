@@ -71,6 +71,11 @@ func _on_curve_changed() -> void:
 
 func _ready() -> void:
 	curve_changed.connect(_on_curve_changed)
+	if not Engine.is_editor_hint(): # Pause process to avoid it from taking unnececary performance
+		for i in 2: await get_tree().physics_frame # wait 2 physics frames (neccesary for some reason)
+		process_mode = Node.PROCESS_MODE_DISABLED
+		set_physics_process(false)
+		set_process(false)
 
 func clean_up_nodes() -> void:
 	for child in get_children():
@@ -131,7 +136,6 @@ func _notification(what: int) -> void: # Temporarily reactivate the PhysisServer
 
 func create_area(pos : Vector3, area_name : String) -> Area3D:
 	if ignore_areas: return
-	
 	var area := Area3D.new()
 	area.position = pos
 	add_child(area)

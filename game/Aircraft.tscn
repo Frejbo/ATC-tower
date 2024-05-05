@@ -62,6 +62,7 @@ shape = SubResource("BoxShape3D_3epul")
 [node name="callsign" type="Label3D" parent="A320neo"]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 18, 0)
+visible = false
 transparency = 0.8
 pixel_size = 0.01
 billboard = 1

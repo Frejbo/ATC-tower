@@ -143,6 +143,12 @@ points = [{
 }, {
 "position": Vector2(10.065, 3.18),
 "rotation": 31.32
+}, {
+"position": Vector2(10.065, 3.18),
+"rotation": 31.32
+}, {
+"position": Vector2(10.065, 3.18),
+"rotation": 31.32
 }]
 new_rotation = 31.32
 new_position = Vector2(10.065, 3.18)

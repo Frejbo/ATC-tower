@@ -1,16 +1,52 @@
-[gd_scene load_steps=8 format=3 uid="uid://bscxb1rjxmohy"]
+[gd_scene load_steps=13 format=3 uid="uid://bscxb1rjxmohy"]
 
 [ext_resource type="Script" path="res://main_menu_exit.gd" id="1_3xb2y"]
+[ext_resource type="PackedScene" uid="uid://bbdfih0weqhie" path="res://airport.tscn" id="1_dehm8"]
 [ext_resource type="Script" path="res://main_menu_play.gd" id="1_kqsbg"]
 [ext_resource type="Script" path="res://timeSelector.gd" id="1_m1lna"]
+[ext_resource type="PackedScene" uid="uid://bjjceeyq3csc3" path="res://Assets/sky/sky.tscn" id="2_44tsb"]
+[ext_resource type="Script" path="res://main_menu_background.gd" id="2_w55y2"]
 [ext_resource type="Texture2D" uid="uid://ccyjbxuo8tfou" path="res://Assets/arrow.png" id="2_xoa1m"]
 [ext_resource type="Texture2D" uid="uid://b60ywojoxtu31" path="res://Assets/arrow_pressed.png" id="3_iv1h2"]
+[ext_resource type="Script" path="res://main_menu_cam.gd" id="3_nkclh"]
 [ext_resource type="Texture2D" uid="uid://dyp2d7qvlasjn" path="res://Assets/arrow_hover.png" id="4_xmd2g"]
 [ext_resource type="PackedScene" uid="uid://dyyjsxg1bijpa" path="res://main.tscn" id="6_c4xbb"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gto2q"]
+bg_color = Color(0, 0, 0, 0.588235)
+corner_radius_top_left = 30
+corner_radius_top_right = 30
+corner_radius_bottom_right = 30
+corner_radius_bottom_left = 30
+
 [node name="MainMenu" type="CanvasLayer"]
 
-[node name="Label" type="Label" parent="."]
+[node name="airport" parent="." node_paths=PackedStringArray("hour_label", "minute_label", "sky") instance=ExtResource("1_dehm8")]
+script = ExtResource("2_w55y2")
+hour_label = NodePath("../timeSelection/VBoxContainer/HBoxContainer/hour/hour")
+minute_label = NodePath("../timeSelection/VBoxContainer/HBoxContainer/minute/minute")
+sky = NodePath("Sky")
+
+[node name="rotHelper" type="Node3D" parent="airport"]
+transform = Transform3D(0.5, 0, -0.866025, 0, 1, 0, 0.866025, 0, 0.5, 724, 59, 542)
+
+[node name="Camera3D" type="Camera3D" parent="airport/rotHelper"]
+transform = Transform3D(1, 0, 0, 0, 0.965926, 0.258819, 0, -0.258819, 0.965926, 0, 2, 0)
+fov = 50.0
+near = 10.0
+far = 2000.0
+script = ExtResource("3_nkclh")
+max_offset_degrees = Vector2(5, 3)
+follow_speed = 2.0
+invert = true
+
+[node name="Sky" parent="airport" instance=ExtResource("2_44tsb")]
+unique_name_in_owner = true
+process_mode = 4
+day_time = 11.1866
+day_of_year = 138
+
+[node name="title" type="Label" parent="."]
 anchors_preset = 10
 anchor_right = 1.0
 offset_bottom = 23.0
@@ -19,48 +55,74 @@ theme_override_font_sizes/font_size = 64
 text = "ATC Tower"
 horizontal_alignment = 1
 
-[node name="timeSelection" type="HBoxContainer" parent="."]
+[node name="timeSelection" type="Panel" parent="."]
 anchors_preset = 6
 anchor_left = 1.0
 anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
-offset_left = -216.0
+offset_left = -280.0
+offset_top = -100.0
+offset_right = -80.0
+offset_bottom = 110.0
 grow_horizontal = 0
 grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_gto2q")
+metadata/_edit_group_ = true
 
-[node name="hour" type="VBoxContainer" parent="timeSelection" node_paths=PackedStringArray("increase_button", "decrease_button", "label")]
+[node name="VBoxContainer" type="VBoxContainer" parent="timeSelection"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="title" type="Label" parent="timeSelection/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "Start your shift at"
+horizontal_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="timeSelection/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="hour" type="VBoxContainer" parent="timeSelection/VBoxContainer/HBoxContainer" node_paths=PackedStringArray("increase_button", "decrease_button", "label")]
 layout_mode = 2
 script = ExtResource("1_m1lna")
 increase_button = NodePath("hour_up")
 decrease_button = NodePath("hour_down")
 label = NodePath("hour")
 
-[node name="hour_up" type="TextureButton" parent="timeSelection/hour"]
+[node name="hour_up" type="TextureButton" parent="timeSelection/VBoxContainer/HBoxContainer/hour"]
 layout_mode = 2
 texture_normal = ExtResource("2_xoa1m")
 texture_pressed = ExtResource("3_iv1h2")
 texture_hover = ExtResource("4_xmd2g")
 
-[node name="hour" type="Label" parent="timeSelection/hour"]
+[node name="hour" type="Label" parent="timeSelection/VBoxContainer/HBoxContainer/hour"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 55
 text = "12"
 
-[node name="hour_down" type="TextureButton" parent="timeSelection/hour"]
+[node name="hour_down" type="TextureButton" parent="timeSelection/VBoxContainer/HBoxContainer/hour"]
 layout_mode = 2
 texture_normal = ExtResource("2_xoa1m")
 texture_pressed = ExtResource("3_iv1h2")
 texture_hover = ExtResource("4_xmd2g")
 flip_v = true
 
-[node name="sep" type="Label" parent="timeSelection"]
+[node name="sep" type="Label" parent="timeSelection/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 55
 text = ":"
 
-[node name="minute" type="VBoxContainer" parent="timeSelection" node_paths=PackedStringArray("increase_button", "decrease_button", "label")]
+[node name="minute" type="VBoxContainer" parent="timeSelection/VBoxContainer/HBoxContainer" node_paths=PackedStringArray("increase_button", "decrease_button", "label")]
 layout_mode = 2
 script = ExtResource("1_m1lna")
 type = 1
@@ -69,26 +131,26 @@ increase_button = NodePath("minute_up")
 decrease_button = NodePath("minute_down")
 label = NodePath("minute")
 
-[node name="minute_up" type="TextureButton" parent="timeSelection/minute"]
+[node name="minute_up" type="TextureButton" parent="timeSelection/VBoxContainer/HBoxContainer/minute"]
 layout_mode = 2
 texture_normal = ExtResource("2_xoa1m")
 texture_pressed = ExtResource("3_iv1h2")
 texture_hover = ExtResource("4_xmd2g")
 
-[node name="minute" type="Label" parent="timeSelection/minute"]
+[node name="minute" type="Label" parent="timeSelection/VBoxContainer/HBoxContainer/minute"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 55
 text = "30"
 
-[node name="minute_down" type="TextureButton" parent="timeSelection/minute"]
+[node name="minute_down" type="TextureButton" parent="timeSelection/VBoxContainer/HBoxContainer/minute"]
 layout_mode = 2
 texture_normal = ExtResource("2_xoa1m")
 texture_pressed = ExtResource("3_iv1h2")
 texture_hover = ExtResource("4_xmd2g")
 flip_v = true
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="buttons" type="VBoxContainer" parent="."]
 anchors_preset = 4
 anchor_top = 0.5
 anchor_bottom = 0.5
@@ -99,13 +161,20 @@ offset_bottom = 91.0
 grow_vertical = 2
 theme_override_constants/separation = 32
 
-[node name="play" type="Button" parent="VBoxContainer"]
+[node name="play" type="Button" parent="buttons"]
 layout_mode = 2
+theme_override_font_sizes/font_size = 55
 text = "Play"
 script = ExtResource("1_kqsbg")
 main_game = ExtResource("6_c4xbb")
 
-[node name="exit" type="Button" parent="VBoxContainer"]
+[node name="exit" type="Button" parent="buttons"]
 layout_mode = 2
+theme_override_font_sizes/font_size = 55
 text = "Quit"
 script = ExtResource("1_3xb2y")
+
+[connection signal="pressed" from="timeSelection/VBoxContainer/HBoxContainer/hour/hour_up" to="airport" method="update_time"]
+[connection signal="pressed" from="timeSelection/VBoxContainer/HBoxContainer/hour/hour_down" to="airport" method="update_time"]
+[connection signal="pressed" from="timeSelection/VBoxContainer/HBoxContainer/minute/minute_up" to="airport" method="update_time"]
+[connection signal="pressed" from="timeSelection/VBoxContainer/HBoxContainer/minute/minute_down" to="airport" method="update_time"]
