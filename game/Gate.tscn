@@ -10,6 +10,7 @@ size = Vector3(30, 10, 40)
 
 [node name="Gate" type="Area3D"]
 script = ExtResource("1_77ol5")
+push_procedure = null
 pushpoint_preview = ExtResource("3_rw8kk")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]

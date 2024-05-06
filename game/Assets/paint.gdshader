@@ -64,16 +64,16 @@ void fragment() {
 	vec3 a = scale_texture(texture_albedo, UV);
 	vec3 b = scale_texture(texture_albedo_second, UV);
 	vec3 color = mix(a, b, noise_mask);
-	
+
 	//vec4 other_texture = triplanar_texture(texture_albedo,uv1_power_normal,uv1_triplanar_pos);
 	float mix_val = clamp(5.0*texture(mask,UV).r * color.r, 0.0, 1.0);
-	color.rgb = color.rgb * (1.0 - mix_val) + white * mix_val; // change "white" to other_texture.rgb 
+	color.rgb = color.rgb * (1.0 - mix_val) + white * mix_val; // change "white" to other_texture.rgb
 	ALBEDO = albedo.rgb * color;
-	
+
 	vec4 roughness_texture_channel = vec4(1.0,0.0,0.0,0.0);
 	float roughness_tex = dot(triplanar_texture(texture_roughness,uv1_power_normal,uv1_triplanar_pos),roughness_texture_channel);
 	ROUGHNESS = roughness_tex * roughness - mix_val;
-	
+
 	float metallic_tex = dot(triplanar_texture(texture_metallic,uv1_power_normal,uv1_triplanar_pos),metallic_texture_channel);
 	METALLIC = metallic_tex * metallic;
 	SPECULAR = specular;

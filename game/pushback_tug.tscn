@@ -1,0 +1,43 @@
+[gd_scene load_steps=3 format=3 uid="uid://c0qjgvtt3o6q5"]
+
+[ext_resource type="PackedScene" uid="uid://c41yv0g8j5ufo" path="res://Assets/pushback tug.blend" id="1_jj8as"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_5mn8g"]
+size = Vector3(8, 2.391, 4)
+
+[node name="pushback tug" instance=ExtResource("1_jj8as")]
+mass = 54000.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.146, 1.339, 0)
+shape = SubResource("BoxShape3D_5mn8g")
+
+[node name="front right " parent="." index="2"]
+use_as_traction = true
+use_as_steering = true
+wheel_radius = 0.65
+wheel_rest_length = 0.1
+suspension_travel = 0.1
+suspension_max_force = 20000.0
+
+[node name="front left " parent="." index="3"]
+use_as_traction = true
+use_as_steering = true
+wheel_radius = 0.65
+wheel_rest_length = 0.1
+suspension_travel = 0.1
+suspension_max_force = 20000.0
+
+[node name="back right " parent="." index="4"]
+use_as_traction = true
+wheel_radius = 0.65
+wheel_rest_length = 0.1
+suspension_travel = 0.1
+suspension_max_force = 20000.0
+
+[node name="back left " parent="." index="5"]
+use_as_traction = true
+wheel_radius = 0.65
+wheel_rest_length = 0.1
+suspension_travel = 0.1
+suspension_max_force = 20000.0
