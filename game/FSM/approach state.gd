@@ -31,10 +31,12 @@ func Physics_update(delta: float) -> void:
 		state_transition.emit(self, "decelerate")
 		return
 	
-	if controller.global_position.y < go_around_altitude and not warned_about_short_final and not behaviour_FSM.landing_clearance:
+	# Report short final
+	if controller.global_position.y < go_around_altitude + 100 and not warned_about_short_final and not behaviour_FSM.landing_clearance:
 		Game.chat.send_message(owner.callsign + " is on short final.")
 		warned_about_short_final = true
 	
+	# Go around if no landing clearance
 	if controller.global_position.y < go_around_altitude and not behaviour_FSM.landing_clearance:
 		# Go around
 		state_transition.emit(self, "go around")

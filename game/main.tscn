@@ -12,7 +12,7 @@
 
 [node name="Sky" parent="." instance=ExtResource("1_il8bf")]
 day_time = 16.983
-day_of_year = 138
+day_of_year = 139
 
 [node name="airport" parent="." instance=ExtResource("1_ubhcf")]
 
@@ -20,13 +20,124 @@ day_of_year = 138
 transform = Transform3D(1, 0, 1.06581e-14, 0, 1, 0, -1.06581e-14, 0, 1, 1321.99, 0, 0)
 script = ExtResource("2_8bqv8")
 aircraftScene = ExtResource("3_q2orl")
-spawn_distance = 3.0
+spawn_distance = 8.0
 
 [node name="spawnTimer" type="Timer" parent="AircraftManager" node_paths=PackedStringArray("aircraftManager")]
-wait_time = 60.0
+wait_time = 80.0
 autostart = true
 script = ExtResource("5_3soxv")
 aircraftManager = NodePath("..")
+
+[node name="Aircraft" parent="AircraftManager" node_paths=PackedStringArray("comm_manager", "controller", "behaviour_FSM", "body_detection", "taxi_to_stand_stand_input") instance=ExtResource("3_q2orl")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -541.525, 0.500122, 467.71)
+comm_manager = NodePath("communication manager")
+controller = NodePath("A320neo")
+behaviour_FSM = NodePath("Behaviour FSM")
+body_detection = NodePath("A320neo/body detection")
+taxi_to_stand_stand_input = NodePath("communication manager/VBoxContainer/taxi to stand/HBoxContainer/stand")
+
+[node name="Behaviour FSM" parent="AircraftManager/Aircraft" index="1" node_paths=PackedStringArray("controller", "initial_state")]
+controller = NodePath("../A320neo")
+initial_state = NodePath("approach")
+
+[node name="taxi in" parent="AircraftManager/Aircraft/Behaviour FSM" index="0" node_paths=PackedStringArray("controller", "comm_manager")]
+controller = NodePath("../../A320neo")
+comm_manager = NodePath("../../communication manager")
+
+[node name="static" parent="AircraftManager/Aircraft/Behaviour FSM" index="1" node_paths=PackedStringArray("controller")]
+controller = NodePath("../../A320neo")
+
+[node name="approach" parent="AircraftManager/Aircraft/Behaviour FSM" index="2" node_paths=PackedStringArray("controller", "comm_manager", "behaviour_FSM")]
+controller = NodePath("../../A320neo")
+comm_manager = NodePath("../../communication manager")
+behaviour_FSM = NodePath("..")
+
+[node name="decelerate" parent="AircraftManager/Aircraft/Behaviour FSM" index="3" node_paths=PackedStringArray("controller")]
+controller = NodePath("../../A320neo")
+
+[node name="takeoff" parent="AircraftManager/Aircraft/Behaviour FSM" index="4" node_paths=PackedStringArray("controller", "comm_manager")]
+controller = NodePath("../../A320neo")
+comm_manager = NodePath("../../communication manager")
+
+[node name="vacating" parent="AircraftManager/Aircraft/Behaviour FSM" index="5" node_paths=PackedStringArray("taxiway_detection", "body_detection", "controller", "taxi_in_state", "comm_manager")]
+taxiway_detection = NodePath("../../A320neo/ground visual")
+body_detection = NodePath("../../A320neo/body detection")
+controller = NodePath("../../A320neo")
+taxi_in_state = NodePath("../taxi in")
+comm_manager = NodePath("../../communication manager")
+
+[node name="taxi out" parent="AircraftManager/Aircraft/Behaviour FSM" index="6" node_paths=PackedStringArray("controller", "comm_manager", "body_detection")]
+controller = NodePath("../../A320neo")
+comm_manager = NodePath("../../communication manager")
+body_detection = NodePath("../../A320neo/body detection")
+
+[node name="loading" parent="AircraftManager/Aircraft/Behaviour FSM" index="7" node_paths=PackedStringArray("controller", "wait_timer", "comm_manager")]
+controller = NodePath("../../A320neo")
+wait_timer = NodePath("Timer")
+comm_manager = NodePath("../../communication manager")
+
+[node name="go around" parent="AircraftManager/Aircraft/Behaviour FSM" index="8" node_paths=PackedStringArray("comm_manager")]
+comm_manager = NodePath("../../communication manager")
+
+[node name="hold short" parent="AircraftManager/Aircraft/Behaviour FSM" index="9" node_paths=PackedStringArray("comm_manager", "behaviour_FSM")]
+comm_manager = NodePath("../../communication manager")
+behaviour_FSM = NodePath("..")
+
+[node name="line up" parent="AircraftManager/Aircraft/Behaviour FSM" index="10" node_paths=PackedStringArray("behaviour_FSM", "controller")]
+behaviour_FSM = NodePath("..")
+controller = NodePath("../../A320neo")
+
+[node name="pushback" parent="AircraftManager/Aircraft/Behaviour FSM" index="11" node_paths=PackedStringArray("controller", "comm_manager")]
+controller = NodePath("../../A320neo")
+comm_manager = NodePath("../../communication manager")
+
+[node name="communication manager" parent="AircraftManager/Aircraft" index="2" node_paths=PackedStringArray("taxi_to_stand", "taxi_to_runway", "hold", "takeoff_clearance", "landing_clearance", "go_around", "continue_approach", "line_up", "pushback_startup")]
+taxi_to_stand = NodePath("VBoxContainer/taxi to stand")
+taxi_to_runway = NodePath("VBoxContainer/taxi to runway")
+hold = NodePath("VBoxContainer/hold")
+takeoff_clearance = NodePath("VBoxContainer/takeoff clearence")
+landing_clearance = NodePath("VBoxContainer/landing clearance")
+go_around = NodePath("VBoxContainer/go around")
+continue_approach = NodePath("VBoxContainer/continue approach")
+line_up = NodePath("VBoxContainer/line up and wait")
+pushback_startup = NodePath("VBoxContainer/pushback and startup")
+
+[node name="taxi to stand" parent="AircraftManager/Aircraft/communication manager/VBoxContainer" index="0" node_paths=PackedStringArray("controller", "airplane", "behaviour_FSM")]
+controller = NodePath("../../../A320neo")
+airplane = NodePath("../../..")
+behaviour_FSM = NodePath("../../../Behaviour FSM")
+
+[node name="taxi to runway" parent="AircraftManager/Aircraft/communication manager/VBoxContainer" index="1" node_paths=PackedStringArray("controller", "airplane", "behaviour_FSM")]
+controller = NodePath("../../../A320neo")
+airplane = NodePath("../../..")
+behaviour_FSM = NodePath("../../../Behaviour FSM")
+
+[node name="takeoff clearence" parent="AircraftManager/Aircraft/communication manager/VBoxContainer" index="2" node_paths=PackedStringArray("behaviour_FSM", "comm_manager")]
+behaviour_FSM = NodePath("../../../Behaviour FSM")
+comm_manager = NodePath("../..")
+
+[node name="hold" parent="AircraftManager/Aircraft/communication manager/VBoxContainer" index="3" node_paths=PackedStringArray("controller")]
+controller = NodePath("../../../A320neo")
+
+[node name="landing clearance" parent="AircraftManager/Aircraft/communication manager/VBoxContainer" index="4" node_paths=PackedStringArray("behaviour_FSM", "comm_manager")]
+behaviour_FSM = NodePath("../../../Behaviour FSM")
+comm_manager = NodePath("../..")
+
+[node name="continue approach" parent="AircraftManager/Aircraft/communication manager/VBoxContainer" index="5" node_paths=PackedStringArray("comm_manager")]
+comm_manager = NodePath("../..")
+
+[node name="go around" parent="AircraftManager/Aircraft/communication manager/VBoxContainer" index="6" node_paths=PackedStringArray("behaviour_FSM")]
+behaviour_FSM = NodePath("../../../Behaviour FSM")
+
+[node name="line up and wait" parent="AircraftManager/Aircraft/communication manager/VBoxContainer" index="7" node_paths=PackedStringArray("behaviour_FSM", "hold_short_state", "comm_manager")]
+behaviour_FSM = NodePath("../../../Behaviour FSM")
+hold_short_state = NodePath("../../../Behaviour FSM/hold short")
+comm_manager = NodePath("../..")
+
+[node name="pushback and startup" parent="AircraftManager/Aircraft/communication manager/VBoxContainer" index="8" node_paths=PackedStringArray("behaviour_FSM", "static_state", "comm_manager")]
+behaviour_FSM = NodePath("../../../Behaviour FSM")
+static_state = NodePath("../../../Behaviour FSM/static")
+comm_manager = NodePath("../..")
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 808.321, 691.623, 300)
@@ -36,7 +147,9 @@ far = 5000.0
 [node name="UI" parent="." instance=ExtResource("4_xor5g")]
 
 [node name="CharacterBody3D" parent="." instance=ExtResource("5_4se8p")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 756.277, 46.8603, 536.563)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 760.277, 46.8603, 530.563)
 
 [connection signal="child_entered_tree" from="AircraftManager" to="AircraftManager" method="_on_child_entered_tree"]
 [connection signal="child_exiting_tree" from="AircraftManager" to="AircraftManager" method="_on_child_exiting_tree"]
+
+[editable path="AircraftManager/Aircraft"]

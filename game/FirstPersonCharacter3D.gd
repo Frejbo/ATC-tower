@@ -27,7 +27,7 @@ var speed = MAX_SPEED
 @onready var jump_gravity : float = ((-2.0 * jump_height) / (jump_time_to_peak * jump_time_to_peak))
 @onready var fall_gravity : float = ((-2.0 * jump_height) / (jump_time_to_descent * jump_time_to_descent))
 
-func get_gravity() -> float:
+func get_gravity_amount() -> float:
 	if velocity.y < 0:
 		return jump_gravity# * ProjectSettings.get_setting("physics/3d/default_gravity")
 	else:
@@ -36,7 +36,7 @@ func get_gravity() -> float:
 func _physics_process(delta: float) -> void:
 	# Add the gravity.
 	if not is_on_floor():
-		velocity.y += get_gravity() * delta
+		velocity.y += get_gravity_amount() * delta
 	
 	# Handle jump.
 	if Input.is_action_pressed("ui_accept") and is_on_floor() and Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:

@@ -44,13 +44,16 @@ invert = true
 unique_name_in_owner = true
 process_mode = 4
 day_time = 11.1866
-day_of_year = 138
+day_of_year = 139
 
 [node name="title" type="Label" parent="."]
 anchors_preset = 10
 anchor_right = 1.0
 offset_bottom = 23.0
 grow_horizontal = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.392157)
+theme_override_constants/shadow_offset_y = 5
+theme_override_constants/shadow_outline_size = 10
 theme_override_font_sizes/font_size = 64
 text = "ATC Tower"
 horizontal_alignment = 1

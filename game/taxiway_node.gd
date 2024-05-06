@@ -73,7 +73,6 @@ func _ready() -> void:
 	curve_changed.connect(_on_curve_changed)
 	if not Engine.is_editor_hint(): # Pause process to avoid it from taking unnececary performance
 		for i in 2: await get_tree().physics_frame # wait 2 physics frames (neccesary for some reason)
-		process_mode = Node.PROCESS_MODE_DISABLED
 		set_physics_process(false)
 		set_process(false)
 

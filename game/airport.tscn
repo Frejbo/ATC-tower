@@ -149,6 +149,12 @@ points = [{
 }, {
 "position": Vector2(10.065, 3.18),
 "rotation": 31.32
+}, {
+"position": Vector2(10.065, 3.18),
+"rotation": 31.32
+}, {
+"position": Vector2(10.065, 3.18),
+"rotation": 31.32
 }]
 new_rotation = 31.32
 new_position = Vector2(10.065, 3.18)
@@ -222,7 +228,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
 cast_shadow = 0
 surface_material_override/0 = ExtResource("2_ve8vh")
 
-[node name="Designation marking 1" type="Label3D" parent="airport/Runway 03-21" index="0"]
+[node name="Designation marking 21" type="Label3D" parent="airport/Runway 03-21" index="0"]
+transform = Transform3D(1.91069e-15, -1, -4.37114e-08, -4.37114e-08, -4.37114e-08, 1, -1, 0, -4.37114e-08, 1609, 0.1, 0)
 transparency = 0.9
 shaded = true
 double_sided = false
@@ -232,7 +239,8 @@ font_size = 2500
 outline_size = 0
 vertical_alignment = 2
 
-[node name="Designation marking 2" type="Label3D" parent="airport/Runway 03-21" index="1"]
+[node name="Designation marking 03" type="Label3D" parent="airport/Runway 03-21" index="1"]
+transform = Transform3D(1.91069e-15, 1, 4.37114e-08, 4.37114e-08, -4.37114e-08, 1, 1, 0, -4.37114e-08, -1607, 0.1, 0)
 transparency = 0.9
 shaded = true
 double_sided = false
@@ -243,6 +251,7 @@ outline_size = 0
 vertical_alignment = 2
 
 [node name="approach_guidance_21" type="Path3D" parent="airport/Runway 03-21" index="2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1320, 0, 0)
 curve = SubResource("Curve3D_5p48f")
 script = ExtResource("4_hl1v7")
 active = true

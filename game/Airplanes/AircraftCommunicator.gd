@@ -12,7 +12,8 @@ enum {
 	LANDING_CLEARANCE,
 	GO_AROUND,
 	CONTINUE_APPROACH,
-	LINE_UP
+	LINE_UP,
+	PUSHBACK_STARTUP
 }
 @export var taxi_to_stand : Button
 @export var taxi_to_runway : Button
@@ -22,6 +23,7 @@ enum {
 @export var go_around : Button
 @export var continue_approach : Button
 @export var line_up : Button
+@export var pushback_startup : Button
 
 #func _enter_tree() -> void:
 	#hide_all()
@@ -35,6 +37,7 @@ func hide_all() -> void:
 	go_around.hide()
 	continue_approach.hide()
 	line_up.hide()
+	pushback_startup.hide()
 
 func set_visibility(comm, available : bool) -> void:
 	match comm:
@@ -54,6 +57,8 @@ func set_visibility(comm, available : bool) -> void:
 			continue_approach.visible = available
 		LINE_UP:
 			line_up.visible = available
+		PUSHBACK_STARTUP:
+			pushback_startup.visible = available
 
 func _enter_tree() -> void:
 	hide()

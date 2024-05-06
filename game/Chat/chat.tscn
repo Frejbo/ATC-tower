@@ -4,6 +4,7 @@
 [ext_resource type="Script" path="res://Chat/Chat.gd" id="2_su3k8"]
 
 [node name="ChatBox" type="ScrollContainer"]
+auto_translate_mode = 2
 anchors_preset = -1
 anchor_left = 0.004
 anchor_top = 0.007
@@ -13,7 +14,6 @@ offset_left = -0.12
 offset_top = -0.04
 size_flags_horizontal = 8
 size_flags_vertical = 0
-auto_translate = false
 theme = ExtResource("1_m8da6")
 horizontal_scroll_mode = 0
 

@@ -119,8 +119,8 @@ process_mode = 4
 mass = 55000.0
 center_of_mass_mode = 1
 center_of_mass = Vector3(5, 0, 0)
-max_contacts_reported = 1
 contact_monitor = true
+max_contacts_reported = 1
 script = ExtResource("2_d16p7")
 max_thrust_N = 310000
 wing_area = 123
@@ -238,7 +238,7 @@ transparency = 0.8
 mesh = SubResource("SphereMesh_3c0oo")
 
 [node name="Camera3D" type="Camera3D" parent="." index="15"]
-transform = Transform3D(-0.5, 0, -0.866025, 0, 1, 0, 0.866025, 0, -0.5, -25.791, 7.68, -16.847)
+transform = Transform3D(-0.0858519, 0, -0.996308, 0, 1, 0, 0.996308, 0, -0.0858519, -25.791, 7.68, -16.847)
 fov = 50.0
 
 [node name="noselight" type="SpotLight3D" parent="." index="16"]
