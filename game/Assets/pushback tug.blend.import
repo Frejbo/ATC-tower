@@ -13,8 +13,8 @@ dest_files=["res://.godot/imported/pushback tug.blend-6a397753080c19a6de4a13ed0b
 
 [params]
 
-nodes/root_type="VehicleBody3D"
-nodes/root_name=""
+nodes/root_type="Node3D"
+nodes/root_name="Pushback tug meshes"
 nodes/apply_root_scale=true
 nodes/root_scale=1.0
 nodes/import_as_skeleton_bones=false

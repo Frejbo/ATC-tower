@@ -246,6 +246,7 @@ transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 13.629
 light_color = Color(0.894118, 0.905882, 0.745098, 1)
 light_energy = 512.0
 light_size = 0.1
+shadow_enabled = true
 distance_fade_enabled = true
 distance_fade_begin = 400.0
 distance_fade_length = 700.0

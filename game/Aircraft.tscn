@@ -1,7 +1,8 @@
-[gd_scene load_steps=30 format=3 uid="uid://dooe7wxlpdhd5"]
+[gd_scene load_steps=31 format=3 uid="uid://dooe7wxlpdhd5"]
 
 [ext_resource type="Script" path="res://Aircraft.gd" id="1_nplal"]
 [ext_resource type="PackedScene" uid="uid://cpyj4w3k7b2br" path="res://Airplanes/A20N.tscn" id="2_bslt8"]
+[ext_resource type="PackedScene" uid="uid://c0qjgvtt3o6q5" path="res://pushback_tug.tscn" id="2_h7lh0"]
 [ext_resource type="Script" path="res://body detection.gd" id="3_17doe"]
 [ext_resource type="Script" path="res://FSM/AircraftBehaviourManager.gd" id="3_tfqqc"]
 [ext_resource type="Script" path="res://FSM/static state.gd" id="4_65qp4"]
@@ -149,6 +150,7 @@ controller = NodePath("../../A320neo")
 script = ExtResource("16_iuvfl")
 controller = NodePath("../../A320neo")
 comm_manager = NodePath("../../communication manager")
+pushtug_scene = ExtResource("2_h7lh0")
 
 [node name="communication manager" type="CanvasLayer" parent="." node_paths=PackedStringArray("taxi_to_stand", "taxi_to_runway", "hold", "takeoff_clearance", "landing_clearance", "go_around", "continue_approach", "line_up", "pushback_startup")]
 script = ExtResource("4_xkhip")

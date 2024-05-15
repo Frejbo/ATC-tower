@@ -1,4 +1,4 @@
-[gd_scene load_steps=94 format=4 uid="uid://bbdfih0weqhie"]
+[gd_scene load_steps=96 format=4 uid="uid://bbdfih0weqhie"]
 
 [ext_resource type="PackedScene" uid="uid://c3vpi5rklcc08" path="res://airport.blend" id="1_rkesj"]
 [ext_resource type="Texture2D" uid="uid://cfrwgslp3pgbs" path="res://airport overview.png" id="1_yjken"]
@@ -10,6 +10,7 @@
 [ext_resource type="Material" uid="uid://c367y7ge80otn" path="res://Assets/taxiways.tres" id="4_xtrim"]
 [ext_resource type="PackedScene" uid="uid://dyunen1vglo8o" path="res://Gate.tscn" id="5_7ridq"]
 [ext_resource type="Script" path="res://Runway.gd" id="5_nyymq"]
+[ext_resource type="Texture2D" uid="uid://qqd371yyjjlw" path="res://Assets/taxichart.jpg.png" id="6_b0ddn"]
 [ext_resource type="Material" uid="uid://bhldiskx54qpk" path="res://Assets/Glass.tres" id="7_6bhcj"]
 [ext_resource type="Texture2D" uid="uid://dumyejo76671a" path="res://textures/kitchen_wood_diff_2k.jpg" id="7_apxfp"]
 [ext_resource type="Texture2D" uid="uid://c1u7wtbc4r0h4" path="res://textures/kitchen_wood_rough_2k.jpg" id="8_bjvvp"]
@@ -18,7 +19,6 @@
 [ext_resource type="Terrain3DTextureList" uid="uid://cx1m2gu7oq6ht" path="res://Assets/Terrain/terrain_3d_texture_list.tres" id="11_11kne"]
 [ext_resource type="Texture2D" uid="uid://ceqdghys8mdsc" path="res://textures/asphalt_04_diff_1k.jpg" id="11_pi15k"]
 [ext_resource type="Texture2D" uid="uid://bhc5hmaqupxui" path="res://textures/asphalt_04_nor_gl_1k.jpg" id="12_lisgx"]
-[ext_resource type="Script" path="res://Pushback/pushback_points.gd" id="12_qsmfn"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_47e15"]
 
@@ -181,6 +181,18 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_ehqr2")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_a6t5y"]
+albedo_color = Color(0.0807833, 0.0807833, 0.0807833, 1)
+roughness = 0.8
+
+[sub_resource type="BoxMesh" id="BoxMesh_cakbd"]
+material = SubResource("StandardMaterial3D_a6t5y")
+size = Vector3(2.31, 0.825, 0.1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_40fuf"]
+material = SubResource("StandardMaterial3D_a6t5y")
+size = Vector3(0.1, 2, 0.1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_raedi"]
 resource_name = "Monitor"
@@ -709,49 +721,6 @@ _data = {
 }
 point_count = 2
 
-[sub_resource type="Resource" id="Resource_o817w"]
-script = ExtResource("12_qsmfn")
-points = [{
-"position": Vector2(0, -50),
-"rotation": 180.0
-}, {
-"position": Vector2(10.065, 3.18),
-"rotation": 31.32
-}, {
-"position": Vector2(10.065, 3.18),
-"rotation": 31.32
-}, {
-"position": Vector2(10.065, 3.18),
-"rotation": 31.32
-}, {
-"position": Vector2(10.065, 3.18),
-"rotation": 31.32
-}, {
-"position": Vector2(10.065, 3.18),
-"rotation": 31.32
-}, {
-"position": Vector2(10.065, 3.18),
-"rotation": 31.32
-}, {
-"position": Vector2(10.065, 3.18),
-"rotation": 31.32
-}, {
-"position": Vector2(10.065, 3.18),
-"rotation": 31.32
-}, {
-"position": Vector2(10.065, 3.18),
-"rotation": 31.32
-}, {
-"position": Vector2(10.065, 3.18),
-"rotation": 31.32
-}, {
-"position": Vector2(10.065, 3.18),
-"rotation": 31.32
-}]
-new_rotation = 31.32
-new_position = Vector2(10.065, 3.18)
-add_point_using_rotation_and_position = false
-
 [sub_resource type="Curve3D" id="Curve3D_xn3hw"]
 _data = {
 "points": PackedVector3Array(0, 0, 0, 0, 0, 0, 850, 0, 411, 0, 0, 0, 0, 0, 0, 850, 0, 480),
@@ -821,32 +790,12 @@ cast_shadow = 0
 mesh = SubResource("ArrayMesh_ndkp7")
 surface_material_override/0 = ExtResource("2_ve8vh")
 
-[node name="Designation marking 21" type="Label3D" parent="airport/Runway 03-21" index="0"]
-transparency = 0.9
-shaded = true
-double_sided = false
-text = "21"
-font = ExtResource("3_6fwq0")
-font_size = 2500
-outline_size = 0
-vertical_alignment = 2
-
-[node name="Designation marking 03" type="Label3D" parent="airport/Runway 03-21" index="1"]
-transparency = 0.9
-shaded = true
-double_sided = false
-text = "03"
-font = ExtResource("3_6fwq0")
-font_size = 2500
-outline_size = 0
-vertical_alignment = 2
-
-[node name="approach_guidance_21" type="Path3D" parent="airport/Runway 03-21" index="2"]
+[node name="approach_guidance_21" type="Path3D" parent="airport/Runway 03-21" index="0"]
 curve = SubResource("Curve3D_5p48f")
 script = ExtResource("4_hl1v7")
 active = true
 
-[node name="Runway" type="Area3D" parent="airport/Runway 03-21" index="3" groups=["runway"]]
+[node name="Runway" type="Area3D" parent="airport/Runway 03-21" index="1" groups=["runway"]]
 collision_mask = 0
 script = ExtResource("5_nyymq")
 
@@ -876,46 +825,59 @@ mesh = SubResource("ArrayMesh_bvqpl")
 [node name="Tower " parent="airport" index="3"]
 mesh = SubResource("ArrayMesh_522oi")
 
-[node name="Cube" parent="airport/Tower " index="0"]
+[node name="taxichart" type="Sprite3D" parent="airport/Tower " index="0"]
+transform = Transform3D(0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, -4.40894, 9.59868, -6.82379)
+pixel_size = 0.001
+texture = ExtResource("6_b0ddn")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="airport/Tower /taxichart"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.06)
+mesh = SubResource("BoxMesh_cakbd")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="airport/Tower /taxichart"]
+transform = Transform3D(1, 0, 5.96046e-08, 0, 1, 0, -5.96046e-08, 0, 1, -3.05176e-05, 1.12723, -0.0599976)
+mesh = SubResource("BoxMesh_40fuf")
+
+[node name="Cube" parent="airport/Tower " index="1"]
 mesh = SubResource("ArrayMesh_o7uqu")
 
-[node name="Cube_001" parent="airport/Tower " index="1"]
+[node name="Cube_001" parent="airport/Tower " index="2"]
 mesh = SubResource("ArrayMesh_o7uqu")
 
-[node name="Cube_002" parent="airport/Tower " index="2"]
+[node name="Cube_002" parent="airport/Tower " index="3"]
 mesh = SubResource("ArrayMesh_o7uqu")
 
-[node name="Fence " parent="airport/Tower " index="3"]
+[node name="Fence " parent="airport/Tower " index="4"]
 mesh = SubResource("ArrayMesh_jkpua")
 
 [node name="CollisionShape3D" parent="airport/Tower /Fence /StaticBody3D" index="0"]
 shape = SubResource("ConvexPolygonShape3D_26375")
 
-[node name="Fence_001 " parent="airport/Tower " index="4"]
+[node name="Fence_001 " parent="airport/Tower " index="5"]
 mesh = SubResource("ArrayMesh_piwid")
 
 [node name="CollisionShape3D" parent="airport/Tower /Fence_001 /StaticBody3D" index="0"]
 shape = SubResource("ConvexPolygonShape3D_l66ld")
 
-[node name="Fence_002 " parent="airport/Tower " index="5"]
+[node name="Fence_002 " parent="airport/Tower " index="6"]
 mesh = SubResource("ArrayMesh_pesxy")
 
 [node name="CollisionShape3D" parent="airport/Tower /Fence_002 /StaticBody3D" index="0"]
 shape = SubResource("ConvexPolygonShape3D_tt5i2")
 
-[node name="Fence_003 " parent="airport/Tower " index="6"]
+[node name="Fence_003 " parent="airport/Tower " index="7"]
 mesh = SubResource("ArrayMesh_1qass")
 
 [node name="CollisionShape3D" parent="airport/Tower /Fence_003 /StaticBody3D" index="0"]
 shape = SubResource("ConvexPolygonShape3D_ybels")
 
-[node name="table " parent="airport/Tower " index="7"]
+[node name="table " parent="airport/Tower " index="8"]
 mesh = SubResource("ArrayMesh_pkxp6")
 
 [node name="CollisionShape3D" parent="airport/Tower /table /StaticBody3D" index="0"]
 shape = SubResource("ConvexPolygonShape3D_ase1j")
 
-[node name="TowerTop" parent="airport/Tower " index="8"]
+[node name="TowerTop" parent="airport/Tower " index="9"]
 mesh = SubResource("ArrayMesh_tij3t")
 surface_material_override/0 = ExtResource("7_6bhcj")
 
@@ -930,6 +892,30 @@ mesh = SubResource("ArrayMesh_m7cob")
 
 [node name="parking" parent="airport" index="6"]
 mesh = SubResource("ArrayMesh_4mfu2")
+
+[node name="Designation marking 21" type="Label3D" parent="airport"]
+transform = Transform3D(1.91069e-15, -1, -4.37114e-08, -4.37114e-08, -4.37114e-08, 1, -1, 0, -4.37114e-08, 1608, 0.1, 0)
+transparency = 0.9
+shaded = true
+double_sided = false
+texture_filter = 1
+text = "21"
+font = ExtResource("3_6fwq0")
+font_size = 2500
+outline_size = 0
+vertical_alignment = 2
+
+[node name="Designation marking 03" type="Label3D" parent="airport"]
+transform = Transform3D(1.91069e-15, 1, 4.37114e-08, 4.37114e-08, -4.37114e-08, 1, 1, 0, -4.37114e-08, -1608, 0.1, 0)
+transparency = 0.9
+shaded = true
+double_sided = false
+texture_filter = 1
+text = "03"
+font = ExtResource("3_6fwq0")
+font_size = 2500
+outline_size = 0
+vertical_alignment = 2
 
 [node name="Sprite3D" type="Sprite3D" parent="."]
 transform = Transform3D(305, 0, 0, 0, 305, 0, 0, 0, 305, -4.825, 1, 307.515)
@@ -1041,7 +1027,6 @@ taxiline_shape = PackedVector2Array(0, 0, -0.5, 0.01, 0.5, 0.01)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 780, 0, 480)
 stand_name = "20"
 taxiway_in = NodePath("..")
-push_procedure = SubResource("Resource_o817w")
 
 [node name="19" type="Path3D" parent="taxiways"]
 curve = SubResource("Curve3D_xn3hw")

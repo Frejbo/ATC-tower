@@ -158,7 +158,7 @@ func closest_point(pos : Vector3, curve : Curve3D) -> int:
 	for point : int in curve.point_count:
 		points.append(curve.get_point_position(point))
 	
-	var closest_pos
+	var closest_pos = null
 	var closest_distance : float
 	for p : Vector3 in points:
 		var current_distance := p.distance_to(pos)

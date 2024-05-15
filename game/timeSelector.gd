@@ -10,7 +10,7 @@ enum types {HOUR, MINUTE}
 @export var decrease_button : BaseButton
 @export var label : Label
 
-func _ready() -> void:
+func _enter_tree() -> void:
 	increase_button.pressed.connect(increase)
 	decrease_button.pressed.connect(decrease)
 	

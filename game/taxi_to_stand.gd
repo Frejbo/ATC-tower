@@ -33,6 +33,8 @@ func taxi_to(pos : Vector3, route : Array[String]) -> void:
 	print("target: ", pos)
 	if await taxi_pathfind.path_is_valid():
 		set_taxi_state(await taxi_pathfind.calculate_path())
+	else:
+		OS.alert("Unable to reach target via " + str(route))
 
 
 func set_taxi_state(route : Curve3D) -> void:

@@ -1,43 +1,98 @@
-[gd_scene load_steps=3 format=3 uid="uid://c0qjgvtt3o6q5"]
+[gd_scene load_steps=7 format=3 uid="uid://c0qjgvtt3o6q5"]
 
 [ext_resource type="PackedScene" uid="uid://c41yv0g8j5ufo" path="res://Assets/pushback tug.blend" id="1_jj8as"]
+[ext_resource type="Script" path="res://pushback_tug.gd" id="2_25rhh"]
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_5mn8g"]
-size = Vector3(8, 2.391, 4)
+[sub_resource type="Animation" id="Animation_fn5nt"]
+length = 0.001
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:light_energy")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
 
-[node name="pushback tug" instance=ExtResource("1_jj8as")]
-mass = 54000.0
+[sub_resource type="Animation" id="Animation_esq8b"]
+resource_name = "warninglight"
+loop_mode = 1
+step = 0.5
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:light_energy")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0, 0, 0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 2, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 0.5, 1)
+}
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="." index="0"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.146, 1.339, 0)
-shape = SubResource("BoxShape3D_5mn8g")
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_11qju"]
+_data = {
+"RESET": SubResource("Animation_fn5nt"),
+"warninglight": SubResource("Animation_esq8b")
+}
 
-[node name="front right " parent="." index="2"]
+[sub_resource type="BoxShape3D" id="BoxShape3D_33lc8"]
+size = Vector3(4, 2.391, 8)
+
+[node name="PushbackTug" type="VehicleBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.00816553, 0)
+linear_velocity = Vector3(0, -0.326599, 0)
+script = ExtResource("2_25rhh")
+
+[node name="Pushback tug meshes" parent="." instance=ExtResource("1_jj8as")]
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Pushback tug meshes"]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 0, 2.634, 9.144)
+light_color = Color(0.948293, 0.448143, 1.34766e-06, 1)
+light_energy = 0.0
+omni_range = 3.0
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Pushback tug meshes/OmniLight3D"]
+libraries = {
+"": SubResource("AnimationLibrary_11qju")
+}
+autoplay = "warninglight"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.339, 11.146)
+shape = SubResource("BoxShape3D_33lc8")
+
+[node name="VehicleWheel3D" type="VehicleWheel3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, -1, 0, 0, 0)
 use_as_traction = true
-use_as_steering = true
-wheel_radius = 0.65
-wheel_rest_length = 0.1
-suspension_travel = 0.1
-suspension_max_force = 20000.0
+wheel_radius = 0.63
+wheel_rest_length = 0.05
+suspension_travel = 0.05
+suspension_stiffness = 20.0
 
-[node name="front left " parent="." index="3"]
+[node name="VehicleWheel3D2" type="VehicleWheel3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, -1, -2, 0.63, 9.086)
 use_as_traction = true
-use_as_steering = true
-wheel_radius = 0.65
-wheel_rest_length = 0.1
-suspension_travel = 0.1
-suspension_max_force = 20000.0
+wheel_radius = 0.63
+wheel_rest_length = 0.05
+suspension_travel = 0.05
+suspension_stiffness = 20.0
 
-[node name="back right " parent="." index="4"]
+[node name="VehicleWheel3D3" type="VehicleWheel3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, -1, -2, 0.63, 9.086)
 use_as_traction = true
-wheel_radius = 0.65
-wheel_rest_length = 0.1
-suspension_travel = 0.1
-suspension_max_force = 20000.0
+wheel_radius = 0.63
+wheel_rest_length = 0.05
+suspension_travel = 0.05
+suspension_stiffness = 20.0
 
-[node name="back left " parent="." index="5"]
+[node name="VehicleWheel3D4" type="VehicleWheel3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, -1, 2, 0.63, 9.086)
 use_as_traction = true
-wheel_radius = 0.65
-wheel_rest_length = 0.1
-suspension_travel = 0.1
-suspension_max_force = 20000.0
+wheel_radius = 0.63
+wheel_rest_length = 0.05
+suspension_travel = 0.05
+suspension_stiffness = 20.0

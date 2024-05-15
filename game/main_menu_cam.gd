@@ -14,6 +14,8 @@ func _process(delta: float) -> void:
 	) - get_viewport().size/2.0
 	var percentage_position : Vector2 = centered_mouse_pos / (get_viewport().size/2.0)
 	
+	if invert: percentage_position *= -1
+	
 	# Set rotation
 	rotation_degrees.y = lerpf(rotation_degrees.y, percentage_position.x * max_offset_degrees.x + default_rotation.y, delta * follow_speed)
 	rotation_degrees.x = lerpf(rotation_degrees.x, percentage_position.y * max_offset_degrees.y + default_rotation.x, delta * follow_speed)
