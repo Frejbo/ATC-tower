@@ -43,8 +43,8 @@ _data = {
 size = Vector3(4, 2.391, 8)
 
 [node name="PushbackTug" type="VehicleBody3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.00816553, 0)
-linear_velocity = Vector3(0, -0.326599, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0163288, 0)
+linear_velocity = Vector3(0, -0.489796, 0)
 script = ExtResource("2_25rhh")
 
 [node name="Pushback tug meshes" parent="." instance=ExtResource("1_jj8as")]

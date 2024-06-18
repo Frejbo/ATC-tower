@@ -21,7 +21,6 @@ func hide_communication_window() -> void:
 
 @export var taxi_to_stand_stand_input : LineEdit
 func _ready() -> void:
-	
 	# Check if on ground and if so, switch state to static. If at gate, switch to loading
 	await get_tree().physics_frame
 	if controller.global_position.y < 1:

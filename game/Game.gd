@@ -8,6 +8,8 @@ var stands := {}
 var active_approach : approach_guidance
 var chat : Chat
 var runway : Runway
+var landing_count : int = 0
+var takeoff_count : int = 0
 @onready var time : float
 
 func _ready() -> void:

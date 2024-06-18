@@ -1,10 +1,13 @@
-[gd_scene load_steps=6 format=3 uid="uid://ctt41btfk0n4u"]
+[gd_scene load_steps=9 format=3 uid="uid://ctt41btfk0n4u"]
 
 [ext_resource type="Script" path="res://UI.gd" id="1_u5wm7"]
 [ext_resource type="Script" path="res://spawnButton.gd" id="2_v46yy"]
 [ext_resource type="Script" path="res://aircraft_list.gd" id="2_vlgkf"]
 [ext_resource type="PackedScene" uid="uid://chjm20ayayjbe" path="res://Chat/chat.tscn" id="2_x0wli"]
 [ext_resource type="PackedScene" uid="uid://dqkxk4q3gk26s" path="res://aircraft_controller_label.tscn" id="3_jq5jv"]
+[ext_resource type="Script" path="res://stats_landings.gd" id="6_mphc6"]
+[ext_resource type="Script" path="res://stats_takeoffs.gd" id="7_mvdwk"]
+[ext_resource type="Script" path="res://metar.gd" id="8_j6vkk"]
 
 [node name="UI" type="CanvasLayer"]
 script = ExtResource("1_u5wm7")
@@ -12,6 +15,7 @@ script = ExtResource("1_u5wm7")
 [node name="ChatBox" parent="." instance=ExtResource("2_x0wli")]
 
 [node name="spawn" type="VBoxContainer" parent="."]
+visible = false
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
@@ -45,5 +49,27 @@ grow_horizontal = 0
 grow_vertical = 2
 script = ExtResource("2_vlgkf")
 scene = ExtResource("3_jq5jv")
+
+[node name="stats" type="HBoxContainer" parent="."]
+custom_minimum_size = Vector2(0, 50)
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -23.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="landing stats" type="Label" parent="stats"]
+layout_mode = 2
+script = ExtResource("6_mphc6")
+
+[node name="takeoff stats" type="Label" parent="stats"]
+layout_mode = 2
+script = ExtResource("7_mvdwk")
+
+[node name="METAR" type="Label" parent="stats"]
+layout_mode = 2
+script = ExtResource("8_j6vkk")
 
 [connection signal="pressed" from="spawn/Button" to="spawn" method="_on_button_pressed"]
